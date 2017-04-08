@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -117,8 +118,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
-        TextView ems = (TextView) findViewById(R.id.expanded_menu_settings);
+        Button ems = (Button) findViewById(R.id.expanded_menu_settings);
         ems.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
