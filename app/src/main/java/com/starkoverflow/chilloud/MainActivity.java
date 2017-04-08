@@ -21,6 +21,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
@@ -35,6 +38,8 @@ public class MainActivity extends AppCompatActivity
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     SlidingTabLayout tabLayout;
+    MenuItem expandIcon;
+    String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
 
 //    private Sections
 //    private View mHeaderView;
@@ -48,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(dbList[0]);
         setSupportActionBar(toolbar);
 
         // Create the adapter that will return a fragment for each of the three
@@ -72,6 +78,52 @@ public class MainActivity extends AppCompatActivity
         // initialize the tablayout's viewPager
         tabLayout.setViewPager(mViewPager);
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expanded_list_row, dbList);
+        final ListView listView = (ListView) findViewById(R.id.expandedList);
+        listView.setAdapter(adapter);
+        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView parent, View view, int position, long id) {
+                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                toolbar.setTitle(dbList[position]);
+                setSupportActionBar(toolbar);
+                ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
+                ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
+                expandableLayout.toggle();
+                if (expandableLayout.isExpanded()) {
+                    expandIcon.setIcon(R.drawable.ic_expand_close);
+                    expandableLayoutSB.expand();
+                }
+                else {
+                    expandIcon.setIcon(R.drawable.ic_expand_open);
+                    expandableLayoutSB.collapse();
+                }
+                expandableLayout.toggle();
+                Drawable drawable = expandIcon.getIcon();
+                if (drawable instanceof Animatable) {
+                    ((Animatable) drawable).start();
+                }
+                switch (position) {
+                    case 0:
+                        Snackbar.make(view, "1", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    case 1:
+                        Snackbar.make(view, "2", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    case 2:
+                        Snackbar.make(view, "3", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                    case 3:
+                        Snackbar.make(view, "4", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                        break;
+                }
+            }
+        };
+        listView.setOnItemClickListener(mMessageClickedHandler);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +132,7 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
         TextView ems = (TextView) findViewById(R.id.expanded_menu_settings);
         ems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +168,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.main, menu);
         this.menu = menu;
+        expandIcon = menu.getItem(1);
         return true;
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        getMenuInflater().inflate(R.menu.main, menu);
@@ -149,6 +203,46 @@ public class MainActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void toggleExpandedMenus() {
+        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
+        ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
+        expandableLayout.toggle();
+        if (expandableLayout.isExpanded()) {
+            expandIcon.setIcon(R.drawable.ic_expand_close);
+            expandableLayoutSB.expand();
+        }
+        else {
+            expandIcon.setIcon(R.drawable.ic_expand_open);
+            expandableLayoutSB.collapse();
+        }
+        expandableLayout.toggle();
+        Drawable drawable = expandIcon.getIcon();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
+    }
+    public void onOptionsExpandedMenuSelected() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(dbList[0]);
+        setSupportActionBar(toolbar);
+        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
+        ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
+        expandableLayout.toggle();
+        if (expandableLayout.isExpanded()) {
+            expandIcon.setIcon(R.drawable.ic_expand_close);
+            expandableLayoutSB.expand();
+        }
+        else {
+            expandIcon.setIcon(R.drawable.ic_expand_open);
+            expandableLayoutSB.collapse();
+        }
+        expandableLayout.toggle();
+        Drawable drawable = expandIcon.getIcon();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
