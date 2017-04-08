@@ -86,37 +86,22 @@ public class MainActivity extends AppCompatActivity
                 Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                 toolbar.setTitle(dbList[position]);
                 setSupportActionBar(toolbar);
-                ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
-                ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
-                expandableLayout.toggle();
-                if (expandableLayout.isExpanded()) {
-                    expandIcon.setIcon(R.drawable.ic_expand_close);
-                    expandableLayoutSB.expand();
-                }
-                else {
-                    expandIcon.setIcon(R.drawable.ic_expand_open);
-                    expandableLayoutSB.collapse();
-                }
-                expandableLayout.toggle();
-                Drawable drawable = expandIcon.getIcon();
-                if (drawable instanceof Animatable) {
-                    ((Animatable) drawable).start();
-                }
+                toggleExpandedMenus();
                 switch (position) {
                     case 0:
-                        Snackbar.make(view, "1", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         break;
                     case 1:
-                        Snackbar.make(view, "2", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         break;
                     case 2:
-                        Snackbar.make(view, "3", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         break;
                     case 3:
-                        Snackbar.make(view, "4", Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                         break;
                 }
@@ -184,22 +169,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_expand) {
-            ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
-            ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
-            expandableLayout.toggle();
-            if (expandableLayout.isExpanded()) {
-                item.setIcon(R.drawable.ic_expand_close);
-                expandableLayoutSB.expand();
-            }
-            else {
-                item.setIcon(R.drawable.ic_expand_open);
-                expandableLayoutSB.collapse();
-            }
-            expandableLayout.toggle();
-            Drawable drawable = item.getIcon();
-            if (drawable instanceof Animatable) {
-                ((Animatable) drawable).start();
-            }
+            toggleExpandedMenus();
         }
 
         return super.onOptionsItemSelected(item);
@@ -210,39 +180,18 @@ public class MainActivity extends AppCompatActivity
         ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
         expandableLayout.toggle();
         if (expandableLayout.isExpanded()) {
-            expandIcon.setIcon(R.drawable.ic_expand_close);
+            expandIcon.setIcon(R.drawable.ic_expand_open);
             expandableLayoutSB.expand();
         }
         else {
-            expandIcon.setIcon(R.drawable.ic_expand_open);
-            expandableLayoutSB.collapse();
-        }
-        expandableLayout.toggle();
-        Drawable drawable = expandIcon.getIcon();
-        if (drawable instanceof Animatable) {
-            ((Animatable) drawable).start();
-        }
-    }
-    public void onOptionsExpandedMenuSelected() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(dbList[0]);
-        setSupportActionBar(toolbar);
-        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
-        ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
-        expandableLayout.toggle();
-        if (expandableLayout.isExpanded()) {
             expandIcon.setIcon(R.drawable.ic_expand_close);
-            expandableLayoutSB.expand();
-        }
-        else {
-            expandIcon.setIcon(R.drawable.ic_expand_open);
             expandableLayoutSB.collapse();
         }
         expandableLayout.toggle();
-        Drawable drawable = expandIcon.getIcon();
-        if (drawable instanceof Animatable) {
-            ((Animatable) drawable).start();
-        }
+//        Drawable drawable = expandIcon.getIcon();
+//        if (drawable instanceof Animatable) {
+//            ((Animatable) drawable).start();
+//        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
