@@ -1,15 +1,16 @@
 package com.starkoverflow.chilloud;
 
 import android.graphics.drawable.Animatable;
-import android.graphics.drawable.AnimatedVectorDrawable;
-import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
-import android.view.MenuInflater;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,30 +20,28 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
-import com.github.ksoichiro.android.observablescrollview.ObservableListView;
-import com.github.ksoichiro.android.observablescrollview.ObservableRecyclerView;
-import com.github.ksoichiro.android.observablescrollview.ObservableScrollView;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
-
-import java.util.ArrayList;
-
-import static com.starkoverflow.chilloud.R.id.imageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ObservableScrollViewCallbacks {
 
     private Menu menu;
+    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ViewPager mViewPager;
     SlidingTabLayout tabLayout;
-    ViewPager viewPager;
-    ViewPagerAdapter viewPagerAdapter;
-    String titles[] = {"Artists", "Albums"};
-    int numOfTabs = 2;
+
+//    private Sections
+//    private View mHeaderView;
+//    private View mToolbarView;
+//    private int mBaseTranslationY;
+//    private ViewPager mPager;
+//    private NavigationAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +50,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Construct a viewPagerAdapter object and pass appropriate values
-        // Note that we are passing getSupportFragmentManager as the first argument
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numOfTabs);
-        // Get reference to the viewPager and set the adapter
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(viewPagerAdapter);
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
         // Get reference to the tabLayout, setDistributedEvenly(true)
         // will make all tabs have the same width
         tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
         // initialize the tablayout's viewPager
-        tabLayout.setViewPager(viewPager);
+        tabLayout.setViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -79,11 +80,20 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        TextView ems = (TextView) findViewById(R.id.expanded_menu_settings);
+        ems.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Open Settings", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -141,28 +151,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
-    }
-
-    @Override
-    public void onDownMotionEvent() {
-    }
-
-    @Override
-    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
-        ActionBar ab = getSupportActionBar();
-        if (scrollState == ScrollState.UP) {
-            if (ab.isShowing()) {
-                ab.hide();
-            }
-        } else if (scrollState == ScrollState.DOWN) {
-            if (!ab.isShowing()) {
-                ab.show();
-            }
-        }
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -187,4 +175,322 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+        /**
+         * The fragment argument representing the section number for this
+         * fragment.
+         */
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        /**
+         * Returns a new instance of this fragment for the given section
+         * number.
+         */
+        public static PlaceholderFragment newInstance(int sectionNumber) {
+            PlaceholderFragment fragment = new PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+            return rootView;
+        }
+    }
+
+    /**
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
+     * one of the sections/tabs/pages.
+     */
+    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
+        public SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+//            switch (position){
+//                case 0:
+//                    return Playlist.newInstance();
+//                case 1:
+//                    return Artist.newInstance();
+//                case 2:
+//                    return Album.newInstance();
+//                default:
+//                    return null;
+//            }
+            // getItem is called to instantiate the fragment for the given page.
+            // Return a PlaceholderFragment (defined as a static inner class below).
+            return PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 3 total pages.
+            return 3;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "PLAYLIST";
+                case 1:
+                    return "ARTIST";
+                case 2:
+                    return "ALBUM";
+            }
+            return null;
+        }
+    }
+
+    @Override
+    public void onScrollChanged(int scrollY, boolean firstScroll,
+                                boolean dragging) {
+    }
+
+    @Override
+    public void onDownMotionEvent() {
+    }
+
+    @Override
+    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+    }
+
+
+//    @Override
+//    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
+//        if (dragging) {
+//            int toolbarHeight = mToolbarView.getHeight();
+//            float currentHeaderTranslationY = ViewHelper.getTranslationY(mHeaderView);
+//            if (firstScroll) {
+//                if (-toolbarHeight < currentHeaderTranslationY) {
+//                    mBaseTranslationY = scrollY;
+//                }
+//            }
+//            float headerTranslationY = ScrollUtils.getFloat(-(scrollY - mBaseTranslationY), -toolbarHeight, 0);
+//            ViewPropertyAnimator.animate(mHeaderView).cancel();
+//            ViewHelper.setTranslationY(mHeaderView, headerTranslationY);
+//        }
+//    }
+//
+//    @Override
+//    public void onDownMotionEvent() {
+//    }
+//
+//    @Override
+//    public void onUpOrCancelMotionEvent(ScrollState scrollState) {
+//        mBaseTranslationY = 0;
+//
+//        Fragment fragment = getCurrentFragment();
+//        if (fragment == null) {
+//            return;
+//        }
+//        View view = fragment.getView();
+//        if (view == null) {
+//            return;
+//        }
+//
+//        // ObservableXxxViews have same API
+//        // but currently they don't have any common interfaces.
+//        adjustToolbar(scrollState, view);
+//    }
+//
+//    private void adjustToolbar(ScrollState scrollState, View view) {
+//        int toolbarHeight = mToolbarView.getHeight();
+//        final Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+//        if (scrollView == null) {
+//            return;
+//        }
+//        int scrollY = scrollView.getCurrentScrollY();
+//        if (scrollState == ScrollState.DOWN) {
+//            showToolbar();
+//        } else if (scrollState == ScrollState.UP) {
+//            if (toolbarHeight <= scrollY) {
+//                hideToolbar();
+//            } else {
+//                showToolbar();
+//            }
+//        } else {
+//            // Even if onScrollChanged occurs without scrollY changing, toolbar should be adjusted
+//            if (toolbarIsShown() || toolbarIsHidden()) {
+//                // Toolbar is completely moved, so just keep its state
+//                // and propagate it to other pages
+//                propagateToolbarState(toolbarIsShown());
+//            } else {
+//                // Toolbar is moving but doesn't know which to move:
+//                // you can change this to hideToolbar()
+//                showToolbar();
+//            }
+//        }
+//    }
+//
+//    private Fragment getCurrentFragment() {
+//        return mPagerAdapter.getItemAt(mPager.getCurrentItem());
+//    }
+//
+//    private void propagateToolbarState(boolean isShown) {
+//        int toolbarHeight = mToolbarView.getHeight();
+//
+//        // Set scrollY for the fragments that are not created yet
+//        mPagerAdapter.setScrollY(isShown ? 0 : toolbarHeight);
+//
+//        // Set scrollY for the active fragments
+//        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+//            // Skip current item
+//            if (i == mPager.getCurrentItem()) {
+//                continue;
+//            }
+//
+//            // Skip destroyed or not created item
+//            Fragment f = mPagerAdapter.getItemAt(i);
+//            if (f == null) {
+//                continue;
+//            }
+//
+//            View view = f.getView();
+//            if (view == null) {
+//                continue;
+//            }
+//            propagateToolbarState(isShown, view, toolbarHeight);
+//        }
+//    }
+//
+//    private void propagateToolbarState(boolean isShown, View view, int toolbarHeight) {
+//        Scrollable scrollView = (Scrollable) view.findViewById(R.id.scroll);
+//        if (scrollView == null) {
+//            return;
+//        }
+//        if (isShown) {
+//            // Scroll up
+//            if (0 < scrollView.getCurrentScrollY()) {
+//                scrollView.scrollVerticallyTo(0);
+//            }
+//        } else {
+//            // Scroll down (to hide padding)
+//            if (scrollView.getCurrentScrollY() < toolbarHeight) {
+//                scrollView.scrollVerticallyTo(toolbarHeight);
+//            }
+//        }
+//    }
+//
+//    private boolean toolbarIsShown() {
+//        return ViewHelper.getTranslationY(mHeaderView) == 0;
+//    }
+//
+//    private boolean toolbarIsHidden() {
+//        return ViewHelper.getTranslationY(mHeaderView) == -mToolbarView.getHeight();
+//    }
+//
+//    private void showToolbar() {
+//        float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+//        if (headerTranslationY != 0) {
+//            ViewPropertyAnimator.animate(mHeaderView).cancel();
+//            ViewPropertyAnimator.animate(mHeaderView).translationY(0).setDuration(200).start();
+//        }
+//        propagateToolbarState(true);
+//    }
+//
+//    private void hideToolbar() {
+//        float headerTranslationY = ViewHelper.getTranslationY(mHeaderView);
+//        int toolbarHeight = mToolbarView.getHeight();
+//        if (headerTranslationY != -toolbarHeight) {
+//            ViewPropertyAnimator.animate(mHeaderView).cancel();
+//            ViewPropertyAnimator.animate(mHeaderView).translationY(-toolbarHeight).setDuration(200).start();
+//        }
+//        propagateToolbarState(false);
+//    }
+//
+//    /**
+//     * This adapter provides two types of fragments as an example.
+//     * {@linkplain #createItem(int)} should be modified if you use this example for your app.
+//     */
+//    private static class NavigationAdapter extends CacheFragmentStatePagerAdapter {
+//
+//        private static final String[] TITLES = new String[]{"Artist", "Album"};
+//
+//        private int mScrollY;
+//
+//        public NavigationAdapter(FragmentManager fm) {
+//            super(fm);
+//        }
+//
+//        public void setScrollY(int scrollY) {
+//            mScrollY = scrollY;
+//        }
+//
+//        @Override
+//        protected Fragment createItem(int position) {
+//            // Initialize fragments.
+//            // Please be sure to pass scroll position to each fragments using setArguments.
+//            Fragment f;
+//            final int pattern = position % 4;
+//            switch (pattern) {
+//                case 0: {
+//                    f = new Artist();
+////                    f = new ViewPagerTabScrollViewFragment();
+////                    if (0 <= mScrollY) {
+////                        Bundle args = new Bundle();
+////                        args.putInt(ViewPagerTabScrollViewFragment.ARG_SCROLL_Y, mScrollY);
+////                        f.setArguments(args);
+////                    }
+//                    break;
+//                }
+//                case 1: {
+//                    f = new Album();
+////                    f = new ViewPagerTabListViewFragment();
+////                    if (0 < mScrollY) {
+////                        Bundle args = new Bundle();
+////                        args.putInt(ViewPagerTabListViewFragment.ARG_INITIAL_POSITION, 1);
+////                        f.setArguments(args);
+////                    }
+//                    break;
+//                }
+////                case 2: {
+////                    f = new ViewPagerTabRecyclerViewFragment();
+////                    if (0 < mScrollY) {
+////                        Bundle args = new Bundle();
+////                        args.putInt(ViewPagerTabRecyclerViewFragment.ARG_INITIAL_POSITION, 1);
+////                        f.setArguments(args);
+////                    }
+////                    break;
+////                }
+////                case 3:
+//                default: {
+//                    f = new Album();
+////                    f = new ViewPagerTabGridViewFragment();
+////                    if (0 < mScrollY) {
+////                        Bundle args = new Bundle();
+////                        args.putInt(ViewPagerTabGridViewFragment.ARG_INITIAL_POSITION, 1);
+////                        f.setArguments(args);
+////                    }
+//                    break;
+//                }
+//            }
+//            return f;
+//        }
+//
+//        @Override
+//        public int getCount() {
+//            return TITLES.length;
+//        }
+//
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return TITLES[position];
+//        }
+//    }
 }
