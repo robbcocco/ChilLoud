@@ -65,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
+        // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -115,11 +116,9 @@ public class MainActivity extends AppCompatActivity
         });
 
         // list in the expanded toolbar
-
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
         // specify an adapter (see also next example)
         mAdapter = new MyAdapter(dbList);
         mRecyclerView.setAdapter(mAdapter);
@@ -155,36 +154,6 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
         );
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expanded_list_row, dbList);
-//        final ListView listView = (ListView) findViewById(R.id.expandedList);
-//        listView.setAdapter(adapter);
-//        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView parent, View view, int position, long id) {
-//                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//                toolbar.setTitle(dbList[position]);
-//                setSupportActionBar(toolbar);
-//                toggleExpandedMenus();
-//                switch (position) {
-//                    case 0:
-//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                        break;
-//                    case 1:
-//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                        break;
-//                    case 2:
-//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                        break;
-//                    case 3:
-//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                .setAction("Action", null).show();
-//                        break;
-//                }
-//            }
-//        };
-//        listView.setOnItemClickListener(mMessageClickedHandler);
 
         // Navigation drawer
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -236,8 +205,10 @@ public class MainActivity extends AppCompatActivity
 
     public void toggleExpandedMenus() {
         ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
+        ExpandableRelativeLayout expandableLayoutB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutB);
         ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
         expandableLayout.toggle();
+        expandableLayoutB.toggle();
         if (expandableLayout.isExpanded()) {
             expandIcon.setIcon(R.drawable.ic_expand_open);
             expandableLayoutSB.expand();
@@ -246,7 +217,7 @@ public class MainActivity extends AppCompatActivity
             expandIcon.setIcon(R.drawable.ic_expand_close);
             expandableLayoutSB.collapse();
         }
-        expandableLayout.toggle();
+        //expandableLayout.toggle();
 //        Drawable drawable = expandIcon.getIcon();
 //        if (drawable instanceof Animatable) {
 //            ((Animatable) drawable).start();
