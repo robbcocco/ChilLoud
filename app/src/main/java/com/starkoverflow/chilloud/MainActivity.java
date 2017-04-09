@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -31,6 +33,7 @@ import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
+import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ObservableScrollViewCallbacks {
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity
     SlidingTabLayout tabLayout;
     MenuItem expandIcon;
     String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 //    private Sections
 //    private View mHeaderView;
@@ -56,15 +63,14 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(dbList[0]);
         setSupportActionBar(toolbar);
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
         // Get reference to the tabLayout, setDistributedEvenly(true)
         // will make all tabs have the same width
         tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
@@ -79,37 +85,7 @@ public class MainActivity extends AppCompatActivity
         // initialize the tablayout's viewPager
         tabLayout.setViewPager(mViewPager);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expanded_list_row, dbList);
-        final ListView listView = (ListView) findViewById(R.id.expandedList);
-        listView.setAdapter(adapter);
-        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                toolbar.setTitle(dbList[position]);
-                setSupportActionBar(toolbar);
-                toggleExpandedMenus();
-                switch (position) {
-                    case 0:
-                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        break;
-                    case 1:
-                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        break;
-                    case 2:
-                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        break;
-                    case 3:
-                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                        break;
-                }
-            }
-        };
-        listView.setOnItemClickListener(mMessageClickedHandler);
-
+        // FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +94,17 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
+        // Make toolbar clickable
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                toggleExpandedMenus();
+            }
+        });
+
+        // Settings in the expanded toolbar
         Button ems = (Button) findViewById(R.id.expanded_menu_settings);
         ems.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,13 +114,85 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // list in the expanded toolbar
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        // specify an adapter (see also next example)
+        mAdapter = new MyAdapter(dbList);
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getApplicationContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+                        toolbar.setTitle(dbList[position]);
+                        setSupportActionBar(toolbar);
+                        toggleExpandedMenus();
+                        switch (position) {
+                            case 0:
+                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                break;
+                            case 1:
+                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                break;
+                            case 2:
+                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                break;
+                            case 3:
+                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                break;
+                        }
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.expanded_list_row, dbList);
+//        final ListView listView = (ListView) findViewById(R.id.expandedList);
+//        listView.setAdapter(adapter);
+//        AdapterView.OnItemClickListener mMessageClickedHandler = new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView parent, View view, int position, long id) {
+//                Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//                toolbar.setTitle(dbList[position]);
+//                setSupportActionBar(toolbar);
+//                toggleExpandedMenus();
+//                switch (position) {
+//                    case 0:
+//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                        break;
+//                    case 1:
+//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                        break;
+//                    case 2:
+//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                        break;
+//                    case 3:
+//                        Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
+//                                .setAction("Action", null).show();
+//                        break;
+//                }
+//            }
+//        };
+//        listView.setOnItemClickListener(mMessageClickedHandler);
+
+        // Navigation drawer
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        toggle.setDrawerSlideAnimationEnabled(false);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -297,6 +356,56 @@ public class MainActivity extends AppCompatActivity
                     return "ALBUM";
             }
             return null;
+        }
+    }
+
+    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+        private String[] mDataset;
+
+        // Provide a reference to the views for each data item
+        // Complex data items may need more than one view per item, and
+        // you provide access to all the views for a data item in a view holder
+        public class ViewHolder extends RecyclerView.ViewHolder {
+            // each data item is just a string in this case
+            public TextView mTextView;
+            public ViewHolder(TextView v) {
+                super(v);
+                //v.setOnClickListener(this);
+                mTextView = v;
+            }
+        }
+
+        // Provide a suitable constructor (depends on the kind of dataset)
+        public MyAdapter(String[] myDataset) {
+            mDataset = myDataset;
+        }
+
+        // Create new views (invoked by the layout manager)
+        @Override
+        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                       int viewType) {
+            // create a new view
+            TextView v = (TextView) LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.expanded_list_row, parent, false);
+            // set the view's size, margins, paddings and layout parametersR.layout.expanded_list_row
+
+            ViewHolder vh = new ViewHolder(v);
+            return vh;
+        }
+
+        // Replace the contents of a view (invoked by the layout manager)
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            // - get element from your dataset at this position
+            // - replace the contents of the view with that element
+            holder.mTextView.setText(mDataset[position]);
+
+        }
+
+        // Return the size of your dataset (invoked by the layout manager)
+        @Override
+        public int getItemCount() {
+            return mDataset.length;
         }
     }
 

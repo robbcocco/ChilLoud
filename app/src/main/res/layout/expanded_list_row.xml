@@ -5,4 +5,7 @@
     android:textColor="@android:color/white"
     android:textSize="30dp"
     android:padding="5dp"
-    android:textAllCaps="true"/>
+    android:textAllCaps="true"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"/>
