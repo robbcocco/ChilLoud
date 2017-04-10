@@ -3,6 +3,7 @@
 
     <string name="action_expand">Expand</string>
     <string name="action_search">Search</string>
+    <string name="search_hint">Song, album or artist</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
