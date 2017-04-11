@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity
                     @Override public void onItemClick(View view, int position) {
                         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                         toolbar.setTitle(dbList[position]);
-                        setSupportActionBar(toolbar);
                         toggleExpandedMenus();
                         switch (position) {
                             case 0:
@@ -175,7 +174,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
                         findViewById(R.id.expandableLayoutDrawer);
-                expandableLayout.toggle();
+                expandableLayout.toggle();;
             }
         });
 
@@ -193,6 +192,8 @@ public class MainActivity extends AppCompatActivity
                         ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
                                 findViewById(R.id.expandableLayoutDrawer);
                         expandableLayout.toggle();
+                        TextView drawerText = (TextView) findViewById(R.id.drawer_text);
+                        drawerText.setText(deviceList[position]);
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         // do whatever
