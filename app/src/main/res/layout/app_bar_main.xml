@@ -36,10 +36,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/my_recycler_view"
+                    android:id="@+id/toolbar_list"
                     android:scrollbars="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"/>
             </LinearLayout>
 
         </com.github.aakira.expandablelayout.ExpandableRelativeLayout>

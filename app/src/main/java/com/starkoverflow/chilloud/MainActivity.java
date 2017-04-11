@@ -1,17 +1,11 @@
 package com.starkoverflow.chilloud;
 
 import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,18 +22,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
+import com.starkoverflow.chilloud.classes.DrawerListAdapter;
+import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
+import com.starkoverflow.chilloud.classes.SectionsPagerAdapter;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ObservableScrollViewCallbacks {
@@ -50,10 +43,14 @@ public class MainActivity extends AppCompatActivity
     SlidingTabLayout tabLayout;
     MenuItem expandIcon;
     String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
+    String deviceList[] = {"Local", "Desktop", "Chromecast"};
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView drawerRecyclerView;
+    private RecyclerView.Adapter drawerAdapter;
+    private RecyclerView.LayoutManager drawerLayoutManager;
 
 //    private Sections
 //    private View mHeaderView;
@@ -69,7 +66,8 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(dbList[0]);
         setSupportActionBar(toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
+        drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
 
         // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three
@@ -102,7 +100,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Make toolbar clickable
+        // Respond to toolbar clicks
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,10 +124,11 @@ public class MainActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new MyAdapter(dbList);
+        mAdapter = new ToolbarListAdapter(dbList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getApplicationContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(
+                        getApplicationContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
                         toolbar.setTitle(dbList[position]);
@@ -154,7 +153,6 @@ public class MainActivity extends AppCompatActivity
                                 break;
                         }
                     }
-
                     @Override public void onLongItemClick(View view, int position) {
                         // do whatever
                     }
@@ -169,7 +167,38 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
+        // Respond to header clicks
+        headerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
+                        findViewById(R.id.expandableLayoutDrawer);
+                expandableLayout.toggle();
+            }
+        });
+
+        // List in the expanded drawer header
+        // use a linear layout manager
+        drawerLayoutManager = new LinearLayoutManager(this);
+        drawerRecyclerView.setLayoutManager(drawerLayoutManager);
+        // specify an adapter (see also next example)
+        drawerAdapter = new DrawerListAdapter(deviceList);
+        drawerRecyclerView.setAdapter(drawerAdapter);
+        drawerRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        getApplicationContext(), drawerRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
+                                findViewById(R.id.expandableLayoutDrawer);
+                        expandableLayout.toggle();
+                    }
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
     }
 
     @Override
@@ -223,9 +252,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void toggleExpandedMenus() {
-        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout) findViewById(R.id.expandableLayout);
-        ExpandableRelativeLayout expandableLayoutB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutB);
-        ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout) findViewById(R.id.expandableLayoutSB);
+        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
+                findViewById(R.id.expandableLayout);
+        ExpandableRelativeLayout expandableLayoutB = (ExpandableRelativeLayout)
+                findViewById(R.id.expandableLayoutB);
+        ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout)
+                findViewById(R.id.expandableLayoutSB);
         expandableLayout.toggle();
         expandableLayoutB.toggle();
         if (expandableLayout.isExpanded()) {
@@ -250,7 +282,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -303,102 +335,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-    public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-//            switch (position){
-//                case 0:
-//                    return Playlist.newInstance();
-//                case 1:
-//                    return Artist.newInstance();
-//                case 2:
-//                    return Album.newInstance();
-//                default:
-//                    return null;
-//            }
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "PLAYLIST";
-                case 1:
-                    return "ARTIST";
-                case 2:
-                    return "ALBUM";
-            }
-            return null;
-        }
-    }
-
-    public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
-        private String[] mDataset;
-
-        // Provide a reference to the views for each data item
-        // Complex data items may need more than one view per item, and
-        // you provide access to all the views for a data item in a view holder
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            // each data item is just a string in this case
-            public TextView mTextView;
-            public ViewHolder(TextView v) {
-                super(v);
-                //v.setOnClickListener(this);
-                mTextView = v;
-            }
-        }
-
-        // Provide a suitable constructor (depends on the kind of dataset)
-        public MyAdapter(String[] myDataset) {
-            mDataset = myDataset;
-        }
-
-        // Create new views (invoked by the layout manager)
-        @Override
-        public MyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
-            // create a new view
-            TextView v = (TextView) LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.expanded_list_row, parent, false);
-            // set the view's size, margins, paddings and layout parametersR.layout.expanded_list_row
-
-            ViewHolder vh = new ViewHolder(v);
-            return vh;
-        }
-
-        // Replace the contents of a view (invoked by the layout manager)
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            // - get element from your dataset at this position
-            // - replace the contents of the view with that element
-            holder.mTextView.setText(mDataset[position]);
-
-        }
-
-        // Return the size of your dataset (invoked by the layout manager)
-        @Override
-        public int getItemCount() {
-            return mDataset.length;
-        }
-    }
-
     @Override
     public void onScrollChanged(int scrollY, boolean firstScroll,
                                 boolean dragging) {
@@ -412,7 +348,7 @@ public class MainActivity extends AppCompatActivity
     public void onUpOrCancelMotionEvent(ScrollState scrollState) {
     }
 
-
+//    Nice ctrl+v
 //    @Override
 //    public void onScrollChanged(int scrollY, boolean firstScroll, boolean dragging) {
 //        if (dragging) {
