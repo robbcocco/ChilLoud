@@ -23,6 +23,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
@@ -166,15 +168,13 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        View headerView = navigationView.getHeaderView(0);
         navigationView.setNavigationItemSelectedListener(this);
         // Respond to header clicks
+        View headerView = navigationView.getHeaderView(0);
         headerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
-                        findViewById(R.id.expandableLayoutDrawer);
-                expandableLayout.toggle();;
+                toggleDrawerMenu();
             }
         });
 
@@ -189,9 +189,7 @@ public class MainActivity extends AppCompatActivity
                 new RecyclerItemClickListener(
                         getApplicationContext(), drawerRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
-                                findViewById(R.id.expandableLayoutDrawer);
-                        expandableLayout.toggle();
+                        toggleDrawerMenu();
                         TextView drawerText = (TextView) findViewById(R.id.drawer_text);
                         drawerText.setText(deviceList[position]);
                     }
@@ -269,11 +267,23 @@ public class MainActivity extends AppCompatActivity
             expandIcon.setIcon(R.drawable.ic_expand_close);
             expandableLayoutSB.collapse();
         }
-        //expandableLayout.toggle();
 //        Drawable drawable = expandIcon.getIcon();
 //        if (drawable instanceof Animatable) {
 //            ((Animatable) drawable).start();
 //        }
+    }
+
+    public void toggleDrawerMenu() {
+        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
+                findViewById(R.id.expandableLayoutDrawer);
+        expandableLayout.toggle();
+        ImageView icon = (ImageView) findViewById(R.id.drawer_icon);
+        if (expandableLayout.isExpanded()) {
+            icon.setImageResource(R.drawable.ic_expand_open);
+        }
+        else {
+            icon.setImageResource(R.drawable.ic_expand_close);
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -281,20 +291,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

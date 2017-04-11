@@ -8,4 +8,6 @@
     <color name="colorPrimaryLight">#D1C4E9</color>
     <!--Accent-->
     <color name="colorAccent">#82B1FF</color>
+    <!--BG-->
+    <color name="colorBackground">#263238</color>
 </resources>

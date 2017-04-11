@@ -7,10 +7,9 @@
     android:focusable="true"
     android:background="?attr/selectableItemBackground"
     android:gravity="center_vertical"
-    android:drawableLeft="@drawable/ic_implying"
+    android:drawableLeft="@drawable/ic_headset"
     android:drawablePadding="16dp"
     android:drawableTint="@color/colorPrimaryLight"
     android:textColor="@android:color/white"
     android:text="Settings"
-    android:textSize="14dp"
-    android:textStyle="bold"/>
+    android:textSize="15dp"/>
