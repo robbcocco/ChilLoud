@@ -2,6 +2,8 @@ package com.starkoverflow.chilloud;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -260,17 +262,17 @@ public class MainActivity extends AppCompatActivity
         expandableLayout.toggle();
         expandableLayoutB.toggle();
         if (expandableLayout.isExpanded()) {
-            expandIcon.setIcon(R.drawable.ic_expand_open);
+            expandIcon.setIcon(R.drawable.ic_expand_close);
             expandableLayoutSB.expand();
         }
         else {
-            expandIcon.setIcon(R.drawable.ic_expand_close);
+            expandIcon.setIcon(R.drawable.ic_expand_open);
             expandableLayoutSB.collapse();
         }
-//        Drawable drawable = expandIcon.getIcon();
-//        if (drawable instanceof Animatable) {
-//            ((Animatable) drawable).start();
-//        }
+        Drawable drawable = expandIcon.getIcon();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
+        }
     }
 
     public void toggleDrawerMenu() {
@@ -279,10 +281,14 @@ public class MainActivity extends AppCompatActivity
         expandableLayout.toggle();
         ImageView icon = (ImageView) findViewById(R.id.drawer_icon);
         if (expandableLayout.isExpanded()) {
-            icon.setImageResource(R.drawable.ic_expand_open);
+            icon.setImageResource(R.drawable.ic_expand_close);
         }
         else {
-            icon.setImageResource(R.drawable.ic_expand_close);
+            icon.setImageResource(R.drawable.ic_expand_open);
+        }
+        Drawable drawable = icon.getDrawable();
+        if (drawable instanceof Animatable) {
+            ((Animatable) drawable).start();
         }
     }
 
