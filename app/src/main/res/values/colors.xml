@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--500-->
-    <color name="colorPrimary">#673AB7</color>
+    <color name="colorPrimary">#7E57C2</color>
     <!--700-->
-    <color name="colorPrimaryDark">#5E35B1</color>
+    <color name="colorPrimaryDark">#673AB7</color>
     <!--100-->
-    <color name="colorPrimaryLight">#D1C4E9</color>
+    <color name="colorPrimaryLight">#99FFFFFF</color>
     <!--Accent-->
-    <color name="colorAccent">#82B1FF</color>
+    <color name="colorAccent">#FFFFFF</color>
     <!--BG-->
     <color name="colorBackground">#263238</color>
 </resources>

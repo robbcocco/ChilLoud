@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
-public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.ViewHolder> {
+public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
     private String[] mDataset;
 
     // Provide a reference to the views for each data item
@@ -21,22 +21,22 @@ public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
-            mTitle = (TextView) v.findViewById(R.id.toolbar_title);
+            mTitle = (TextView) v.findViewById(R.id.artist_name);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ToolbarListAdapter(String[] myDataset) {
+    public ArtistsListAdapter(String[] myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ToolbarListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ArtistsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.toolbar_list_row, parent, false);
+                    .inflate(R.layout.artists_card, parent, false);
         // set the view's size, margins, paddings and layout parametersR.layout.drawer_list_row
 
         ViewHolder vh = new ViewHolder((LinearLayout) v);

@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.starkoverflow.chilloud.MainActivity;
+import com.starkoverflow.chilloud.fragments.ArtistsFragment;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -20,17 +20,17 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
 //            switch (position){
 //                case 0:
-//                    return Playlist.newInstance();
+//        return ArtistsFragment.newInstance(position + 1);
 //                case 1:
-//                    return Artist.newInstance();
+//        return ArtistsFragment.newInstance(position + 1);
 //                case 2:
-//                    return Album.newInstance();
+//        return ArtistsFragment.newInstance(position + 1);
 //                default:
 //                    return null;
 //            }
         // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return MainActivity.PlaceholderFragment.newInstance(position + 1);
+        // Return a ArtistsFragment (defined as a static inner class below).
+        return ArtistsFragment.newInstance(position + 1);
     }
 
     @Override
@@ -43,11 +43,11 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "PLAYLIST";
+                return "PLAYLISTS";
             case 1:
-                return "ARTIST";
+                return "ARTISTS";
             case 2:
-                return "ALBUM";
+                return "ALBUMS";
         }
         return null;
     }
