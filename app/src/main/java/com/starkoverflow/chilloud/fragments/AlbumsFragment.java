@@ -22,7 +22,7 @@ public class AlbumsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private GridLayoutManager mLayoutManager;
-    String albumsList[] = {"Madre (Single)", "Benefit", "How to be a human being", "Pink Guy", "Mainstream", "Legendary Tales", "Queen"};
+    String albumsList[] = {"Madre (Single)", "Benefit", "How To Be A Human Being", "Pink Guy", "Mainstream", "Legendary Tales", "Queen"};
     boolean cardExpandedState[] = {false, false, false, false, false, false, false};
 
     /**
@@ -99,7 +99,9 @@ public class AlbumsFragment extends Fragment {
                         });
                         mLayoutManager.requestLayout();
 //                        mRecyclerView.smoothScrollToPosition(position);
-                        ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+                        if (cardExpandedState[position]) {
+                            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+                        }
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         // do whatever
