@@ -22,8 +22,8 @@ public class ArtistsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    String artistsList[] = {"Single Barrel", "Jetrho Tull", "Glass Animals", "Pink Guy", "Calcutta", "Rhapsody", "Queen"};
+    private GridLayoutManager mLayoutManager;
+    String artistsList[] = {"Single Barrel", "Jethro Tull", "Glass Animals", "Pink Guy", "Calcutta", "Rhapsody of Fire", "Queen"};
 
     /**
      * The fragment argument representing the section number for this

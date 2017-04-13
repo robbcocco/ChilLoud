@@ -11,5 +11,4 @@
     android:drawablePadding="16dp"
     android:drawableTint="@color/colorPrimaryLight"
     android:textColor="@android:color/white"
-    android:text="Settings"
     android:textSize="15dp"/>
