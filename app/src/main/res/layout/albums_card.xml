@@ -10,6 +10,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
         android:animateLayoutChanges="true"
         card_view:cardBackgroundColor="@color/colorPrimaryDark"
         card_view:cardUseCompatPadding="true"
@@ -37,194 +38,48 @@
                 android:background="@drawable/side_nav_bar"/>
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/collapsed_album_card_overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="horizontal"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackground">
-        </LinearLayout>
+            android:background="?attr/selectableItemBackground"/>
         <LinearLayout
             android:id="@+id/expanded_album_card"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone"
+            android:background="@color/colorPrimary"
             android:gravity="center">
-            <TextView
-                android:id="@+id/album_name_expanded"
+            <LinearLayout
+                android:id="@+id/expanded_album_card_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@android:color/white"
-                android:textSize="18dp"
-                android:background="@drawable/side_nav_bar"/>
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground">
+                <TextView
+                    android:id="@+id/album_name_expanded"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:background="@drawable/bg_artist_card_temp">
-                <RelativeLayout
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/album_songs_list"
+                    android:scrollbars="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 1"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 2"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 3"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 4"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 5"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 6"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 7"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 8"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 9"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="16dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="1"
-                        android:textColor="@android:color/white"
-                        android:text="Track 10"
-                        android:textSize="18dp"/>
-                </RelativeLayout>
+                    android:layout_height="match_parent"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
