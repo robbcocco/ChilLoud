@@ -2,10 +2,13 @@ package com.starkoverflow.chilloud;
 
 import android.Manifest;
 import android.app.SearchManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -30,9 +33,15 @@ import android.widget.TextView;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.starkoverflow.chilloud.classes.DrawerListAdapter;
+import com.starkoverflow.chilloud.classes.Song;
 import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 import com.starkoverflow.chilloud.classes.SectionsPagerAdapter;
+import com.starkoverflow.chilloud.fragments.SongsFragment;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,6 +60,8 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView drawerRecyclerView;
     private RecyclerView.Adapter drawerAdapter;
     private RecyclerView.LayoutManager drawerLayoutManager;
+
+    private static ArrayList<Song> songList;
 
 //    private Sections
     private View mHeaderView;
@@ -75,6 +86,16 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
+
+        //
+        songList = new ArrayList<Song>();
+        getSongList();
+        Collections.sort(songList, new Comparator<Song>(){
+            public int compare(Song a, Song b){
+                return a.getTitle().compareTo(b.getTitle());
+            }
+        });
+        //SongsFragment.newInstance(songList);
 
         // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three
@@ -285,6 +306,33 @@ public class MainActivity extends AppCompatActivity
         if (drawable instanceof Animatable) {
             ((Animatable) drawable).start();
         }
+    }
+
+    public void getSongList() {
+        ContentResolver musicResolver = getContentResolver();
+        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
+
+        if(musicCursor!=null && musicCursor.moveToFirst()){
+            //get columns
+            int titleColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.TITLE);
+            int idColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media._ID);
+            int artistColumn = musicCursor.getColumnIndex
+                    (android.provider.MediaStore.Audio.Media.ARTIST);
+            //add songs to list
+            do {
+                long thisId = musicCursor.getLong(idColumn);
+                String thisTitle = musicCursor.getString(titleColumn);
+                String thisArtist = musicCursor.getString(artistColumn);
+                songList.add(new Song(thisId, thisTitle, thisArtist));
+            }
+            while (musicCursor.moveToNext());
+        }
+    }
+    public static ArrayList<Song> getSongListB() {
+        return songList;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -17,8 +17,11 @@ import android.widget.LinearLayout;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.classes.AlbumsListAdapter;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
+import com.starkoverflow.chilloud.classes.Song;
 import com.starkoverflow.chilloud.classes.SongsListAdapter;
 import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
+
+import java.util.ArrayList;
 
 public class SongsFragment extends Fragment {
 
@@ -31,7 +34,7 @@ public class SongsFragment extends Fragment {
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_SONGS = "songs";
 
     public SongsFragment() {
     }
@@ -40,10 +43,10 @@ public class SongsFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static SongsFragment newInstance(int sectionNumber) {
+    public static SongsFragment newInstance(ArrayList<Song> songs) {
         SongsFragment fragment = new SongsFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putParcelableArrayList(ARG_SONGS, songs);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,14 +56,19 @@ public class SongsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 //        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-//        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+//        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SONGS)));
+        ArrayList<Song> songs = getArguments().getParcelableArrayList(ARG_SONGS);
+        String foo[] = new String[songs.size()];
+        for (int i=0; i<songs.size(); i++) {
+            foo[i] = songs.get(i).getTitle();
+        }
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.songs_list);
         // use a linear layout manager
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new SongsListAdapter(songList);
+        mAdapter = new SongsListAdapter(foo);
         mRecyclerView.setAdapter(mAdapter);
 //        mRecyclerView.addOnItemTouchListener(
 //                new RecyclerItemClickListener(
