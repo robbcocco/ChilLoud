@@ -22,11 +22,11 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return SongsFragment.newInstance(LibraryFactory.getSongList());
+                return SongsFragment.newInstance(LibraryFactory.getLibrary());
             case 1:
                 return ArtistsFragment.newInstance(1);
             case 2:
-                return AlbumsFragment.newInstance(1);
+                return AlbumsFragment.newInstance(LibraryFactory.getLibrary());
             default:
                 return null;
         }

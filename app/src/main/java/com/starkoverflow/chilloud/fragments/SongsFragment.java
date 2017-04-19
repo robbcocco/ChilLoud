@@ -21,7 +21,7 @@ public class SongsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String songList[] = {"Madre", "Benefit", "Pork Soda", "Pink Guy", "Mainstream", "Legendary Tales", "Queen"};
+//    String songList[] = {"Madre", "Benefit", "Pork Soda", "Pink Guy", "Mainstream", "Legendary Tales", "Queen"};
 
     /**
      * The fragment argument representing the section number for this

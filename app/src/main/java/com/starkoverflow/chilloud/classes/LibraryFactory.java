@@ -91,9 +91,11 @@ public class LibraryFactory implements Parcelable{
                 String artPath = null;
                 if (artColumn >= 0)
                     artPath = albumCursor.getString(artColumn);
-                Album a = new Album(id, album, artist, artPath);
-                albumsList.add(a);
-//                artistsList.get(artistsList.indexOf(id)).addAlbum(a);
+                if (!Album.contains(albumsList, album, artist)) {
+                    Album a = new Album(id, album, artist, artPath);
+                    albumsList.add(a);
+//                    artistsList.get(artistsList.indexOf(artist)).addAlbum(a);
+                }
             }
             while (albumCursor.moveToNext());
         }
@@ -144,7 +146,7 @@ public class LibraryFactory implements Parcelable{
         Log.d(TAG, "makeSongList: library added");
     }
 
-    public static ArrayList<LibraryFactory> getSongList() {
+    public static ArrayList<LibraryFactory> getLibrary() {
         return library;
     }
 
@@ -170,8 +172,5 @@ public class LibraryFactory implements Parcelable{
         parcel.writeTypedList(artists);
         parcel.writeTypedList(albums);
         parcel.writeTypedList(songs);
-//        parcel.writeLong(id);
-//        parcel.writeString(title);
-//        parcel.writeString(artist);
     }
 }
