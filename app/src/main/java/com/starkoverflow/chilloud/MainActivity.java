@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,11 +34,10 @@ import android.widget.TextView;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.starkoverflow.chilloud.classes.DrawerListAdapter;
-import com.starkoverflow.chilloud.classes.Song;
+import com.starkoverflow.chilloud.classes.LibraryFactory;
 import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 import com.starkoverflow.chilloud.classes.SectionsPagerAdapter;
-import com.starkoverflow.chilloud.fragments.SongsFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,6 +46,7 @@ import java.util.Comparator;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final String TAG = "Main";
     private Menu menu;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView.Adapter drawerAdapter;
     private RecyclerView.LayoutManager drawerLayoutManager;
 
-    private static ArrayList<Song> songList;
+//    private static ArrayList<LibraryFactory> libraryFactoryList;
 
 //    private Sections
     private View mHeaderView;
@@ -87,15 +88,16 @@ public class MainActivity extends AppCompatActivity
         mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
 
-        //
-        songList = new ArrayList<Song>();
-        getSongList();
-        Collections.sort(songList, new Comparator<Song>(){
-            public int compare(Song a, Song b){
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
-        //SongsFragment.newInstance(songList);
+        Log.d(TAG, "onCreate: makeSongList started");
+        LibraryFactory.makeSongList(getContentResolver());
+        Log.d(TAG, "onCreate: makeSongList done");
+//        libraryFactoryList = new ArrayList<LibraryFactory>();
+//        getSongList();
+//        Collections.sort(libraryFactoryList, new Comparator<LibraryFactory>(){
+//            public int compare(LibraryFactory a, LibraryFactory b){
+//                return a.getTitle().compareTo(b.getTitle());
+//            }
+//        });
 
         // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three
@@ -308,32 +310,32 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void getSongList() {
-        ContentResolver musicResolver = getContentResolver();
-        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
-
-        if(musicCursor!=null && musicCursor.moveToFirst()){
-            //get columns
-            int titleColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.TITLE);
-            int idColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media._ID);
-            int artistColumn = musicCursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.ARTIST);
-            //add songs to list
-            do {
-                long thisId = musicCursor.getLong(idColumn);
-                String thisTitle = musicCursor.getString(titleColumn);
-                String thisArtist = musicCursor.getString(artistColumn);
-                songList.add(new Song(thisId, thisTitle, thisArtist));
-            }
-            while (musicCursor.moveToNext());
-        }
-    }
-    public static ArrayList<Song> getSongListB() {
-        return songList;
-    }
+//    public void getSongList() {
+//        ContentResolver musicResolver = getContentResolver();
+//        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+//        Cursor musicCursor = musicResolver.query(musicUri, null, null, null, null);
+//
+//        if(musicCursor!=null && musicCursor.moveToFirst()){
+//            //get columns
+//            int titleColumn = musicCursor.getColumnIndex
+//                    (android.provider.MediaStore.Audio.Media.TITLE);
+//            int idColumn = musicCursor.getColumnIndex
+//                    (android.provider.MediaStore.Audio.Media._ID);
+//            int artistColumn = musicCursor.getColumnIndex
+//                    (android.provider.MediaStore.Audio.Media.ARTIST);
+//            //add songs to list
+//            do {
+//                long thisId = musicCursor.getLong(idColumn);
+//                String thisTitle = musicCursor.getString(titleColumn);
+//                String thisArtist = musicCursor.getString(artistColumn);
+//                libraryFactoryList.add(new LibraryFactory(thisId, thisTitle, thisArtist));
+//            }
+//            while (musicCursor.moveToNext());
+//        }
+//    }
+//    public static ArrayList<LibraryFactory> getSongList() {
+//        return libraryFactoryList;
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
