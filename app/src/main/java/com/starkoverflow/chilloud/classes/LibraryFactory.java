@@ -54,7 +54,7 @@ public class LibraryFactory implements Parcelable{
     };
 
     public static void makeSongList(ContentResolver musicResolver, Context context) {
-        Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri musicUri = android.provider.MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
         Cursor libraryCursor = musicResolver.query(musicUri, null, null, null, null);
 
         ArrayList<Artist> artistsList = new ArrayList<Artist>();
@@ -62,6 +62,57 @@ public class LibraryFactory implements Parcelable{
         ArrayList<Song> songsList = new ArrayList<Song>();
 
         Log.d(TAG, "makeSongList: library cursor");
+        if(libraryCursor!=null && libraryCursor.moveToFirst()){
+            //get columns
+            int artistIdColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Artists._ID);
+            int artistColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Artists.ARTIST);
+            //add to list
+            do {
+                long artistId = libraryCursor.getLong(artistIdColumn);
+                String artist = libraryCursor.getString(artistColumn);
+                if (!Artist.contains(artistsList, artist))
+                    artistsList.add(new Artist(artistId, artist));
+            }
+            while (libraryCursor.moveToNext());
+        }
+
+        musicUri = android.provider.MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+        libraryCursor = musicResolver.query(musicUri, null, null, null, null);
+        if(libraryCursor!=null && libraryCursor.moveToFirst()){
+            //get columns
+            int albumIdColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Albums._ID);
+            int albumColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Albums.ALBUM);
+            int albumArtistColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Albums.ARTIST);
+            int dateColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Albums.FIRST_YEAR);
+            int artColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.ALBUM_ART);
+            //add to list
+            do {
+                long albumId = libraryCursor.getLong(albumIdColumn);
+                String album = libraryCursor.getString(albumColumn);
+                String albumArtist = libraryCursor.getString(albumArtistColumn);
+                String date = libraryCursor.getString(dateColumn);
+                String artPath = null;
+                if (artColumn >= 0)
+                    artPath = libraryCursor.getString(artColumn);
+                Log.d(TAG, "makeSongList: artPath" + artPath);
+                if (!Album.contains(albumsList, album, albumArtist)) {
+                    Album a = new Album(albumId, album, albumArtist, artPath);
+                    albumsList.add(a);
+//                        artistsList.get(artistsList.indexOf(artist)).addAlbum(a);
+                }
+            }
+            while (libraryCursor.moveToNext());
+        }
+
+        musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+        libraryCursor = musicResolver.query(musicUri, null, null, null, null);
         if(libraryCursor!=null && libraryCursor.moveToFirst()){
             //get columns
             int isMusicColumn = libraryCursor.getColumnIndex
@@ -77,54 +128,9 @@ public class LibraryFactory implements Parcelable{
                     (MediaStore.Audio.Media.ARTIST);
             int trackColumn = libraryCursor.getColumnIndex
                     (MediaStore.Audio.Media.TRACK);
-
-            int albumIdColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.Albums._ID);
-            int albumColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.Albums.ALBUM);
-            int albumArtistColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.Albums.ARTIST);
-            int dateColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.Albums.FIRST_YEAR);
-            int artColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.ALBUM_ART);
-
-            int artistIdColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.Artists._ID);
-            int artistColumn = libraryCursor.getColumnIndex
-                    (MediaStore.Audio.Artists.ARTIST);
             //add to list
             do {
                 if (libraryCursor.getLong(isMusicColumn) != 0) {
-                    long artistId = libraryCursor.getLong(artistIdColumn);
-                    String artist = libraryCursor.getString(artistColumn);
-                    if (!Artist.contains(artistsList, artist))
-                        artistsList.add(new Artist(artistId, artist));
-
-                    long albumId = libraryCursor.getLong(albumIdColumn);
-                    String album = libraryCursor.getString(albumColumn);
-                    String albumArtist = libraryCursor.getString(albumArtistColumn);
-//                    String date = libraryCursor.getString(dateColumn);
-                    Cursor cursor = musicResolver.query(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-                            new String[] {MediaStore.Audio.Albums._ID, MediaStore.Audio.Albums.ALBUM_ART},
-                            MediaStore.Audio.Albums._ID+ "=?",
-                            new String[] {String.valueOf(albumId)},
-                            null);
-                    String artPath = null;
-                    if (cursor.moveToFirst()) {
-                        artPath = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
-                        // do whatever you need to do
-                    }
-//                    String artPath = null;
-//                    if (artColumn >= 0)
-//                        artPath = libraryCursor.getString(artColumn);
-                    Log.d(TAG, "makeSongList: artPath" + artPath);
-                    if (!Album.contains(albumsList, album, albumArtist)) {
-                        Album a = new Album(albumId, album, albumArtist, artPath);
-                        albumsList.add(a);
-//                        artistsList.get(artistsList.indexOf(artist)).addAlbum(a);
-                    }
-
                     long id = libraryCursor.getLong(idColumn);
                     String title = libraryCursor.getString(titleColumn);
                     String trackAlbum = libraryCursor.getString(trackAlbumColumn);
