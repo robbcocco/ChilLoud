@@ -1,8 +1,11 @@
 package com.starkoverflow.chilloud.classes;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,23 +34,29 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        public CardView card;
         public TextView mTitle;
         public TextView mTitleB;
         public ImageView collapsedCover;
         public LinearLayout collapsedCard;
         public LinearLayout collapsedCardOverlay;
+        public ImageView expandedCover;
         public LinearLayout expandedCard;
         public LinearLayout expandedCardHeader;
+        public LinearLayout expandedcardSongs;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
+            card = (CardView) v.findViewById(R.id.card_view);
             mTitle = (TextView) v.findViewById(R.id.album_name);
             mTitleB = (TextView) v.findViewById(R.id.album_name_expanded);
             collapsedCover = (ImageView) v.findViewById(R.id.collapsed_album_cover);
             collapsedCard = (LinearLayout) v.findViewById(R.id.collapsed_album_card);
             collapsedCardOverlay = (LinearLayout) v.findViewById(R.id.collapsed_album_card_overlay);
+            expandedCover = (ImageView) v.findViewById(R.id.expanded_album_cover);
             expandedCard = (LinearLayout) v.findViewById(R.id.expanded_album_card);
             expandedCardHeader = (LinearLayout) v.findViewById(R.id.expanded_album_card_header);
+            expandedcardSongs = (LinearLayout) v.findViewById(R.id.expanded_album_songs);
         }
     }
 
@@ -77,10 +86,29 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         View v = holder.itemView;
         holder.mTitle.setText(albums.get(position).getAlbum());
         holder.mTitleB.setText(albums.get(position).getAlbum());
-        if (albums.get(position).getArtPath() != null)
-            holder.collapsedCover.setImageURI(Uri.parse(albums.get(position).getArtPath()));
-        else
+
+        if (albums.get(position).getArtPath() != null) {
+            holder.collapsedCover.setImageBitmap(albums.get(position).getCover());
+            holder.expandedCover.setImageBitmap(albums.get(position).getCover());
+//            holder.collapsedCover.setImageURI(Uri.parse(albums.get(position).getArtPath()));
+        } else {
             holder.collapsedCover.setImageResource(R.drawable.ic_album);
+            holder.expandedCover.setImageResource(R.drawable.ic_album);
+        }
+
+        if (albums.get(position).getPalette() != null) {
+            Palette.Swatch primary = albums.get(position).getPalette().getMutedSwatch();
+            Palette.Swatch secondary = albums.get(position).getPalette().getDarkMutedSwatch();
+            if (primary != null) {
+                holder.collapsedCard.setBackgroundColor(primary.getRgb());
+                holder.expandedCard.setBackgroundColor(primary.getRgb());
+                holder.card.setCardBackgroundColor(primary.getRgb());
+            } else if (secondary != null) {
+                holder.collapsedCard.setBackgroundColor(secondary.getRgb());
+                holder.expandedCard.setBackgroundColor(secondary.getRgb());
+                holder.card.setCardBackgroundColor(secondary.getRgb());
+            }
+        }
 
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override

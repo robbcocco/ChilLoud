@@ -93,7 +93,6 @@ public class AlbumsFragment extends Fragment {
     }
 
     public static void adjustSpanSize(int position) {
-
         if (cardExpandedState[position]) {
             cardExpandedState[position]=false;
         } else {
@@ -106,6 +105,19 @@ public class AlbumsFragment extends Fragment {
             @Override
             public int getSpanSize(int position) {
                 if (cardExpandedState[position])
+                    return mLayoutManager.getSpanCount();
+                else
+                    return 1;
+            }
+        });
+        mLayoutManager.requestLayout();
+    }
+
+    public static void adjustSpanSizeB(final AlbumsListAdapter.ViewHolder holder) {
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (holder.collapsedCard.getVisibility() == View.GONE)
                     return mLayoutManager.getSpanCount();
                 else
                     return 1;

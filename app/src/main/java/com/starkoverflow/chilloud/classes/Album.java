@@ -18,7 +18,8 @@ public class Album implements Parcelable {
     private String album;
     private String artist;
     private String artPath;
-    private Palette.Swatch muted;
+    private Bitmap cover;
+    private Palette palette;
     private ArrayList<Song> songs;
 
     public Album(long songID, String album, String artist, String artPath) {
@@ -26,11 +27,11 @@ public class Album implements Parcelable {
         this.album=album;
         this.artist=artist;
         this.artPath=artPath;
-        if (artPath != null) {
-            Drawable art = Drawable.createFromPath(artPath);
-            Palette p = createPaletteSync(BitmapFactory.decodeFile(artPath));
-            this.muted = p.getMutedSwatch();
-        }
+        this.cover=BitmapFactory.decodeFile(artPath);
+        if (artPath != null)
+            this.palette = createPaletteSync(this.cover);
+        else
+            this.palette = null;
         this.songs=null;
     }
 
@@ -89,15 +90,16 @@ public class Album implements Parcelable {
         return false;
     }
 
-    public long getID(){return id;}
-    public String getAlbum(){return album;}
-    public String getArtist(){return artist;}
-    public String getArtPath(){return artPath;}
-    public Palette.Swatch getMuted(){return muted;}
-    public ArrayList<Song> getSongs(){return songs;}
-
     public Palette createPaletteSync(Bitmap bitmap) {
         Palette p = Palette.from(bitmap).generate();
         return p;
     }
+
+    public long getID(){return id;}
+    public String getAlbum(){return album;}
+    public String getArtist(){return artist;}
+    public String getArtPath(){return artPath;}
+    public Bitmap getCover(){return cover;}
+    public Palette getPalette(){return palette;}
+    public ArrayList<Song> getSongs(){return songs;}
 }
