@@ -3,6 +3,8 @@ package com.starkoverflow.chilloud.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class Song implements Parcelable {
     private long id;
     private String title;
@@ -51,6 +53,15 @@ public class Song implements Parcelable {
             return new Song[size];
         }
     };
+
+    public static boolean contains(ArrayList<Song> list, String song, String album, String artist) {
+        for (Song item : list) {
+            if (item.getTitle().equals(song) && item.getAlbum().equals(album) && item.getArtist().equals(artist)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public long getID(){return id;}
     public String getTitle(){return title;}

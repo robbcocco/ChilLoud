@@ -1,5 +1,7 @@
 package com.starkoverflow.chilloud.classes;
 
+import android.content.Context;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,6 +33,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         // each data item is just a string in this case
         public TextView mTitle;
         public TextView mTitleB;
+        public ImageView collapsedCover;
         public LinearLayout collapsedCard;
         public LinearLayout collapsedCardOverlay;
         public LinearLayout expandedCard;
@@ -39,6 +43,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
             //v.setOnClickListener(this);
             mTitle = (TextView) v.findViewById(R.id.album_name);
             mTitleB = (TextView) v.findViewById(R.id.album_name_expanded);
+            collapsedCover = (ImageView) v.findViewById(R.id.collapsed_album_cover);
             collapsedCard = (LinearLayout) v.findViewById(R.id.collapsed_album_card);
             collapsedCardOverlay = (LinearLayout) v.findViewById(R.id.collapsed_album_card_overlay);
             expandedCard = (LinearLayout) v.findViewById(R.id.expanded_album_card);
@@ -72,6 +77,10 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         View v = holder.itemView;
         holder.mTitle.setText(albums.get(position).getAlbum());
         holder.mTitleB.setText(albums.get(position).getAlbum());
+        if (albums.get(position).getArtPath() != null)
+            holder.collapsedCover.setImageURI(Uri.parse(albums.get(position).getArtPath()));
+        else
+            holder.collapsedCover.setImageResource(R.drawable.ic_album);
 
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +102,6 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         mRecyclerView = (RecyclerView) v.findViewById(R.id.album_songs_list);
         mLayoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        albums.get(position).addSong(new Song(1, "Dio", "Cane", "maledetto", 1));
         mAdapter = new SongsListAdapter(albums.get(position).getSongs());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(

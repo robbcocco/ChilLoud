@@ -1,7 +1,12 @@
 package com.starkoverflow.chilloud.fragments;
 
 
+import android.content.ContentUris;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.ParcelFileDescriptor;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -21,6 +26,7 @@ import com.starkoverflow.chilloud.classes.LibraryFactory;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 import com.starkoverflow.chilloud.classes.Song;
 
+import java.io.FileDescriptor;
 import java.util.ArrayList;
 
 public class AlbumsFragment extends Fragment {
@@ -28,7 +34,8 @@ public class AlbumsFragment extends Fragment {
     private static RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private static GridLayoutManager mLayoutManager;
-    static ArrayList<Boolean> cardExpandedState = new ArrayList<Boolean>();
+    static boolean[] cardExpandedState;
+//    static ArrayList<Boolean> cardExpandedState = new ArrayList<Boolean>();
 
     /**
      * The fragment argument representing the section number for this
@@ -58,10 +65,15 @@ public class AlbumsFragment extends Fragment {
 
         ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_ALBUMS);
         ArrayList<Album> albums = library.get(0).getAlbums();
-        cardExpandedState.clear();
+
+        cardExpandedState = new boolean[albums.size()];
         for (int i = 0; i< albums.size(); i++) {
-            cardExpandedState.add(false);
+            cardExpandedState[i]=false;
         }
+//        cardExpandedState.clear();
+//        for (int i = 0; i< albums.size(); i++) {
+//            cardExpandedState.add(false);
+//        }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.albums_list);
         // use a linear layout manager
@@ -76,66 +88,24 @@ public class AlbumsFragment extends Fragment {
         mRecyclerView.setHasFixedSize(false);
         mAdapter = new AlbumsListAdapter(albums);
         mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(
-//                        getContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, final int position) {
-//                        LinearLayout collapsedCard = (LinearLayout) view.findViewById(R.id.collapsed_album_card);
-//                        LinearLayout expandedCard = (LinearLayout) view.findViewById(R.id.expanded_album_card);
-//                        CardView mCard = (CardView) view.findViewById(R.id.card_view);
-//                        if (cardRadius == 0)
-//                            cardRadius = mCard.getRadius();
-//
-//                        // If card is expanded, collapse it, else expand it
-//                        if (cardExpandedState[position]) {
-////                            cardExpandedState[position] = false;
-////                            collapsedCard.setVisibility(View.VISIBLE);
-////                            expandedCard.setVisibility(View.GONE);
-//                            mCard.setRadius(cardRadius);
-//                            mCard.setUseCompatPadding(true);
-//                            // Focus to card when expanding
-////                            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
-//                        } else {
-////                            cardExpandedState[position] = true;
-////                            collapsedCard.setVisibility(View.GONE);
-////                            expandedCard.setVisibility(View.VISIBLE);
-//                            mCard.setRadius(0);
-//                            mCard.setUseCompatPadding(false);
-//                        }
-//                        // Set expanded card to span one full row if expanded
-////                        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-////                            @Override
-////                            public int getSpanSize(int position) {
-////                                if (cardExpandedState[position])
-////                                    return mLayoutManager.getSpanCount();
-////                                else
-////                                    return 1;
-////                            }
-////                        });
-////                        mLayoutManager.requestLayout();
-//                    }
-//                    @Override public void onLongItemClick(View view, int position) {
-//                        // do whatever
-//                    }
-//                })
-//        );
 
         return rootView;
     }
 
     public static void adjustSpanSize(int position) {
-        if (cardExpandedState.get(position)) {
-            cardExpandedState.set(position, false);
+
+        if (cardExpandedState[position]) {
+            cardExpandedState[position]=false;
         } else {
-            cardExpandedState.set(position, true);
+            cardExpandedState[position]=true;
             // Scroll to card when expanding
 //            mRecyclerView.smoothScrollToPosition(position);
-//            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
         }
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (cardExpandedState.get(position))
+                if (cardExpandedState[position])
                     return mLayoutManager.getSpanCount();
                 else
                     return 1;

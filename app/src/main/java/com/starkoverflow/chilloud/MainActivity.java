@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
 
         Log.d(TAG, "onCreate: makeSongList started");
-        LibraryFactory.makeSongList(getContentResolver());
+        LibraryFactory.makeSongList(getContentResolver(), getApplicationContext());
         Log.d(TAG, "onCreate: makeSongList done");
 
         setContentView(R.layout.activity_main);

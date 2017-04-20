@@ -1,19 +1,23 @@
 package com.starkoverflow.chilloud.classes;
 
+import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Parcel;
+import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.support.v7.graphics.Palette;
 
+import java.io.FileDescriptor;
 import java.util.ArrayList;
 
 public class Album implements Parcelable {
     private long id;
     private String album;
     private String artist;
-    private Drawable art;
+    private String artPath;
     private Palette.Swatch muted;
     private ArrayList<Song> songs;
 
@@ -21,8 +25,9 @@ public class Album implements Parcelable {
         id=songID;
         this.album=album;
         this.artist=artist;
+        this.artPath=artPath;
         if (artPath != null) {
-            this.art=Drawable.createFromPath(artPath);
+            Drawable art = Drawable.createFromPath(artPath);
             Palette p = createPaletteSync(BitmapFactory.decodeFile(artPath));
             this.muted = p.getMutedSwatch();
         }
@@ -67,7 +72,7 @@ public class Album implements Parcelable {
         this.songs.add(song);
     }
 
-    public static int getAlbum(ArrayList<Album> list, String album, String artist) {
+    public static int getAlbumPosition(ArrayList<Album> list, String album, String artist) {
         for (int i=0; i<list.size(); i++) {
             if (list.get(i).getAlbum().equals(album) && list.get(i).getArtist().equals(artist));
                 return i;
@@ -87,7 +92,7 @@ public class Album implements Parcelable {
     public long getID(){return id;}
     public String getAlbum(){return album;}
     public String getArtist(){return artist;}
-    public Drawable getArt(){return art;}
+    public String getArtPath(){return artPath;}
     public Palette.Swatch getMuted(){return muted;}
     public ArrayList<Song> getSongs(){return songs;}
 
