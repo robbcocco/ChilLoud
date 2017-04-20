@@ -50,6 +50,15 @@ public class Artist implements Parcelable {
         this.albums.add(album);
     }
 
+    public static boolean contains(ArrayList<Artist> list, String artist) {
+        for (Artist item : list) {
+            if (item.getArtist().equals(artist)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public long getID(){return id;}
     public String getArtist(){return artist;}
     public ArrayList<Album> getAlbum(){return albums;}

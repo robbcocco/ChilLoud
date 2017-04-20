@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
+import java.util.ArrayList;
+
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
-    private String[] mDataset;
+    private ArrayList<Song> songs;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -26,8 +28,8 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SongsListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public SongsListAdapter(ArrayList<Song> songs) {
+        this.songs=songs;
     }
 
     // Create new views (invoked by the layout manager)
@@ -48,13 +50,13 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(mDataset[position]);
+        holder.mTitle.setText(songs.get(position).getTitle());
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return songs.size();
     }
 }

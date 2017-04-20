@@ -28,7 +28,6 @@ public class AlbumsFragment extends Fragment {
     private static RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private static GridLayoutManager mLayoutManager;
-//    String albumsList[] = {"Madre (Single)", "Benefit", "How To Be A Human Being", "Pink Guy", "Mainstream", "Legendary Tales", "Queen"};
     static ArrayList<Boolean> cardExpandedState = new ArrayList<Boolean>();
 
     /**
@@ -59,12 +58,9 @@ public class AlbumsFragment extends Fragment {
 
         ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_ALBUMS);
         ArrayList<Album> albums = library.get(0).getAlbums();
-        String foo[] = new String[albums.size()];
+        cardExpandedState.clear();
         for (int i = 0; i< albums.size(); i++) {
             cardExpandedState.add(false);
-        }
-        for (int i = 0; i< albums.size(); i++) {
-            foo[i] = albums.get(i).getAlbum();
         }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.albums_list);
@@ -78,7 +74,7 @@ public class AlbumsFragment extends Fragment {
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(false);
-        mAdapter = new AlbumsListAdapter(foo);
+        mAdapter = new AlbumsListAdapter(albums);
         mRecyclerView.setAdapter(mAdapter);
 //        mRecyclerView.addOnItemTouchListener(
 //                new RecyclerItemClickListener(
@@ -132,8 +128,9 @@ public class AlbumsFragment extends Fragment {
             cardExpandedState.set(position, false);
         } else {
             cardExpandedState.set(position, true);
-            // Focus to card when expanding
-            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+            // Scroll to card when expanding
+//            mRecyclerView.smoothScrollToPosition(position);
+//            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
         }
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override

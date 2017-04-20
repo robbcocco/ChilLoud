@@ -74,6 +74,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d(TAG, "onCreate: makeSongList started");
+        LibraryFactory.makeSongList(getContentResolver());
+        Log.d(TAG, "onCreate: makeSongList done");
+
         setContentView(R.layout.activity_main);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -87,17 +92,6 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
-
-        Log.d(TAG, "onCreate: makeSongList started");
-        LibraryFactory.makeSongList(getContentResolver());
-        Log.d(TAG, "onCreate: makeSongList done");
-//        libraryFactoryList = new ArrayList<LibraryFactory>();
-//        getSongList();
-//        Collections.sort(libraryFactoryList, new Comparator<LibraryFactory>(){
-//            public int compare(LibraryFactory a, LibraryFactory b){
-//                return a.getTitle().compareTo(b.getTitle());
-//            }
-//        });
 
         // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three

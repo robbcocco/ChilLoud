@@ -14,13 +14,14 @@ import com.starkoverflow.chilloud.MainActivity;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.fragments.AlbumsFragment;
 
+import java.util.ArrayList;
+
 public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.ViewHolder> {
-    private String[] mDataset;
+    private ArrayList<Album> albums;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String songList[] = {"Track 1", "Track 2", "Track 3", "Track 4", "Track 5", "Track 6", "Track 7"};
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -46,8 +47,8 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AlbumsListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public AlbumsListAdapter(ArrayList<Album> albums) {
+        this.albums = albums;
     }
 
     // Create new views (invoked by the layout manager)
@@ -69,8 +70,8 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         View v = holder.itemView;
-        holder.mTitle.setText(mDataset[position]);
-        holder.mTitleB.setText(mDataset[position]);
+        holder.mTitle.setText(albums.get(position).getAlbum());
+        holder.mTitleB.setText(albums.get(position).getAlbum());
 
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,13 +93,14 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         mRecyclerView = (RecyclerView) v.findViewById(R.id.album_songs_list);
         mLayoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new SongsListAdapter(songList);
+        albums.get(position).addSong(new Song(1, "Dio", "Cane", "maledetto", 1));
+        mAdapter = new SongsListAdapter(albums.get(position).getSongs());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(
                         v.getContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        Snackbar.make(view, songList[position], Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, "Do something", Snackbar.LENGTH_LONG)
                                 .setAction("Action", null).show();
                     }
                     @Override public void onLongItemClick(View view, int position) {
@@ -111,6 +113,6 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return albums.size();
     }
 }

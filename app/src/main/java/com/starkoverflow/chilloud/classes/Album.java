@@ -62,7 +62,17 @@ public class Album implements Parcelable {
     };
 
     public void addSong(Song song) {
+        if (this.songs == null)
+            this.songs = new ArrayList<Song>();
         this.songs.add(song);
+    }
+
+    public static int getAlbum(ArrayList<Album> list, String album, String artist) {
+        for (int i=0; i<list.size(); i++) {
+            if (list.get(i).getAlbum().equals(album) && list.get(i).getArtist().equals(artist));
+                return i;
+        }
+        return -1;
     }
 
     public static boolean contains(ArrayList<Album> list, String album, String artist) {

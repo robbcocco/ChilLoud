@@ -20,9 +20,6 @@ public class LibraryFactory implements Parcelable{
     private ArrayList<Song> songs;
 
     private static ArrayList<LibraryFactory> library = new ArrayList<LibraryFactory>();
-    private static ArrayList<Artist> artistsList = new ArrayList<Artist>();
-    private static ArrayList<Album> albumsList = new ArrayList<Album>();
-    private static ArrayList<Song> songsList = new ArrayList<Song>();
 
     public LibraryFactory(ArrayList<Artist> artists, ArrayList<Album> albums, ArrayList<Song> songs) {
         this.artists=artists;
@@ -53,6 +50,9 @@ public class LibraryFactory implements Parcelable{
         Cursor artistCursor = musicResolver.query(musicUri, null, null, null, null);
         Cursor albumCursor = musicResolver.query(musicUri, null, null, null, null);
         Cursor songCursor = musicResolver.query(musicUri, null, null, null, null);
+        ArrayList<Artist> artistsList = new ArrayList<Artist>();
+        ArrayList<Album> albumsList = new ArrayList<Album>();
+        ArrayList<Song> songsList = new ArrayList<Song>();
 
         Log.d(TAG, "makeSongList: artist cursor");
         if(artistCursor!=null && artistCursor.moveToFirst()){
@@ -65,7 +65,8 @@ public class LibraryFactory implements Parcelable{
             do {
                 long id = artistCursor.getLong(idColumn);
                 String artist = artistCursor.getString(artistColumn);
-                artistsList.add(new Artist(id, artist));
+                if (!Artist.contains(artistsList, artist))
+                    artistsList.add(new Artist(id, artist));
             }
             while (artistCursor.moveToNext());
         }
@@ -121,7 +122,7 @@ public class LibraryFactory implements Parcelable{
                 int track = songCursor.getInt(trackColumn);
                 Song s = new Song(id, title, album, artist, track);
                 songsList.add(s);
-//                albumsList.get(albumsList.indexOf(id)).addSong(s);
+//                albumsList.get(Album.getAlbum(albumsList, album, artist)).addSong(s);
             }
             while (songCursor.moveToNext());
         }

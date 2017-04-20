@@ -51,10 +51,6 @@ public class SongsFragment extends Fragment {
 
         ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_SONGS);
         ArrayList<Song> songs = library.get(0).getSongs();
-        String foo[] = new String[songs.size()];
-        for (int i = 0; i< songs.size(); i++) {
-            foo[i] = songs.get(i).getTitle();
-        }
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.songs_list);
         // use a linear layout manager
@@ -62,7 +58,7 @@ public class SongsFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new SongsListAdapter(foo);
+        mAdapter = new SongsListAdapter(songs);
         mRecyclerView.setAdapter(mAdapter);
 //        mRecyclerView.addOnItemTouchListener(
 //                new RecyclerItemClickListener(
