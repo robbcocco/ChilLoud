@@ -24,7 +24,7 @@ public class SectionsPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return SongsFragment.newInstance(LibraryFactory.getLibrary());
             case 1:
-                return ArtistsFragment.newInstance(1);
+                return ArtistsFragment.newInstance(LibraryFactory.getLibrary());
             case 2:
                 return AlbumsFragment.newInstance(LibraryFactory.getLibrary());
             default:

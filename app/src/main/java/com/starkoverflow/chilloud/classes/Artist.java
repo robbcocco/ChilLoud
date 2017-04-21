@@ -13,7 +13,7 @@ public class Artist implements Parcelable {
     public Artist(long songID, String artist) {
         id=songID;
         this.artist=artist;
-        this.albums=null;
+        this.albums=new ArrayList<Album>();
     }
 
     protected Artist(Parcel in) {

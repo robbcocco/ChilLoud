@@ -4,13 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
+import java.util.ArrayList;
+
 public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
-    private String[] mDataset;
+    private ArrayList<Artist> artists;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -18,16 +21,18 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTitle;
+        public ImageView artistPicture;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
             mTitle = (TextView) v.findViewById(R.id.artist_name);
+            artistPicture = (ImageView) v.findViewById(R.id.artist_picture);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ArtistsListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public ArtistsListAdapter(ArrayList<Artist> artists) {
+        this.artists = artists;
     }
 
     // Create new views (invoked by the layout manager)
@@ -48,13 +53,19 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(mDataset[position]);
+        holder.mTitle.setText(artists.get(position).getArtist());
 
+//        DiscogsArtist test = new DiscogsArtist(artists.get(position).getArtist());
+//        holder.artistPicture.setImageBitmap(test.getArtist_picture());
+//
+//        if (artists.get(position).getDiscogsArtist().getArtist_picture() != null) {
+//            holder.artistPicture.setImageBitmap(artists.get(position).getDiscogsArtist().getArtist_picture());
+//        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return artists.size();
     }
 }

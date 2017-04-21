@@ -105,7 +105,11 @@ public class LibraryFactory implements Parcelable{
                 if (!Album.contains(albumsList, album, albumArtist)) {
                     Album a = new Album(albumId, album, albumArtist, artPath);
                     albumsList.add(a);
-//                        artistsList.get(artistsList.indexOf(artist)).addAlbum(a);
+                    for (Artist item : artistsList) {
+                        if (item.getArtist().equals(albumArtist)) {
+                            item.addAlbum(a);
+                        }
+                    }
                 }
             }
             while (libraryCursor.moveToNext());
@@ -140,7 +144,7 @@ public class LibraryFactory implements Parcelable{
                     if (!Song.contains(songsList, title, trackAlbum, trackArtist)) {
                         songsList.add(s);
                         for (Album item : albumsList) {
-                            if (item.getAlbum().equals(trackAlbum)) {
+                            if (item.getAlbum().equals(trackAlbum) && item.getArtist().equals(trackArtist)) {
                                 item.addSong(s);
                             }
                         }

@@ -32,7 +32,7 @@ public class Album implements Parcelable {
             this.palette = createPaletteSync(this.cover);
         else
             this.palette = null;
-        this.songs=null;
+        this.songs=new ArrayList<Song>();
     }
 
     protected Album(Parcel in) {
@@ -68,17 +68,7 @@ public class Album implements Parcelable {
     };
 
     public void addSong(Song song) {
-        if (this.songs == null)
-            this.songs = new ArrayList<Song>();
         this.songs.add(song);
-    }
-
-    public static int getAlbumPosition(ArrayList<Album> list, String album, String artist) {
-        for (int i=0; i<list.size(); i++) {
-            if (list.get(i).getAlbum().equals(album) && list.get(i).getArtist().equals(artist));
-                return i;
-        }
-        return -1;
     }
 
     public static boolean contains(ArrayList<Album> list, String album, String artist) {

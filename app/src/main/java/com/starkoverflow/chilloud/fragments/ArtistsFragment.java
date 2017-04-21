@@ -14,22 +14,26 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
+import com.starkoverflow.chilloud.classes.Artist;
 import com.starkoverflow.chilloud.classes.ArtistsListAdapter;
+import com.starkoverflow.chilloud.classes.LibraryFactory;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
+
+import java.util.ArrayList;
 
 public class ArtistsFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private GridLayoutManager mLayoutManager;
-    String artistsList[] = {"Single Barrel", "Jethro Tull", "Glass Animals", "Pink Guy", "Calcutta", "Rhapsody of Fire", "Queen"};
+
 
     /**
      * The fragment argument representing the section number for this
      * fragment.
      */
-    private static final String ARG_SECTION_NUMBER = "section_number";
+    private static final String ARG_ARTISTS = "artists";
 
     public ArtistsFragment() {
     }
@@ -38,10 +42,10 @@ public class ArtistsFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static ArtistsFragment newInstance(int sectionNumber) {
+    public static ArtistsFragment newInstance(ArrayList<LibraryFactory> library) {
         ArtistsFragment fragment = new ArtistsFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+        args.putParcelableArrayList(ARG_ARTISTS, library);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,13 +57,15 @@ public class ArtistsFragment extends Fragment {
 
 //        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 //        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
+        ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_ARTISTS);
+        ArrayList<Artist> artists = library.get(0).getArtists();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.artists_list);
         // use a linear layout manager
         mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new ArtistsListAdapter(artistsList);
+        mAdapter = new ArtistsListAdapter(artists);
         mRecyclerView.setAdapter(mAdapter);
 //        mRecyclerView.addOnItemTouchListener(
 //                new RecyclerItemClickListener(
