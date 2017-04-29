@@ -74,24 +74,38 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        Log.d(TAG, "onCreate: makeSongList started");
-        LibraryFactory.makeSongList(getContentResolver(), getApplicationContext());
-        Log.d(TAG, "onCreate: makeSongList done");
-
         setContentView(R.layout.activity_main);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
                     != PackageManager.PERMISSION_GRANTED) {
 
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},1);
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
                 return;
-        }}
+            }
+//            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+//                return;
+//            }
+//            if (checkSelfPermission(Manifest.permission.INTERNET)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//
+//                requestPermissions(new String[]{Manifest.permission.INTERNET}, 1);
+//                return;
+//            }
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(dbList[0]);
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
+
+        Log.d(TAG, "onCreate: makeSongList started");
+        LibraryFactory.makeSongList(getContentResolver(), getApplicationContext());
+        Log.d(TAG, "onCreate: makeSongList done");
 
         // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three

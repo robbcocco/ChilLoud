@@ -1,6 +1,9 @@
 package com.starkoverflow.chilloud.classes;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +11,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.github.kittinunf.fuel.Fuel;
+import com.github.kittinunf.fuel.core.FuelError;
+import com.github.kittinunf.fuel.core.Handler;
+import com.github.kittinunf.fuel.core.Request;
+import com.github.kittinunf.fuel.core.Response;
 import com.starkoverflow.chilloud.R;
 
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONObject;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
+    private static final String TAG = "Artists Adapter";
     private ArrayList<Artist> artists;
 
     // Provide a reference to the views for each data item
@@ -50,17 +68,10 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTitle.setText(artists.get(position).getArtist());
-
-//        DiscogsArtist test = new DiscogsArtist(artists.get(position).getArtist());
-//        holder.artistPicture.setImageBitmap(test.getArtist_picture());
-//
-//        if (artists.get(position).getDiscogsArtist().getArtist_picture() != null) {
-//            holder.artistPicture.setImageBitmap(artists.get(position).getDiscogsArtist().getArtist_picture());
-//        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
