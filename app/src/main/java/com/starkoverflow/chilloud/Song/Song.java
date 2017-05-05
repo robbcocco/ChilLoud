@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Song;
 
 import android.os.Parcel;
 import android.os.Parcelable;

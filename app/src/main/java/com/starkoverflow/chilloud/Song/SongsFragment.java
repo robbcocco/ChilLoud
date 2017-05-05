@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.fragments;
+package com.starkoverflow.chilloud.Song;
 
 
 import android.os.Bundle;
@@ -10,9 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.classes.LibraryFactory;
-import com.starkoverflow.chilloud.classes.Song;
-import com.starkoverflow.chilloud.classes.SongsListAdapter;
+import com.starkoverflow.chilloud.Main.LibraryFactory;
 
 import java.util.ArrayList;
 

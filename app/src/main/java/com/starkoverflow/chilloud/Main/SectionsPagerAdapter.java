@@ -1,13 +1,13 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Main;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.starkoverflow.chilloud.fragments.AlbumsFragment;
-import com.starkoverflow.chilloud.fragments.ArtistsFragment;
-import com.starkoverflow.chilloud.fragments.SongsFragment;
+import com.starkoverflow.chilloud.Album.AlbumsFragment;
+import com.starkoverflow.chilloud.Artist.ArtistsFragment;
+import com.starkoverflow.chilloud.Song.SongsFragment;
 
 /**
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

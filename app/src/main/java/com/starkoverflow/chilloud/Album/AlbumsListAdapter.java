@@ -1,9 +1,5 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Album;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
@@ -16,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.starkoverflow.chilloud.MainActivity;
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.fragments.AlbumsFragment;
+import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
+import com.starkoverflow.chilloud.Song.SongsListAdapter;
 
 import java.util.ArrayList;
 

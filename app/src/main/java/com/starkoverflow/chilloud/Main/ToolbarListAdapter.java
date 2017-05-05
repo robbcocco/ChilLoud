@@ -1,37 +1,16 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Main;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.kittinunf.fuel.Fuel;
-import com.github.kittinunf.fuel.core.FuelError;
-import com.github.kittinunf.fuel.core.Handler;
-import com.github.kittinunf.fuel.core.Request;
-import com.github.kittinunf.fuel.core.Response;
 import com.starkoverflow.chilloud.R;
 
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
-public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
-    private static final String TAG = "Artists Adapter";
-    private ArrayList<Artist> artists;
+public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.ViewHolder> {
+    private String[] mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -39,27 +18,25 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView mTitle;
-        public ImageView artistPicture;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
-            mTitle = (TextView) v.findViewById(R.id.artist_name);
-            artistPicture = (ImageView) v.findViewById(R.id.artist_picture);
+            mTitle = (TextView) v.findViewById(R.id.toolbar_title);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ArtistsListAdapter(ArrayList<Artist> artists) {
-        this.artists = artists;
+    public ToolbarListAdapter(String[] myDataset) {
+        mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ArtistsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public ToolbarListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                             int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.artists_card, parent, false);
+                    .inflate(R.layout.toolbar_list_row, parent, false);
         // set the view's size, margins, paddings and layout parametersR.layout.drawer_list_row
 
         ViewHolder vh = new ViewHolder((LinearLayout) v);
@@ -68,15 +45,16 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(artists.get(position).getArtist());
+        holder.mTitle.setText(mDataset[position]);
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return artists.size();
+        return mDataset.length;
     }
 }

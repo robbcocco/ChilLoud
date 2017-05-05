@@ -1,16 +1,13 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Album;
 
-import android.content.ContentUris;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Parcel;
-import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.support.v7.graphics.Palette;
 
-import java.io.FileDescriptor;
+import com.starkoverflow.chilloud.Song.Song;
+
 import java.util.ArrayList;
 
 public class Album implements Parcelable {

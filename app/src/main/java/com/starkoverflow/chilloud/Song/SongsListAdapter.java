@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Song;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
-public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.ViewHolder> {
-    private String[] mDataset;
+import java.util.ArrayList;
+
+public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
+    private ArrayList<Song> songs;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -21,22 +23,22 @@ public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
-            mTitle = (TextView) v.findViewById(R.id.toolbar_title);
+            mTitle = (TextView) v.findViewById(R.id.song_title);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ToolbarListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public SongsListAdapter(ArrayList<Song> songs) {
+        this.songs=songs;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public ToolbarListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                            int viewType) {
+    public SongsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                          int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.toolbar_list_row, parent, false);
+                    .inflate(R.layout.song_list_row, parent, false);
         // set the view's size, margins, paddings and layout parametersR.layout.drawer_list_row
 
         ViewHolder vh = new ViewHolder((LinearLayout) v);
@@ -48,13 +50,13 @@ public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(mDataset[position]);
+        holder.mTitle.setText(songs.get(position).getTitle());
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return songs.size();
     }
 }

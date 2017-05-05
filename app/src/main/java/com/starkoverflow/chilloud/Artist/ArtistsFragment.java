@@ -1,24 +1,16 @@
-package com.starkoverflow.chilloud.fragments;
+package com.starkoverflow.chilloud.Artist;
 
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.classes.Artist;
-import com.starkoverflow.chilloud.classes.ArtistsListAdapter;
-import com.starkoverflow.chilloud.classes.LibraryFactory;
-import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
-import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
+import com.starkoverflow.chilloud.Main.LibraryFactory;
 
 import java.util.ArrayList;
 

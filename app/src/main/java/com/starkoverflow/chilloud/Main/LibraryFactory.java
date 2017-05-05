@@ -1,22 +1,18 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Main;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Parcel;
-import android.os.ParcelFileDescriptor;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.starkoverflow.chilloud.MainActivity;
+import com.starkoverflow.chilloud.Album.Album;
+import com.starkoverflow.chilloud.Artist.Artist;
+import com.starkoverflow.chilloud.Song.Song;
 
-import java.io.FileDescriptor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

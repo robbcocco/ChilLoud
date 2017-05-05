@@ -1,32 +1,18 @@
-package com.starkoverflow.chilloud.fragments;
+package com.starkoverflow.chilloud.Album;
 
 
-import android.content.ContentUris;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.classes.Album;
-import com.starkoverflow.chilloud.classes.AlbumsListAdapter;
-import com.starkoverflow.chilloud.classes.ArtistsListAdapter;
-import com.starkoverflow.chilloud.classes.LibraryFactory;
-import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
-import com.starkoverflow.chilloud.classes.Song;
+import com.starkoverflow.chilloud.Main.LibraryFactory;
 
-import java.io.FileDescriptor;
 import java.util.ArrayList;
 
 public class AlbumsFragment extends Fragment {

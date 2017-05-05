@@ -1,14 +1,11 @@
-package com.starkoverflow.chilloud;
+package com.starkoverflow.chilloud.Main;
 
 import android.Manifest;
 import android.app.SearchManager;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -33,15 +30,8 @@ import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
-import com.starkoverflow.chilloud.classes.DrawerListAdapter;
-import com.starkoverflow.chilloud.classes.LibraryFactory;
-import com.starkoverflow.chilloud.classes.ToolbarListAdapter;
+import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
-import com.starkoverflow.chilloud.classes.SectionsPagerAdapter;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

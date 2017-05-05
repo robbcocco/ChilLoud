@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud;
+package com.starkoverflow.chilloud.Search;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.starkoverflow.chilloud.R;
 
 public class SearchResultActivity extends AppCompatActivity {
 
