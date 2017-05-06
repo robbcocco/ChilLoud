@@ -84,8 +84,12 @@ public class AlbumsFragment extends Fragment {
         } else {
             cardExpandedState[position]=true;
             // Scroll to card when expanding
+            View test = mRecyclerView.getLayoutManager().findViewByPosition(position);
+            RecyclerView test2 = (RecyclerView) test.findViewById(R.id.album_songs_list);
+            test2.smoothScrollToPosition(0);
+
 //            mRecyclerView.smoothScrollToPosition(position);
-            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
+//            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
         }
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override

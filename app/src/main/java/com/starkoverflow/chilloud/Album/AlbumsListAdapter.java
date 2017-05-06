@@ -5,6 +5,7 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
-import com.starkoverflow.chilloud.Song.SongsListAdapter;
 
 import java.util.ArrayList;
 
@@ -30,6 +30,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        public RecyclerView recyclerView;
         public CardView card;
         public TextView mTitle;
         public TextView mTitleB;
@@ -39,7 +40,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         public ImageView expandedCover;
         public LinearLayout expandedCard;
         public LinearLayout expandedCardHeader;
-        public LinearLayout expandedcardSongs;
+        public LinearLayout expandedCardSongs;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
@@ -52,7 +53,8 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
             expandedCover = (ImageView) v.findViewById(R.id.expanded_album_cover);
             expandedCard = (LinearLayout) v.findViewById(R.id.expanded_album_card);
             expandedCardHeader = (LinearLayout) v.findViewById(R.id.expanded_album_card_header);
-            expandedcardSongs = (LinearLayout) v.findViewById(R.id.expanded_album_songs);
+            expandedCardSongs = (LinearLayout) v.findViewById(R.id.expanded_album_songs);
+            recyclerView = (RecyclerView) v.findViewById(R.id.albums_list);
         }
     }
 
@@ -106,6 +108,25 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
             }
         }
 
+        mRecyclerView = (RecyclerView) v.findViewById(R.id.album_songs_list);
+        mLayoutManager = new LinearLayoutManager(v.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new AlbumsSongsListAdapter(albums.get(position).getSongs());
+        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(
+                        v.getContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Snackbar.make(view, "Do something", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
+
+        final RecyclerView view2 = (RecyclerView) v.findViewById(R.id.albums_list);
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -122,24 +143,6 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
                 AlbumsFragment.adjustSpanSize(position);
             }
         });
-
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.album_songs_list);
-        mLayoutManager = new LinearLayoutManager(v.getContext());
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new SongsListAdapter(albums.get(position).getSongs());
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        v.getContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Snackbar.make(view, "Do something", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
     }
 
     // Return the size of your dataset (invoked by the layout manager)
