@@ -1,6 +1,7 @@
 package com.starkoverflow.chilloud.Album;
 
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.starkoverflow.chilloud.Main.MainActivity;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
@@ -31,29 +33,31 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public RecyclerView recyclerView;
-        public CardView card;
         public TextView mTitle;
         public TextView mTitleB;
         public ImageView collapsedCover;
-        public LinearLayout collapsedCard;
+        public CardView collapsedCard;
         public LinearLayout collapsedCardOverlay;
+        public LinearLayout collapsedCardBG;
         public ImageView expandedCover;
-        public LinearLayout expandedCard;
+        public CardView expandedCard;
         public LinearLayout expandedCardHeader;
         public LinearLayout expandedCardSongs;
+        public LinearLayout expandedCardBG;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
-            card = (CardView) v.findViewById(R.id.card_view);
             mTitle = (TextView) v.findViewById(R.id.album_name);
             mTitleB = (TextView) v.findViewById(R.id.album_name_expanded);
             collapsedCover = (ImageView) v.findViewById(R.id.collapsed_album_cover);
-            collapsedCard = (LinearLayout) v.findViewById(R.id.collapsed_album_card);
+            collapsedCard = (CardView) v.findViewById(R.id.collapsed_album_card);
             collapsedCardOverlay = (LinearLayout) v.findViewById(R.id.collapsed_album_card_overlay);
+            collapsedCardBG = (LinearLayout) v.findViewById(R.id.collapsed_album_color);
             expandedCover = (ImageView) v.findViewById(R.id.expanded_album_cover);
-            expandedCard = (LinearLayout) v.findViewById(R.id.expanded_album_card);
+            expandedCard = (CardView) v.findViewById(R.id.expanded_album_card);
             expandedCardHeader = (LinearLayout) v.findViewById(R.id.expanded_album_card_header);
             expandedCardSongs = (LinearLayout) v.findViewById(R.id.expanded_album_songs);
+            expandedCardBG = (LinearLayout) v.findViewById(R.id.expanded_album_color);
             recyclerView = (RecyclerView) v.findViewById(R.id.albums_list);
         }
     }
@@ -98,13 +102,20 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
             Palette.Swatch primary = albums.get(position).getPalette().getMutedSwatch();
             Palette.Swatch secondary = albums.get(position).getPalette().getDarkMutedSwatch();
             if (primary != null) {
-                holder.collapsedCard.setBackgroundColor(primary.getRgb());
-                holder.expandedCard.setBackgroundColor(primary.getRgb());
-                holder.card.setCardBackgroundColor(primary.getRgb());
+                holder.collapsedCardBG.setBackgroundColor(primary.getRgb());
+                holder.expandedCardBG.setBackgroundColor(primary.getRgb());
+//                holder.card.setCardBackgroundColor(primary.getRgb());
+//                holder.collapsedCard.setCardBackgroundColor(primary.getRgb());
+//                holder.expandedCard.setCardBackgroundColor(primary.getRgb());
             } else if (secondary != null) {
-                holder.collapsedCard.setBackgroundColor(secondary.getRgb());
-                holder.expandedCard.setBackgroundColor(secondary.getRgb());
-                holder.card.setCardBackgroundColor(secondary.getRgb());
+                holder.collapsedCardBG.setBackgroundColor(secondary.getRgb());
+                holder.expandedCardBG.setBackgroundColor(secondary.getRgb());
+//                holder.card.setCardBackgroundColor(secondary.getRgb());
+//                holder.collapsedCard.setCardBackgroundColor(secondary.getRgb());
+//                holder.expandedCard.setCardBackgroundColor(secondary.getRgb());
+            } else {
+                holder.collapsedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimaryDark));
+                holder.expandedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimaryDark));
             }
         }
 

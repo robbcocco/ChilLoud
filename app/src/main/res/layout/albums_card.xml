@@ -5,21 +5,20 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:animateLayoutChanges="true">
     <android.support.v7.widget.CardView
-        android:id="@+id/card_view"
+        android:id="@+id/collapsed_album_card"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        card_view:cardBackgroundColor="@color/colorPrimaryDark"
+        android:visibility="visible"
         card_view:cardUseCompatPadding="true"
         card_view:cardCornerRadius="2dp">
         <LinearLayout
-            android:id="@+id/collapsed_album_card"
+            android:id="@+id/collapsed_album_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="visible"
             android:background="@color/colorPrimary"
             android:gravity="center">
             <ImageView
@@ -44,12 +43,124 @@
             android:clickable="true"
             android:focusable="true"
             android:background="?attr/selectableItemBackground"/>
+    </android.support.v7.widget.CardView>
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:id="@+id/expanded_album_card"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="2dp"-->
+    <!--android:layout_marginBottom="2dp"-->
+    <!--android:visibility="visible"-->
+    <!--card_view:cardUseCompatPadding="false"-->
+    <!--card_view:cardCornerRadius="0dp">-->
+    <!--<LinearLayout-->
+        <!--android:id="@+id/expanded_album_color"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:orientation="horizontal"-->
+        <!--android:background="@color/colorPrimary"-->
+        <!--android:gravity="top">-->
+        <!--<LinearLayout-->
+            <!--android:id="@+id/expanded_album_card_header"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="8dp"-->
+            <!--android:orientation="vertical"-->
+            <!--android:clickable="true"-->
+            <!--android:focusable="true"-->
+            <!--android:background="?attr/selectableItemBackground">-->
+            <!--<ImageView-->
+                <!--android:id="@+id/expanded_album_cover"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:scaleType="fitXY"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_margin="3dp"-->
+                <!--android:text="Artist"-->
+                <!--android:textSize="16dp"-->
+                <!--android:textColor="@android:color/white"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:text="Year"-->
+                <!--android:textSize="14dp"-->
+                <!--android:textColor="@color/colorPrimaryLight"/>-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="3dp"-->
+                <!--android:text="15 Songs"-->
+                <!--android:textSize="14dp"-->
+                <!--android:textColor="@color/colorPrimaryLight"/>-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:gravity="center_vertical">-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="3dp"-->
+                    <!--android:text="Genre"-->
+                    <!--android:textSize="14dp"-->
+                    <!--android:textColor="@color/colorPrimaryLight"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="3dp"-->
+                    <!--android:text="Genre2"-->
+                    <!--android:textSize="14dp"-->
+                    <!--android:textColor="@color/colorPrimaryLight"/>-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+        <!--<LinearLayout-->
+            <!--android:id="@+id/expanded_album_songs"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="vertical">-->
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="vertical"-->
+                <!--android:gravity="center_vertical">-->
+                <!--<TextView-->
+                    <!--android:id="@+id/album_name_expanded"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="16dp"-->
+                    <!--android:ellipsize="end"-->
+                    <!--android:maxLines="1"-->
+                    <!--android:text="Album Name"-->
+                    <!--android:textSize="30dp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="@android:color/white"/>-->
+                <!--</LinearLayout>-->
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/album_songs_list"-->
+                    <!--android:scrollbars="vertical"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="match_parent"/>-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+    <!--</android.support.v7.widget.CardView>-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/expanded_album_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:visibility="visible"
+        card_view:cardUseCompatPadding="false"
+        card_view:cardCornerRadius="0dp">
         <LinearLayout
-            android:id="@+id/expanded_album_card"
+            android:id="@+id/expanded_album_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone"
             android:background="@color/colorPrimary"
             android:gravity="center">
             <LinearLayout
@@ -61,15 +172,16 @@
                 android:background="?attr/selectableItemBackground">
                 <ImageView
                     android:id="@+id/expanded_album_cover"
-                    android:layout_width="90dp"
-                    android:layout_height="90dp"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
                     android:gravity="center_vertical"
                     android:scaleType="fitXY"/>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:paddingLeft="16dp"
+                    android:paddingLeft="24dp"
+                    android:paddingRight="16dp"
                     android:gravity="center_vertical">
                     <TextView
                         android:id="@+id/album_name_expanded"
@@ -77,31 +189,44 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:textSize="20dp"
+                        android:text="Album Name"
+                        android:textSize="30dp"
+                        android:textStyle="bold"
                         android:textColor="@android:color/white"/>
-                    <LinearLayout
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Artist"
-                            android:textSize="14dp"
-                            android:textColor="@color/colorPrimaryLight"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" | "
-                            android:textSize="14dp"
-                            android:textColor="@color/colorPrimaryLight"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Album"
-                            android:textSize="14dp"
-                            android:textColor="@color/colorPrimaryLight"/>
-                    </LinearLayout>
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="Artist"
+                        android:textSize="16dp"
+                        android:textColor="@color/colorPrimaryLight"/>
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="0dp"-->
+                        <!--android:orientation="horizontal">-->
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="Year"-->
+                            <!--android:textSize="16dp"-->
+                            <!--android:textColor="@color/colorPrimaryLight"/>-->
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text=" | "-->
+                            <!--android:textSize="16dp"-->
+                            <!--android:textColor="@color/colorPrimaryLight"/>-->
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:ellipsize="end"-->
+                            <!--android:maxLines="1"-->
+                            <!--android:text="Artist"-->
+                            <!--android:textSize="16dp"-->
+                            <!--android:textColor="@color/colorPrimaryLight"/>-->
+                    <!--</LinearLayout>-->
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
