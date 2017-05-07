@@ -16,9 +16,12 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.Main.MainActivity;
 import com.starkoverflow.chilloud.R;
+import com.starkoverflow.chilloud.Song.Song;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.ViewHolder> {
     private ArrayList<Album> albums;
@@ -34,31 +37,33 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         // each data item is just a string in this case
         public RecyclerView recyclerView;
         public TextView mTitle;
-        public TextView mTitleB;
         public ImageView collapsedCover;
         public CardView collapsedCard;
         public LinearLayout collapsedCardOverlay;
         public LinearLayout collapsedCardBG;
+        public TextView mTitleB;
         public ImageView expandedCover;
         public CardView expandedCard;
         public LinearLayout expandedCardHeader;
+        public TextView expandedCardArtist;
         public LinearLayout expandedCardSongs;
         public LinearLayout expandedCardBG;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
+            recyclerView = (RecyclerView) v.findViewById(R.id.albums_list);
             mTitle = (TextView) v.findViewById(R.id.album_name);
-            mTitleB = (TextView) v.findViewById(R.id.album_name_expanded);
             collapsedCover = (ImageView) v.findViewById(R.id.collapsed_album_cover);
             collapsedCard = (CardView) v.findViewById(R.id.collapsed_album_card);
             collapsedCardOverlay = (LinearLayout) v.findViewById(R.id.collapsed_album_card_overlay);
             collapsedCardBG = (LinearLayout) v.findViewById(R.id.collapsed_album_color);
+            mTitleB = (TextView) v.findViewById(R.id.album_name_expanded);
             expandedCover = (ImageView) v.findViewById(R.id.expanded_album_cover);
             expandedCard = (CardView) v.findViewById(R.id.expanded_album_card);
             expandedCardHeader = (LinearLayout) v.findViewById(R.id.expanded_album_card_header);
+            expandedCardArtist = (TextView) v.findViewById(R.id.album_artist);
             expandedCardSongs = (LinearLayout) v.findViewById(R.id.expanded_album_songs);
             expandedCardBG = (LinearLayout) v.findViewById(R.id.expanded_album_color);
-            recyclerView = (RecyclerView) v.findViewById(R.id.albums_list);
         }
     }
 
@@ -88,8 +93,9 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         View v = holder.itemView;
         holder.mTitle.setText(albums.get(position).getAlbum());
         holder.mTitleB.setText(albums.get(position).getAlbum());
+        holder.expandedCardArtist.setText(albums.get(position).getArtist());
 
-        if (albums.get(position).getArtPath() != null) {
+        if (albums.get(position).getCover() != null) {
             holder.collapsedCover.setImageBitmap(albums.get(position).getCover());
             holder.expandedCover.setImageBitmap(albums.get(position).getCover());
 //            holder.collapsedCover.setImageURI(Uri.parse(albums.get(position).getArtPath()));
@@ -122,7 +128,13 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         mRecyclerView = (RecyclerView) v.findViewById(R.id.album_songs_list);
         mLayoutManager = new LinearLayoutManager(v.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new AlbumsSongsListAdapter(albums.get(position).getSongs());
+        ArrayList<Song> songs = albums.get(position).getSongs();
+        Collections.sort(songs, new Comparator<Song>(){
+            public int compare(Song a, Song b){
+                return a.getTrack() - b.getTrack();
+            }
+        });
+        mAdapter = new AlbumsSongsListAdapter(songs);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(

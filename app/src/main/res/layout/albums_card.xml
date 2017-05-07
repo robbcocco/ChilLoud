@@ -153,7 +153,7 @@
         android:layout_height="match_parent"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
-        android:visibility="visible"
+        android:visibility="gone"
         card_view:cardUseCompatPadding="false"
         card_view:cardCornerRadius="0dp">
         <LinearLayout
@@ -177,23 +177,24 @@
                     android:gravity="center_vertical"
                     android:scaleType="fitXY"/>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_weight="5"
                     android:orientation="vertical"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="16dp"
-                    android:gravity="center_vertical">
+                    android:paddingTop="16dp"
+                    android:paddingLeft="16dp">
                     <TextView
                         android:id="@+id/album_name_expanded"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="Album Name"
+                        android:text="How to Be A Hum"
                         android:textSize="30dp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"/>
                     <TextView
+                        android:id="@+id/album_artist"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
@@ -201,33 +202,16 @@
                         android:text="Artist"
                         android:textSize="16dp"
                         android:textColor="@color/colorPrimaryLight"/>
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginTop="0dp"-->
-                        <!--android:orientation="horizontal">-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text="Year"-->
-                            <!--android:textSize="16dp"-->
-                            <!--android:textColor="@color/colorPrimaryLight"/>-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:text=" | "-->
-                            <!--android:textSize="16dp"-->
-                            <!--android:textColor="@color/colorPrimaryLight"/>-->
-                        <!--<TextView-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:ellipsize="end"-->
-                            <!--android:maxLines="1"-->
-                            <!--android:text="Artist"-->
-                            <!--android:textSize="16dp"-->
-                            <!--android:textColor="@color/colorPrimaryLight"/>-->
-                    <!--</LinearLayout>-->
                 </LinearLayout>
+                <ImageButton
+                    android:id="@+id/album_options"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_more_vert"
+                    android:tint="@color/colorPrimaryLight"
+                    style="@style/Widget.AppCompat.Button.Borderless"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/expanded_album_songs"

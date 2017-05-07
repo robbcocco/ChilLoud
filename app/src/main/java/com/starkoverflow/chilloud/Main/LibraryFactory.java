@@ -128,6 +128,8 @@ public class LibraryFactory implements Parcelable{
                     (MediaStore.Audio.Media.ARTIST);
             int trackColumn = libraryCursor.getColumnIndex
                     (MediaStore.Audio.Media.TRACK);
+            int durationColumn = libraryCursor.getColumnIndex
+                    (MediaStore.Audio.Media.DURATION);
             //add to list
             do {
                 if (libraryCursor.getLong(isMusicColumn) != 0) {
@@ -136,12 +138,14 @@ public class LibraryFactory implements Parcelable{
                     String trackAlbum = libraryCursor.getString(trackAlbumColumn);
                     String trackArtist = libraryCursor.getString(trackArtistColumn);
                     int track = libraryCursor.getInt(trackColumn);
-                    Song s = new Song(id, title, trackAlbum, trackArtist, track);
+                    int duration = libraryCursor.getInt(durationColumn);
+                    Song s = new Song(id, title, trackAlbum, trackArtist, track, duration);
                     if (!Song.contains(songsList, title, trackAlbum, trackArtist)) {
                         songsList.add(s);
                         for (Album item : albumsList) {
                             if (item.getAlbum().equals(trackAlbum) && item.getArtist().equals(trackArtist)) {
                                 item.addSong(s);
+                                s.addCover(item.getCover());
                             }
                         }
                     }

@@ -33,7 +33,8 @@ public class Artist implements Parcelable {
         this.artist=artist;
         this.albums=new ArrayList<Album>();
         String url=getArtistPicture(this.artist);
-//        this.cover=getBitmapFromURL("https://i.scdn.co/image/593a2eef7616479f4c6e0e055fb68b18216357a0");
+        this.cover=null;
+//        this.cover=getBitmapFromURL(url);
     }
 
     protected Artist(Parcel in) {

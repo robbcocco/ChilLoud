@@ -55,6 +55,11 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTitle.setText(artists.get(position).getArtist());
+        if (artists.get(position).getCover() != null) {
+            holder.artistPicture.setImageBitmap(artists.get(position).getCover());
+        } else {
+            holder.artistPicture.setImageResource(R.drawable.ic_people);
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
