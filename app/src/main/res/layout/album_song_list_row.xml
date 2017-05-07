@@ -2,35 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/album_song_row"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="8dp"
     android:paddingLeft="12dp"
+    android:paddingRight="8dp"
     android:paddingBottom="8dp"
     android:orientation="horizontal"
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackground">
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="48dp"-->
-        <!--android:orientation="vertical"-->
-        <!--android:gravity="center_vertical">-->
-        <!--<TextView-->
-            <!--android:id="@+id/song_title"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:ellipsize="end"-->
-            <!--android:maxLines="1"-->
-            <!--android:textSize="20dp"-->
-            <!--android:textColor="@android:color/white"/>-->
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="3:33"-->
-            <!--android:textSize="14dp"-->
-            <!--android:textColor="@color/colorPrimaryLight"/>-->
-    <!--</LinearLayout>-->
     <TextView
         android:id="@+id/album_song_number"
         android:layout_width="24dp"
@@ -43,7 +25,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="48dp"
-        android:layout_weight="8"
+        android:layout_weight="1"
         android:orientation="vertical"
         android:paddingLeft="32dp"
         android:paddingRight="8dp"
@@ -66,9 +48,8 @@
     </LinearLayout>
     <ImageButton
         android:id="@+id/album_song_options"
-        android:layout_width="0dp"
+        android:layout_width="24dp"
         android:layout_height="48dp"
-        android:layout_weight="1"
         android:layout_gravity="right"
         android:src="@drawable/ic_more_vert"
         style="@style/Widget.AppCompat.Button.Borderless"/>

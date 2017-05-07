@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -44,6 +45,11 @@ public class MainActivity extends AppCompatActivity
     MenuItem expandIcon;
     String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
     String deviceList[] = {"Local", "Desktop", "Chromecast"};
+
+    private ImageView playPause;
+    private AnimatedVectorDrawable playToPause;
+    private AnimatedVectorDrawable pauseToPlay;
+    private boolean play = true;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -216,6 +222,20 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
         );
+
+        playPause = (ImageView) findViewById(R.id.play_pause);
+        playToPause = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_play_pause);
+        pauseToPlay = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_pause_to_play);
+
+        playPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AnimatedVectorDrawable drawable = play ? playToPause : pauseToPlay;
+                playPause.setImageDrawable(drawable);
+                drawable.start();
+                play = !play;
+            }
+        });
     }
 
     @Override

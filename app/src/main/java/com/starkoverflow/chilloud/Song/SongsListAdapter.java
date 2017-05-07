@@ -1,10 +1,12 @@
 package com.starkoverflow.chilloud.Song;
 
 import android.graphics.Bitmap;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,17 +25,19 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         // each data item is just a string in this case
         public TextView mTitle;
         public TextView artist;
-//        public TextView album;
         public ImageView cover;
         public TextView duration;
+        public LinearLayout click;
+        public ImageButton options;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
             mTitle = (TextView) v.findViewById(R.id.song_title);
             artist = (TextView) v.findViewById(R.id.song_artist);
-//            album = (TextView) v.findViewById(R.id.song_album);
             cover = (ImageView) v.findViewById(R.id.song_cover);
             duration = (TextView) v.findViewById(R.id.song_duration);
+            click = (LinearLayout) v.findViewById(R.id.song_row);
+            options = (ImageButton) v.findViewById(R.id.song_options);
         }
     }
 
@@ -69,6 +73,21 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         } else {
             holder.cover.setImageResource(R.drawable.ic_album);
         }
+
+        holder.click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Play Song", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+        holder.options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "Options", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)

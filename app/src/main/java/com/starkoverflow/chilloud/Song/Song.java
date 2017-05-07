@@ -26,7 +26,7 @@ public class Song implements Parcelable {
         long minutes=TimeUnit.MILLISECONDS.toMinutes(duration);
         long seconds=TimeUnit.MILLISECONDS.toSeconds(duration) -
                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
-        this.duration=String.format(Locale.ENGLISH, "%d:%d", minutes, seconds);
+        this.duration=String.format(Locale.ENGLISH, "%d:%02d", minutes, seconds);
     }
 
     protected Song(Parcel in) {

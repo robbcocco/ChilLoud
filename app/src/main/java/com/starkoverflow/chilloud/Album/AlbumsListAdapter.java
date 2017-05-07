@@ -98,7 +98,6 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         if (albums.get(position).getCover() != null) {
             holder.collapsedCover.setImageBitmap(albums.get(position).getCover());
             holder.expandedCover.setImageBitmap(albums.get(position).getCover());
-//            holder.collapsedCover.setImageURI(Uri.parse(albums.get(position).getArtPath()));
         } else {
             holder.collapsedCover.setImageResource(R.drawable.ic_album);
             holder.expandedCover.setImageResource(R.drawable.ic_album);
@@ -110,15 +109,9 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
             if (primary != null) {
                 holder.collapsedCardBG.setBackgroundColor(primary.getRgb());
                 holder.expandedCardBG.setBackgroundColor(primary.getRgb());
-//                holder.card.setCardBackgroundColor(primary.getRgb());
-//                holder.collapsedCard.setCardBackgroundColor(primary.getRgb());
-//                holder.expandedCard.setCardBackgroundColor(primary.getRgb());
             } else if (secondary != null) {
                 holder.collapsedCardBG.setBackgroundColor(secondary.getRgb());
                 holder.expandedCardBG.setBackgroundColor(secondary.getRgb());
-//                holder.card.setCardBackgroundColor(secondary.getRgb());
-//                holder.collapsedCard.setCardBackgroundColor(secondary.getRgb());
-//                holder.expandedCard.setCardBackgroundColor(secondary.getRgb());
             } else {
                 holder.collapsedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimaryDark));
                 holder.expandedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimaryDark));
@@ -136,20 +129,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         });
         mAdapter = new AlbumsSongsListAdapter(songs);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        v.getContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Snackbar.make(view, "Do something", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
 
-        final RecyclerView view2 = (RecyclerView) v.findViewById(R.id.albums_list);
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
