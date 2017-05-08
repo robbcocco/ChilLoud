@@ -58,7 +58,8 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:layout_gravity="bottom"
-                app:srcCompat="@drawable/ic_expand_close" />
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/vd_checkable_expandcollapse_expanded" />
         </LinearLayout>
     </RelativeLayout>
 

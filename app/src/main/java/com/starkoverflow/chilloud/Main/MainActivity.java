@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity
         );
 
         playPause = (ImageView) findViewById(R.id.play_pause);
-        playToPause = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_play_pause);
+        playToPause = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_play_to_pause);
         pauseToPlay = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_pause_to_play);
 
         playPause.setOnClickListener(new View.OnClickListener() {
@@ -298,11 +298,11 @@ public class MainActivity extends AppCompatActivity
         expandableLayout.toggle();
         expandableLayoutB.toggle();
         if (expandableLayout.isExpanded()) {
-            expandIcon.setIcon(R.drawable.ic_expand_close);
+            expandIcon.setIcon(R.drawable.avd_checkable_expandcollapse_expanded_to_collapsed);
             expandableLayoutSB.expand();
         }
         else {
-            expandIcon.setIcon(R.drawable.ic_expand_open);
+            expandIcon.setIcon(R.drawable.avd_checkable_expandcollapse_collapsed_to_expanded);
             expandableLayoutSB.collapse();
         }
         Drawable drawable = expandIcon.getIcon();
@@ -317,10 +317,10 @@ public class MainActivity extends AppCompatActivity
         expandableLayout.toggle();
         ImageView icon = (ImageView) findViewById(R.id.drawer_icon);
         if (expandableLayout.isExpanded()) {
-            icon.setImageResource(R.drawable.ic_expand_close);
+            icon.setImageResource(R.drawable.avd_checkable_expandcollapse_expanded_to_collapsed);
         }
         else {
-            icon.setImageResource(R.drawable.ic_expand_open);
+            icon.setImageResource(R.drawable.avd_checkable_expandcollapse_collapsed_to_expanded);
         }
         Drawable drawable = icon.getDrawable();
         if (drawable instanceof Animatable) {

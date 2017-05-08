@@ -11,7 +11,7 @@
     <item
         android:id="@+id/action_expand"
         android:enabled="true"
-        android:icon="@drawable/ic_expand_open"
+        android:icon="@drawable/vd_checkable_expandcollapse_collapsed"
         android:title="@string/action_expand"
         app:showAsAction="ifRoom" />
 </menu>
