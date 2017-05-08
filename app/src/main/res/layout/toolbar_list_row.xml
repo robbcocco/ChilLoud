@@ -24,17 +24,20 @@
         android:orientation="vertical"
         android:paddingLeft="32dp"
         android:gravity="center_vertical">
+
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
             android:textSize="20dp"
-            android:textColor="@android:color/white"/>
+            tools:text="Library" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:textColor="@color/colorPrimaryLight"
             android:textSize="14dp"
-            android:textColor="@color/colorPrimaryLight"/>
+            tools:text="Description" />
     </LinearLayout>
 </LinearLayout>

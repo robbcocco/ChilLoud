@@ -26,14 +26,16 @@
                 android:layout_width="115dp"
                 android:layout_height="115dp"
                 android:scaleType="fitXY"/>
+
             <TextView
                 android:id="@+id/album_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@android:color/white"/>
+                android:padding="8dp"
+                android:textColor="@android:color/white"
+                tools:text="Album" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/collapsed_album_card_overlay"
