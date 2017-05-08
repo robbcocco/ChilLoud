@@ -82,16 +82,17 @@
                     android:orientation="vertical"
                     android:paddingTop="16dp"
                     android:paddingLeft="16dp">
+
                     <TextView
                         android:id="@+id/album_name_expanded"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="1"
-                        android:text="How to Be A Hum"
+                        android:textColor="@android:color/white"
                         android:textSize="30dp"
                         android:textStyle="bold"
-                        android:textColor="@android:color/white"/>
+                        tools:text="Album" />
                     <TextView
                         android:id="@+id/album_artist"
                         android:layout_width="wrap_content"
