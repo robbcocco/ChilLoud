@@ -4,14 +4,13 @@ package com.starkoverflow.chilloud.Album;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.Main.LibraryFactory;
+import com.starkoverflow.chilloud.classes.LibraryFactory;
 
 import java.util.ArrayList;
 

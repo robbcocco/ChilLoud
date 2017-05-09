@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.Main;
+package com.starkoverflow.chilloud.classes;
 
 import android.content.ContentResolver;
 import android.content.Context;

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Song.Song;
+import com.starkoverflow.chilloud.classes.PlaybackManager;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTitle.setText(songs.get(position).getTitle());
@@ -68,8 +69,7 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
         holder.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Play Song", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                PlaybackManager.playSong(v, songs.get(position));
             }
         });
         holder.options.setOnClickListener(new View.OnClickListener() {

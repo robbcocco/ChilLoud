@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.Main.LibraryFactory;
+import com.starkoverflow.chilloud.classes.LibraryFactory;
 
 import java.util.ArrayList;
 
@@ -19,7 +19,6 @@ public class SongsFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-//    String songList[] = {"Madre", "Benefit", "Pork Soda", "Pink Guy", "Mainstream", "Legendary Tales", "Queen"};
 
     /**
      * The fragment argument representing the section number for this
@@ -58,37 +57,6 @@ public class SongsFragment extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new SongsListAdapter(songs);
         mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.addOnItemTouchListener(
-//                new RecyclerItemClickListener(
-//                        getApplicationContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-//                    @Override public void onItemClick(View view, int position) {
-//                        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//                        toolbar.setTitle(dbList[position]);
-//                        toggleExpandedMenus();
-//                        switch (position) {
-//                            case 0:
-//                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                        .setAction("Action", null).show();
-//                                break;
-//                            case 1:
-//                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                        .setAction("Action", null).show();
-//                                break;
-//                            case 2:
-//                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                        .setAction("Action", null).show();
-//                                break;
-//                            case 3:
-//                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-//                                        .setAction("Action", null).show();
-//                                break;
-//                        }
-//                    }
-//                    @Override public void onLongItemClick(View view, int position) {
-//                        // do whatever
-//                    }
-//                })
-//        );
 
         return rootView;
     }

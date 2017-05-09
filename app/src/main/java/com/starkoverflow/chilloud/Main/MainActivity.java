@@ -32,6 +32,8 @@ import android.widget.TextView;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.starkoverflow.chilloud.R;
+import com.starkoverflow.chilloud.classes.LibraryFactory;
+import com.starkoverflow.chilloud.classes.PlaybackManager;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity
@@ -98,6 +100,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
         mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
+
+        PlaybackManager.setFooter(findViewById(R.id.footer));
 
         Log.d(TAG, "onCreate: makeSongList started");
         LibraryFactory.makeSongList(getContentResolver(), getApplicationContext());
@@ -223,19 +227,19 @@ public class MainActivity extends AppCompatActivity
                 })
         );
 
-        playPause = (ImageView) findViewById(R.id.play_pause);
-        playToPause = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_play_to_pause);
-        pauseToPlay = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_pause_to_play);
-
-        playPause.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AnimatedVectorDrawable drawable = play ? playToPause : pauseToPlay;
-                playPause.setImageDrawable(drawable);
-                drawable.start();
-                play = !play;
-            }
-        });
+//        playPause = (ImageView) findViewById(R.id.play_pause);
+//        playToPause = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_play_to_pause);
+//        pauseToPlay = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_pause_to_play);
+//
+//        playPause.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AnimatedVectorDrawable drawable = play ? playToPause : pauseToPlay;
+//                playPause.setImageDrawable(drawable);
+//                drawable.start();
+//                play = !play;
+//            }
+//        });
     }
 
     @Override

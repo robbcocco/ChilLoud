@@ -1,8 +1,12 @@
 package com.starkoverflow.chilloud.Song;
 
-import android.graphics.Bitmap;
+import android.content.ContentUris;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
+import com.starkoverflow.chilloud.classes.PlaybackManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
@@ -61,7 +67,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.mTitle.setText(songs.get(position).getTitle());
@@ -77,8 +83,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
         holder.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "Play Song", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                PlaybackManager.playSong(v, songs.get(position));
             }
         });
         holder.options.setOnClickListener(new View.OnClickListener() {
