@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 
 import com.github.kittinunf.fuel.Fuel;
@@ -16,8 +17,10 @@ import com.starkoverflow.chilloud.Album.Album;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,14 +28,16 @@ import java.util.ArrayList;
 public class Artist implements Parcelable {
     private long id;
     private String artist;
-    private Bitmap cover;
     private ArrayList<Album> albums;
+    private String url;
+    private Bitmap cover;
+    private Palette palette;
 
     public Artist(long songID, String artist) {
         id=songID;
         this.artist=artist;
         this.albums=new ArrayList<Album>();
-        String url=getArtistPicture(this.artist);
+        this.url=null;
         this.cover=null;
 //        this.cover=getBitmapFromURL(url);
     }
@@ -80,45 +85,59 @@ public class Artist implements Parcelable {
         return false;
     }
 
-    public static String getArtistPicture(String artist) {
-        final String[] url = {null};
-        Fuel.get("https://api.spotify.com/v1/search?query="+artist+"&type=artist&market=IT&offset=0&limit=20").responseString(new Handler<String>() {
-            @Override
-            public void success(@NotNull Request request, @NotNull Response response, String s) {
-                try {
-                    JSONObject obj = new JSONObject(s);
-                    String picUrl = obj.getJSONObject("artists").getJSONArray("items").getJSONObject(0).getJSONArray("images").getJSONObject(0).getString("url");
-                    Log.d("Artist class", "success: " + picUrl);
-                    url[0] = picUrl;
-                } catch (Throwable t) {
-                    Log.e("My App", "Could not parse malformed JSON: \"" + s + "\"");
-                }
-            }
-            @Override
-            public void failure(@NotNull Request request, @NotNull Response response, @NotNull FuelError fuelError) {
-            }
-        });
-        return url[0];
-    }
-
-    public static Bitmap getBitmapFromURL(final String imgUrl) {
+    public void getArtistUrl() {
         try {
-            URL url = new URL(imgUrl);
+            URL url = new URL("https://api.spotify.com/v1/search?query="+this.artist+"&type=artist&market=IT&offset=0&limit=20");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);
             connection.connect();
             InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            Log.d("bitmap from url", "success: " + imgUrl);
-            return myBitmap;
-        } catch (IOException e) {
-            Log.d("bitmap from url", "diocan");
-            return null;
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+            StringBuffer buffer = new StringBuffer();
+            String line = "";
+
+            while ((line = reader.readLine()) != null) {
+                buffer.append(line+"\n");
+                Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+            }
+            String s = buffer.toString();
+            JSONObject obj = new JSONObject(s);
+            String picUrl = obj.getJSONObject("artists").getJSONArray("items").getJSONObject(0).getJSONArray("images").getJSONObject(0).getString("url");
+            Log.d("bitmap from url", "success: " + this.url);
+            this.url=picUrl;
+        } catch (Throwable t) {
+            Log.d("bitmap from url", "ops " + this.url);
+            this.url=null;
         }
+    }
+
+    public void getBitmapFromURL() {
+        try {
+            URL url = new URL(this.url);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap cover = BitmapFactory.decodeStream(input);
+            Log.d("bitmap from url", "success: " + this.url);
+            this.cover = cover;
+            this.palette = createPaletteSync(this.cover);
+        } catch (IOException e) {
+            Log.d("bitmap from url", "ops " + this.url);
+            this.cover=null;
+        }
+    }
+
+    public Palette createPaletteSync(Bitmap bitmap) {
+        Palette p = Palette.from(bitmap).generate();
+        return p;
     }
 
     public long getID(){return id;}
     public String getArtist(){return artist;}
-    public Bitmap getCover(){return cover;}
     public ArrayList<Album> getAlbum(){return albums;}
+    public String getUrl(){return url;}
+    public Bitmap getCover(){return cover;}
+    public Palette getPalette(){return palette;}
 }

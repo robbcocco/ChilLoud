@@ -57,6 +57,7 @@
             android:id="@+id/expanded_album_color"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingBottom="5dp"
             android:orientation="vertical"
             android:background="@color/colorPrimary"
             android:gravity="center">

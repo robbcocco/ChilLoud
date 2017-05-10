@@ -95,6 +95,9 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         holder.expandedCardTitle.setText(albums.get(position).getAlbum());
         holder.expandedCardArtist.setText(albums.get(position).getArtist());
 
+        holder.collapsedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimary));
+        holder.expandedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimary));
+
         if (albums.get(position).getCover() != null) {
             holder.collapsedCardCover.setImageBitmap(albums.get(position).getCover());
             holder.expandedCardCover.setImageBitmap(albums.get(position).getCover());
@@ -112,9 +115,6 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
             } else if (secondary != null) {
                 holder.collapsedCardBG.setBackgroundColor(secondary.getRgb());
                 holder.expandedCardBG.setBackgroundColor(secondary.getRgb());
-            } else {
-                holder.collapsedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimaryDark));
-                holder.expandedCardBG.setBackgroundColor(v.getContext().getColor(R.color.colorPrimaryDark));
             }
         }
 
@@ -133,19 +133,40 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                holder.collapsedCard.setVisibility(View.GONE);
+//                holder.expandedCard.setVisibility(View.VISIBLE);
+//                AlbumsFragment.adjustSpanSize(position);
+////                AlbumsFragment.adjustSpanSizeB();
+            }
+        });
+        holder.collapsedCardOverlay.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 holder.collapsedCard.setVisibility(View.GONE);
                 holder.expandedCard.setVisibility(View.VISIBLE);
                 AlbumsFragment.adjustSpanSize(position);
 //                AlbumsFragment.adjustSpanSizeB();
+                return false;
             }
         });
+
         holder.expandedCardHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                holder.collapsedCard.setVisibility(View.VISIBLE);
+//                holder.expandedCard.setVisibility(View.GONE);
+//                AlbumsFragment.adjustSpanSize(position);
+////                AlbumsFragment.adjustSpanSizeB();
+            }
+        });
+        holder.expandedCardHeader.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 holder.collapsedCard.setVisibility(View.VISIBLE);
                 holder.expandedCard.setVisibility(View.GONE);
                 AlbumsFragment.adjustSpanSize(position);
 //                AlbumsFragment.adjustSpanSizeB();
+                return false;
             }
         });
     }

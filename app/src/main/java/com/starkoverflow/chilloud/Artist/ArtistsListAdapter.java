@@ -1,5 +1,9 @@
 package com.starkoverflow.chilloud.Artist;
 
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.support.v7.graphics.Palette;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,7 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
@@ -21,12 +26,14 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView mTitle;
+        public CardView artistCard;
+        public TextView artist;
         public ImageView artistPicture;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
-            mTitle = (TextView) v.findViewById(R.id.artist_name);
+            artistCard = (CardView) v.findViewById(R.id.artist_card);
+            artist = (TextView) v.findViewById(R.id.artist_name);
             artistPicture = (ImageView) v.findViewById(R.id.artist_picture);
         }
     }
@@ -54,17 +61,56 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(artists.get(position).getArtist());
-        if (artists.get(position).getCover() != null) {
-            holder.artistPicture.setImageBitmap(artists.get(position).getCover());
-        } else {
-            holder.artistPicture.setImageResource(R.drawable.ic_people);
-        }
+        holder.artist.setText(artists.get(position).getArtist());
+        holder.artistPicture.setImageResource(R.drawable.ic_people);
+
+        FetchArtistInfo fetcher = new FetchArtistInfo();
+        fetcher.artistCard=holder.artistCard;
+        fetcher.artistPicture=holder.artistPicture;
+        fetcher.execute(artists.get(position));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
         return artists.size();
+    }
+
+    private class FetchArtistInfo extends AsyncTask<Artist, Integer, Artist> {
+        CardView artistCard;
+        ImageView artistPicture;
+        // Do the long-running work in here
+        protected Artist doInBackground(Artist... artists) {
+            int count = artists.length;
+            for (int i = 0; i < count; i++) {
+                artists[i].getArtistUrl();
+                artists[i].getBitmapFromURL();
+                // Escape early if cancel() is called
+                if (isCancelled()) break;
+
+                return artists[i];
+            }
+            return null;
+        }
+
+        // This is called each time you call publishProgress()
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        // This is called when doInBackground() is finished
+        protected void onPostExecute(Artist artist) {
+            if (artist.getCover() != null) {
+                artistPicture.setImageBitmap(artist.getCover());
+
+                Palette.Swatch primary = artist.getPalette().getDarkMutedSwatch();
+                Palette.Swatch secondary = artist.getPalette().getDarkVibrantSwatch();
+                if (primary != null) {
+                    artistCard.setCardBackgroundColor(primary.getRgb());
+                } else if (secondary != null) {
+                    artistCard.setCardBackgroundColor(secondary.getRgb());
+                }
+            }
+        }
     }
 }
