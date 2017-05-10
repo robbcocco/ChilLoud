@@ -3,8 +3,10 @@ package com.starkoverflow.chilloud.Album;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 public class AlbumsFragment extends Fragment {
 
     private static RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private static RecyclerView.Adapter mAdapter;
     private static GridLayoutManager mLayoutManager;
     static boolean[] cardExpandedState;
 //    static ArrayList<Boolean> cardExpandedState = new ArrayList<Boolean>();
@@ -82,17 +84,21 @@ public class AlbumsFragment extends Fragment {
             cardExpandedState[position]=false;
         } else {
             cardExpandedState[position]=true;
+
             // Scroll to card when expanding
-            View test = mRecyclerView.getLayoutManager().findViewByPosition(position);
-            RecyclerView test2 = (RecyclerView) test.findViewById(R.id.album_songs_list);
-            test2.smoothScrollToPosition(0);
+//            View test = mRecyclerView.getChildAt(position);
+//            View test = mRecyclerView.getLayoutManager().findViewByPosition(position);
+//            RecyclerView test2 = (RecyclerView) test.findViewById(R.id.album_songs_list);
+//            test2.smoothScrollToPosition(0);
 
 //            mRecyclerView.smoothScrollToPosition(position);
 //            ((LinearLayoutManager) mRecyclerView.getLayoutManager()).scrollToPositionWithOffset(position, 0);
         }
+
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
+                Log.d("Adjust grid A ", position + "");
                 if (cardExpandedState[position])
                     return mLayoutManager.getSpanCount();
                 else
@@ -102,11 +108,15 @@ public class AlbumsFragment extends Fragment {
         mLayoutManager.requestLayout();
     }
 
-    public static void adjustSpanSizeB(final AlbumsListAdapter.ViewHolder holder) {
+    public static void adjustSpanSizeB() {
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (holder.collapsedCard.getVisibility() == View.GONE)
+                View v = mRecyclerView.getChildAt(position);
+                Log.d("Adjust grid B ", position + " " + v.getId());
+                CardView collapsedCard = (CardView) v.findViewById(R.id.collapsed_album_card);
+                Log.d("Adjust grid B ", " " + collapsedCard.getId());
+                if (collapsedCard.getVisibility() == View.GONE)
                     return mLayoutManager.getSpanCount();
                 else
                     return 1;

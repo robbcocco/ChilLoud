@@ -31,30 +31,35 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public RecyclerView recyclerView;
-        public TextView mTitle;
-        public ImageView collapsedCover;
+
         public CardView collapsedCard;
+        public TextView collapsedCardTitle;
+        public ImageView collapsedCardCover;
         public LinearLayout collapsedCardOverlay;
         public LinearLayout collapsedCardBG;
-        public TextView mTitleB;
-        public ImageView expandedCover;
+
         public CardView expandedCard;
+        public TextView expandedCardTitle;
+        public ImageView expandedCardCover;
         public LinearLayout expandedCardHeader;
         public TextView expandedCardArtist;
         public LinearLayout expandedCardSongs;
         public LinearLayout expandedCardBG;
+
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
             recyclerView = (RecyclerView) v.findViewById(R.id.albums_list);
-            mTitle = (TextView) v.findViewById(R.id.album_name);
-            collapsedCover = (ImageView) v.findViewById(R.id.collapsed_album_cover);
+
             collapsedCard = (CardView) v.findViewById(R.id.collapsed_album_card);
+            collapsedCardTitle = (TextView) v.findViewById(R.id.album_name);
+            collapsedCardCover = (ImageView) v.findViewById(R.id.collapsed_album_cover);
             collapsedCardOverlay = (LinearLayout) v.findViewById(R.id.collapsed_album_card_overlay);
             collapsedCardBG = (LinearLayout) v.findViewById(R.id.collapsed_album_color);
-            mTitleB = (TextView) v.findViewById(R.id.album_name_expanded);
-            expandedCover = (ImageView) v.findViewById(R.id.expanded_album_cover);
+
             expandedCard = (CardView) v.findViewById(R.id.expanded_album_card);
+            expandedCardTitle = (TextView) v.findViewById(R.id.album_name_expanded);
+            expandedCardCover = (ImageView) v.findViewById(R.id.expanded_album_cover);
             expandedCardHeader = (LinearLayout) v.findViewById(R.id.expanded_album_card_header);
             expandedCardArtist = (TextView) v.findViewById(R.id.album_artist);
             expandedCardSongs = (LinearLayout) v.findViewById(R.id.expanded_album_songs);
@@ -86,21 +91,21 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         View v = holder.itemView;
-        holder.mTitle.setText(albums.get(position).getAlbum());
-        holder.mTitleB.setText(albums.get(position).getAlbum());
+        holder.collapsedCardTitle.setText(albums.get(position).getAlbum());
+        holder.expandedCardTitle.setText(albums.get(position).getAlbum());
         holder.expandedCardArtist.setText(albums.get(position).getArtist());
 
         if (albums.get(position).getCover() != null) {
-            holder.collapsedCover.setImageBitmap(albums.get(position).getCover());
-            holder.expandedCover.setImageBitmap(albums.get(position).getCover());
+            holder.collapsedCardCover.setImageBitmap(albums.get(position).getCover());
+            holder.expandedCardCover.setImageBitmap(albums.get(position).getCover());
         } else {
-            holder.collapsedCover.setImageResource(R.drawable.ic_album);
-            holder.expandedCover.setImageResource(R.drawable.ic_album);
+            holder.collapsedCardCover.setImageResource(R.drawable.ic_album);
+            holder.expandedCardCover.setImageResource(R.drawable.ic_album);
         }
 
         if (albums.get(position).getPalette() != null) {
-            Palette.Swatch primary = albums.get(position).getPalette().getMutedSwatch();
-            Palette.Swatch secondary = albums.get(position).getPalette().getDarkMutedSwatch();
+            Palette.Swatch primary = albums.get(position).getPalette().getDarkMutedSwatch();
+            Palette.Swatch secondary = albums.get(position).getPalette().getMutedSwatch();
             if (primary != null) {
                 holder.collapsedCardBG.setBackgroundColor(primary.getRgb());
                 holder.expandedCardBG.setBackgroundColor(primary.getRgb());
@@ -131,6 +136,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
                 holder.collapsedCard.setVisibility(View.GONE);
                 holder.expandedCard.setVisibility(View.VISIBLE);
                 AlbumsFragment.adjustSpanSize(position);
+//                AlbumsFragment.adjustSpanSizeB();
             }
         });
         holder.expandedCardHeader.setOnClickListener(new View.OnClickListener() {
@@ -139,6 +145,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
                 holder.collapsedCard.setVisibility(View.VISIBLE);
                 holder.expandedCard.setVisibility(View.GONE);
                 AlbumsFragment.adjustSpanSize(position);
+//                AlbumsFragment.adjustSpanSizeB();
             }
         });
     }

@@ -23,7 +23,7 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        public TextView mTitle;
+        public TextView title;
         public TextView track;
         public TextView duration;
         public LinearLayout click;
@@ -31,7 +31,7 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
-            mTitle = (TextView) v.findViewById(R.id.album_song_title);
+            title = (TextView) v.findViewById(R.id.album_song_title);
             track = (TextView) v.findViewById(R.id.album_song_number);
             duration = (TextView) v.findViewById(R.id.album_song_duration);
             click = (LinearLayout) v.findViewById(R.id.album_song_row);
@@ -62,8 +62,9 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(songs.get(position).getTitle());
-        holder.track.setText("" + songs.get(position).getTrack());
+        holder.title.setText(songs.get(position).getTitle());
+        holder.track.setText(Integer.toString(position+1));
+//        holder.track.setText(Integer.toString(songs.get(position).getTrack()));
         holder.duration.setText(songs.get(position).getDuration());
 
         holder.click.setOnClickListener(new View.OnClickListener() {
