@@ -105,7 +105,7 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
 
         if (albums.get(position).getPalette() != null) {
             Palette.Swatch primary = albums.get(position).getPalette().getDarkMutedSwatch();
-            Palette.Swatch secondary = albums.get(position).getPalette().getMutedSwatch();
+            Palette.Swatch secondary = albums.get(position).getPalette().getDarkVibrantSwatch();
             if (primary != null) {
                 holder.collapsedCardBG.setBackgroundColor(primary.getRgb());
                 holder.expandedCardBG.setBackgroundColor(primary.getRgb());

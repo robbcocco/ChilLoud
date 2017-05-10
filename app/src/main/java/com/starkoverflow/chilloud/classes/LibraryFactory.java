@@ -145,7 +145,8 @@ public class LibraryFactory implements Parcelable{
                         for (Album item : albumsList) {
                             if (item.getAlbum().equals(trackAlbum) && item.getArtist().equals(trackArtist)) {
                                 item.addSong(s);
-                                s.addCover(item.getCover());
+                                if (item.getCover() != null)
+                                    s.addCover(item.getCover());
                             }
                         }
                     }

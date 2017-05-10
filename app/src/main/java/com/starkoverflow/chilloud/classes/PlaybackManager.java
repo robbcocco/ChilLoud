@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.graphics.Palette;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -40,21 +41,21 @@ public class PlaybackManager {
     }
 
     public static void playSong(View v, Song song) {
-        PlaybackManager.song=song;
-        long id = song.getID();
-        Uri contentUri = ContentUris.withAppendedId(
-                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
-
-        MediaPlayer mMediaPlayer = new MediaPlayer();
-        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-        try {
-            mMediaPlayer.setDataSource(footer.getContext(), contentUri);
+//        PlaybackManager.song=song;
+//        long id = song.getID();
+//        Uri contentUri = ContentUris.withAppendedId(
+//                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
+//
+//        MediaPlayer mMediaPlayer = new MediaPlayer();
+//        mMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+//        try {
+//            mMediaPlayer.setDataSource(footer.getContext(), contentUri);
 //            mMediaPlayer.start();
-            Log.d("oiiiiiiiiiiiiiiiii", "Si" + id);
-        } catch (IOException e) {
-            Log.d("oiiiiiiiiiiiiiiiii", "Si");
-            e.printStackTrace();
-        }
+//            Log.d("Manager", "Y " + id);
+//        } catch (IOException e) {
+//            Log.d("Manager", "N");
+//            e.printStackTrace();
+//        }
 
         if (footer.getVisibility() == View.GONE)
             footer.setVisibility(View.VISIBLE);
@@ -67,9 +68,13 @@ public class PlaybackManager {
         title.setText(song.getTitle());
         album.setText(song.getAlbum());
         artist.setText(song.getArtist());
-        cover.setImageBitmap(song.getCover());
+        if (song.getCover() != null) {
+            cover.setImageBitmap(song.getCover());
+        } else {
+            cover.setImageResource(R.drawable.ic_album);
+        }
 
-        AnimatedVectorDrawable drawable = playToPause;;
+        AnimatedVectorDrawable drawable = playToPause;
         if (play) {
             playPause.setImageDrawable(drawable);
             drawable.start();

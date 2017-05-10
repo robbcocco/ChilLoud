@@ -3,6 +3,7 @@ package com.starkoverflow.chilloud.Song;
 import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v7.graphics.Palette;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -16,6 +17,7 @@ public class Song implements Parcelable {
     private int track;
     private String duration;
     private Bitmap cover;
+    private Palette palette;
 
     public Song(long songID, String title, String album, String artist, int track, int duration) {
         id=songID;
@@ -27,6 +29,8 @@ public class Song implements Parcelable {
         long seconds=TimeUnit.MILLISECONDS.toSeconds(duration) -
                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
         this.duration=String.format(Locale.ENGLISH, "%d:%02d", minutes, seconds);
+        this.cover=null;
+        this.palette=null;
     }
 
     protected Song(Parcel in) {
@@ -76,6 +80,12 @@ public class Song implements Parcelable {
 
     public void addCover(Bitmap cover) {
         this.cover=cover;
+        this.palette=createPaletteSync(cover);
+    }
+
+    public Palette createPaletteSync(Bitmap bitmap) {
+        Palette p = Palette.from(bitmap).generate();
+        return p;
     }
 
     public long getID(){return id;}
@@ -85,4 +95,5 @@ public class Song implements Parcelable {
     public int getTrack(){return track;}
     public String getDuration(){return duration;}
     public Bitmap getCover(){return cover;}
+    public Palette getPalette(){return palette;}
 }
