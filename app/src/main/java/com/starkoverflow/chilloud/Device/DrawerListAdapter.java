@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.Main;
+package com.starkoverflow.chilloud.Device;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,8 +7,10 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
+import java.util.ArrayList;
+
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.ViewHolder> {
-    private String[] mDataset;
+    private ArrayList<DeviceFactory> devices;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -24,8 +26,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Vi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public DrawerListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public DrawerListAdapter(ArrayList<DeviceFactory> devices) {
+        this.devices=devices;
     }
 
     // Create new views (invoked by the layout manager)
@@ -46,13 +48,13 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTextView.setText(mDataset[position]);
+        holder.mTextView.setText(devices.get(position).getName());
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return devices.size();
     }
 }

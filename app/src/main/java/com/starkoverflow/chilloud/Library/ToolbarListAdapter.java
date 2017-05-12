@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.Main;
+package com.starkoverflow.chilloud.Library;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 
+import java.util.ArrayList;
+
 public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.ViewHolder> {
-    private String[] mDataset;
+    private ArrayList<LibraryFactory> library;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -26,8 +28,8 @@ public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ToolbarListAdapter(String[] myDataset) {
-        mDataset = myDataset;
+    public ToolbarListAdapter(ArrayList<LibraryFactory> library) {
+        this.library=library;
     }
 
     // Create new views (invoked by the layout manager)
@@ -48,13 +50,13 @@ public class ToolbarListAdapter extends RecyclerView.Adapter<ToolbarListAdapter.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(mDataset[position]);
+        holder.mTitle.setText(library.get(position).getName());
 
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return library.size();
     }
 }

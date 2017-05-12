@@ -15,7 +15,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,8 +30,11 @@ import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
+import com.starkoverflow.chilloud.Device.DrawerListAdapter;
+import com.starkoverflow.chilloud.Library.ToolbarListAdapter;
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.classes.LibraryFactory;
+import com.starkoverflow.chilloud.Device.DeviceFactory;
+import com.starkoverflow.chilloud.Library.LibraryFactory;
 import com.starkoverflow.chilloud.classes.PlaybackManager;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
@@ -45,17 +47,17 @@ public class MainActivity extends AppCompatActivity
     private ViewPager mViewPager;
     SlidingTabLayout tabLayout;
     MenuItem expandIcon;
-    String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
-    String deviceList[] = {"Local", "Desktop", "Chromecast"};
+//    String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
+//    String deviceList[] = {"Local", "Desktop", "Chromecast"};
 
     private ImageView playPause;
     private AnimatedVectorDrawable playToPause;
     private AnimatedVectorDrawable pauseToPlay;
     private boolean play = true;
 
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView toolbarRecyclerView;
+    private RecyclerView.Adapter toolbarAdapter;
+    private RecyclerView.LayoutManager toolbarLayoutManager;
     private RecyclerView drawerRecyclerView;
     private RecyclerView.Adapter drawerAdapter;
     private RecyclerView.LayoutManager drawerLayoutManager;
@@ -95,17 +97,16 @@ public class MainActivity extends AppCompatActivity
 //            }
         }
 
+        LibraryFactory.makeMediaLibrary("Local", getContentResolver(), getApplicationContext());
+        DeviceFactory.createDevice("Local", null);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(dbList[0]);
+        toolbar.setTitle("Local");
         setSupportActionBar(toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
+        toolbarRecyclerView = (RecyclerView) findViewById(R.id.toolbar_list);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawer_list);
 
         PlaybackManager.setFooter(findViewById(R.id.footer));
-
-        Log.d(TAG, "onCreate: makeSongList started");
-        LibraryFactory.makeSongList(getContentResolver(), getApplicationContext());
-        Log.d(TAG, "onCreate: makeSongList done");
 
         // Sliding Tab Layout
         // Create the adapter that will return a fragment for each of the three
@@ -151,36 +152,20 @@ public class MainActivity extends AppCompatActivity
 
         // List in the expanded toolbar
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        toolbarLayoutManager = new LinearLayoutManager(this);
+        toolbarRecyclerView.setLayoutManager(toolbarLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new ToolbarListAdapter(dbList);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnItemTouchListener(
+        toolbarAdapter = new ToolbarListAdapter(LibraryFactory.getLibrary());
+        toolbarRecyclerView.setAdapter(toolbarAdapter);
+        toolbarRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(
-                        getApplicationContext(), mRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                        getApplicationContext(), toolbarRecyclerView,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
                         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                        toolbar.setTitle(dbList[position]);
+                        toolbar.setTitle(LibraryFactory.getLibrary().get(position).getName());
                         toggleExpandedMenus();
-                        switch (position) {
-                            case 0:
-                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                break;
-                            case 1:
-                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                break;
-                            case 2:
-                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                break;
-                            case 3:
-                                Snackbar.make(view, dbList[position], Snackbar.LENGTH_LONG)
-                                        .setAction("Action", null).show();
-                                break;
-                        }
+                        Snackbar.make(view, LibraryFactory.getLibrary().get(position).getName(), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         // do whatever
@@ -211,7 +196,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayoutManager = new LinearLayoutManager(this);
         drawerRecyclerView.setLayoutManager(drawerLayoutManager);
         // specify an adapter (see also next example)
-        drawerAdapter = new DrawerListAdapter(deviceList);
+        drawerAdapter = new DrawerListAdapter(DeviceFactory.getDevices());
         drawerRecyclerView.setAdapter(drawerAdapter);
         drawerRecyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(
@@ -219,7 +204,14 @@ public class MainActivity extends AppCompatActivity
                     @Override public void onItemClick(View view, int position) {
                         toggleDrawerMenu();
                         TextView drawerText = (TextView) findViewById(R.id.drawer_text);
-                        drawerText.setText(deviceList[position]);
+                        ImageView drawerPicture = (ImageView) findViewById(R.id.drawer_picture);
+
+                        drawerText.setText(DeviceFactory.getDevices().get(position).getName());
+                        if (DeviceFactory.getDevices().get(position).getPicture() != null) {
+                            drawerPicture.setImageBitmap(DeviceFactory.getDevices().get(position).getPicture());
+                        } else {
+                            drawerPicture.setImageDrawable(getDrawable(R.drawable.ic_phone));
+                        }
                     }
                     @Override public void onLongItemClick(View view, int position) {
                         // do whatever

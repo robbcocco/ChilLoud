@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.classes;
+package com.starkoverflow.chilloud.Library;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -18,14 +18,16 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class LibraryFactory implements Parcelable{
-    private static final String TAG = "Library Factory";
+    private static ArrayList<LibraryFactory> library = new ArrayList<LibraryFactory>();
+    private static final String TAG = "Media Factory";
+
+    private String name;
     private ArrayList<Artist> artists;
     private ArrayList<Album> albums;
     private ArrayList<Song> songs;
 
-    private static ArrayList<LibraryFactory> library = new ArrayList<LibraryFactory>();
-
-    public LibraryFactory(ArrayList<Artist> artists, ArrayList<Album> albums, ArrayList<Song> songs) {
+    public LibraryFactory(String name, ArrayList<Artist> artists, ArrayList<Album> albums, ArrayList<Song> songs) {
+        this.name=name;
         this.artists=artists;
         this.albums=albums;
         this.songs=songs;
@@ -49,7 +51,7 @@ public class LibraryFactory implements Parcelable{
         }
     };
 
-    public static void makeSongList(ContentResolver musicResolver, Context context) {
+    public static void makeMediaLibrary(String name, ContentResolver musicResolver, Context context) {
         Uri musicUri = android.provider.MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
         Cursor libraryCursor = musicResolver.query(musicUri, null, null, null, null);
 
@@ -57,7 +59,7 @@ public class LibraryFactory implements Parcelable{
         ArrayList<Album> albumsList = new ArrayList<Album>();
         ArrayList<Song> songsList = new ArrayList<Song>();
 
-        Log.d(TAG, "makeSongList: library cursor");
+        Log.d(TAG, "makeMediaLibrary: library cursor");
         if(libraryCursor!=null && libraryCursor.moveToFirst()){
             //get columns
             int artistIdColumn = libraryCursor.getColumnIndex
@@ -97,7 +99,7 @@ public class LibraryFactory implements Parcelable{
                 String artPath = null;
                 if (artColumn >= 0)
                     artPath = libraryCursor.getString(artColumn);
-                Log.d(TAG, "makeSongList: artPath" + artPath);
+                Log.d(TAG, "makeMediaLibrary: artPath" + artPath);
                 if (!Album.contains(albumsList, album, albumArtist)) {
                     Album a = new Album(albumId, album, albumArtist, artPath);
                     albumsList.add(a);
@@ -155,7 +157,7 @@ public class LibraryFactory implements Parcelable{
             while (libraryCursor.moveToNext());
         }
 
-        Log.d(TAG, "makeSongList: adding library");
+        Log.d(TAG, "makeMediaLibrary: sorting library");
         Collections.sort(artistsList, new Comparator<Artist>(){
             public int compare(Artist a, Artist b){
                 return a.getArtist().compareTo(b.getArtist());
@@ -171,12 +173,17 @@ public class LibraryFactory implements Parcelable{
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
-        library.add(new LibraryFactory(artistsList, albumsList, songsList));
-        Log.d(TAG, "makeSongList: library added");
+
+        library.add(new LibraryFactory(name, artistsList, albumsList, songsList));
+        Log.d(TAG, "makeMediaLibrary: library added");
     }
 
     public static ArrayList<LibraryFactory> getLibrary() {
         return library;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public ArrayList<Artist> getArtists() {

@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.starkoverflow.chilloud.Album.AlbumsFragment;
 import com.starkoverflow.chilloud.Artist.ArtistsFragment;
-import com.starkoverflow.chilloud.classes.LibraryFactory;
+import com.starkoverflow.chilloud.Library.LibraryFactory;
 import com.starkoverflow.chilloud.Song.SongsFragment;
 
 /**
