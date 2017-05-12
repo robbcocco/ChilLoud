@@ -17,6 +17,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -326,6 +327,13 @@ public class MainActivity extends AppCompatActivity
             Bundle extras = data.getExtras();
             DeviceFactory.createDevice((String) extras.get("name"), (Bitmap) extras.get("picture"));
             drawerAdapter.notifyItemInserted(DeviceFactory.getDevices().size() -1);
+//            ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
+//                    findViewById(R.id.expandableLayoutDrawer);
+//            TextView row = (TextView) findViewById(R.id.drawer_list_row);
+//            Log.d(TAG, "onActivityResult: " + row.getHeight());
+//            expandableLayout.setMinimumHeight((row.getMaxHeight() * DeviceFactory.getDevices().size()));
+//            Log.d(TAG, "onActivityResult: " + DeviceFactory.getDevices().size());
+//            Log.d(TAG, "onActivityResult: " + expandableLayout.getHeight());
         }
     }
 

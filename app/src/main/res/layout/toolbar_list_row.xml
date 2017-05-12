@@ -13,7 +13,7 @@
     android:focusable="true"
     android:background="?attr/selectableItemBackground">
     <ImageView
-        android:id="@+id/drawer_icon"
+        android:id="@+id/toolbar_icon"
         android:layout_width="24dp"
         android:layout_height="48dp"
         android:gravity="center_vertical"
@@ -31,6 +31,7 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/white"
             android:textSize="20dp"
+            android:maxLines="1"
             tools:text="Library" />
 
         <TextView
@@ -38,6 +39,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="14dp"
+            android:maxLines="1"
             tools:text="Description" />
     </LinearLayout>
 </LinearLayout>
