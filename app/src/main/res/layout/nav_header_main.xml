@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:tint="@android:color/white"
-                app:srcCompat="@drawable/vd_checkable_expandcollapse_expanded" />
+                app:srcCompat="@drawable/vd_checkable_expandcollapse_collapsed" />
         </LinearLayout>
     </RelativeLayout>
 

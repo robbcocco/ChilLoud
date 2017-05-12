@@ -21,69 +21,45 @@
             android:background="@color/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        <LinearLayout
             android:id="@+id/expandableLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            app:ael_expanded="false"
-            app:ael_duration="300"
-            app:ael_interpolator="linear"
-            app:ael_orientation="vertical"
+            android:layout_height="192dp"
+            android:visibility="gone"
+            android:background="@color/colorPrimaryDark"
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
-
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/toolbar_list"
+                android:scrollbars="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/toolbar_list"
-                    android:scrollbars="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark"/>
-            </LinearLayout>
+                android:background="@color/colorPrimaryDark"/>
+        </LinearLayout>
 
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
-        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        <LinearLayout
             android:id="@+id/expandableLayoutB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:background="@color/colorPrimary"
-            app:ael_expanded="false"
-            app:ael_duration="300"
-            app:ael_interpolator="linear"
-            app:ael_orientation="vertical"
+            android:gravity="end"
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/expanded_menu_settings"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end">
-                    <Button
-                        android:id="@+id/expanded_menu_settings"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="0dp"
-                        android:textColor="@android:color/white"
-                        android:textSize="15dp"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        android:text="@string/action_settings"
-                        style="?android:attr/borderlessButtonStyle" />
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_margin="0dp"
+                android:textColor="@android:color/white"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:text="Add library"
+                style="?android:attr/borderlessButtonStyle" />
+        </LinearLayout>
 
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
-        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+        <LinearLayout
             android:id="@+id/expandableLayoutSB"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,116 +70,120 @@
             app:ael_orientation="vertical"
             tools:layout_editor_absoluteY="8dp"
             tools:layout_editor_absoluteX="8dp">
-
             <com.google.samples.apps.iosched.ui.widget.SlidingTabLayout
                 android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"/>
-
-        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+        </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/footer"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:padding="4dp"
-        android:background="@color/colorPrimary"
-        app:elevation="8dp">
-        <LinearLayout
+        android:minHeight="500dp"
+        android:orientation="vertical">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/actionbar_height"
-            android:orientation="horizontal">
-            <android.support.v7.widget.CardView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:cardElevation="0dp"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
-                app:cardCornerRadius="2dp">
-                <ImageView
-                    android:id="@+id/footer_cover"
-                    android:layout_height="48dp"
-                    android:layout_width="48dp"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true">
-                </ImageView>
-            </android.support.v7.widget.CardView>
-            <!--<ImageView-->
-                <!--android:id="@+id/footer_cover"-->
-                <!--android:layout_width="48dp"-->
-                <!--android:layout_height="48dp"-->
-                <!--android:layout_margin="4dp"/>-->
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="vertical"
-                android:paddingLeft="16dp"
-                android:paddingRight="8dp"
-                android:gravity="center_vertical">
-                <TextView
-                    android:id="@+id/footer_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@android:color/white"
-                    android:textSize="20dp"
-                    tools:text="Song" />
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:padding="4dp"
+            android:background="@color/colorPrimary"
+            app:elevation="8dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/actionbar_height"
+                android:orientation="horizontal">
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="@color/colorPrimaryDark"
+                    app:cardCornerRadius="2dp">
+                    <ImageView
+                        android:id="@+id/footer_cover"
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true">
+                    </ImageView>
+                </android.support.v7.widget.CardView>
+                <!--<ImageView-->
+                    <!--android:id="@+id/footer_cover"-->
+                    <!--android:layout_width="48dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_margin="4dp"/>-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="8dp"
+                    android:gravity="center_vertical">
                     <TextView
-                        android:id="@+id/footer_artist"
+                        android:id="@+id/footer_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxEms="6"
                         android:maxLines="1"
-                        android:textColor="@color/colorPrimaryLight"
-                        android:textSize="14dp"
-                        tools:text="Artist" />
-                    <TextView
+                        android:textColor="@android:color/white"
+                        android:textSize="20dp"
+                        tools:text="Song" />
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" • "
-                        android:textSize="14dp"
-                        android:textColor="@color/colorPrimaryLight"/>
-                    <TextView
-                        android:id="@+id/footer_album"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:maxEms="6"
-                        android:maxLines="1"
-                        android:textColor="@color/colorPrimaryLight"
-                        android:textSize="14dp"
-                        tools:text="Album" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/footer_artist"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxEms="6"
+                            android:maxLines="1"
+                            android:textColor="@color/colorPrimaryLight"
+                            android:textSize="14dp"
+                            tools:text="Artist" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=" • "
+                            android:textSize="14dp"
+                            android:textColor="@color/colorPrimaryLight"/>
+                        <TextView
+                            android:id="@+id/footer_album"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:ellipsize="end"
+                            android:maxEms="6"
+                            android:maxLines="1"
+                            android:textColor="@color/colorPrimaryLight"
+                            android:textSize="14dp"
+                            tools:text="Album" />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="@dimen/actionbar_height"
+                    android:layout_height="@dimen/actionbar_height">
+                    <ImageView
+                        android:id="@+id/play_pause"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_play"/>
                 </LinearLayout>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="@dimen/actionbar_height"
-                android:layout_height="@dimen/actionbar_height">
-                <ImageView
-                    android:id="@+id/play_pause"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_play"/>
-            </LinearLayout>
-        </LinearLayout>
-    </android.support.design.widget.BottomNavigationView>
+        </android.support.design.widget.BottomNavigationView>
+    </LinearLayout>
 
 </LinearLayout>

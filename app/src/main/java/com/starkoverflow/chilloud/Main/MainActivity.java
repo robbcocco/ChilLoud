@@ -29,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
@@ -222,7 +223,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
         );
-        ImageView drawerSettings = (ImageView) findViewById(R.id.drawer_list_settings);
+        TextView drawerSettings = (TextView) findViewById(R.id.drawer_list_settings);
         drawerSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -282,22 +283,24 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void toggleExpandedMenus() {
-        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
+        LinearLayout expandableLayout = (LinearLayout)
                 findViewById(R.id.expandableLayout);
-        ExpandableRelativeLayout expandableLayoutB = (ExpandableRelativeLayout)
+        LinearLayout expandableLayoutB = (LinearLayout)
                 findViewById(R.id.expandableLayoutB);
-        ExpandableRelativeLayout expandableLayoutSB = (ExpandableRelativeLayout)
+        LinearLayout expandableLayoutSB = (LinearLayout)
                 findViewById(R.id.expandableLayoutSB);
-        expandableLayout.toggle();
-        expandableLayoutB.toggle();
-        if (expandableLayout.isExpanded()) {
+        if (expandableLayout.getVisibility() == View.VISIBLE) {
             expandIcon.setIcon(R.drawable.avd_checkable_expandcollapse_expanded_to_collapsed);
-            expandableLayoutSB.expand();
-        }
-        else {
+            expandableLayout.setVisibility(View.GONE);
+            expandableLayoutB.setVisibility(View.GONE);
+            expandableLayoutSB.setVisibility(View.VISIBLE);
+        } else {
             expandIcon.setIcon(R.drawable.avd_checkable_expandcollapse_collapsed_to_expanded);
-            expandableLayoutSB.collapse();
+            expandableLayout.setVisibility(View.VISIBLE);
+            expandableLayoutB.setVisibility(View.VISIBLE);
+            expandableLayoutSB.setVisibility(View.GONE);
         }
+
         Drawable drawable = expandIcon.getIcon();
         if (drawable instanceof Animatable) {
             ((Animatable) drawable).start();
@@ -305,16 +308,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void toggleDrawerMenu() {
-        ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
-                findViewById(R.id.expandableLayoutDrawer);
-        expandableLayout.toggle();
+        LinearLayout expandableLayout = (LinearLayout) findViewById(R.id.expandableLayoutDrawer);
         ImageView icon = (ImageView) findViewById(R.id.drawer_icon);
-        if (expandableLayout.isExpanded()) {
+        if (expandableLayout.getVisibility() == View.VISIBLE) {
+            expandableLayout.setVisibility(View.GONE);
             icon.setImageResource(R.drawable.avd_checkable_expandcollapse_expanded_to_collapsed);
-        }
-        else {
+        } else {
             icon.setImageResource(R.drawable.avd_checkable_expandcollapse_collapsed_to_expanded);
+            expandableLayout.setVisibility(View.VISIBLE);
         }
+
         Drawable drawable = icon.getDrawable();
         if (drawable instanceof Animatable) {
             ((Animatable) drawable).start();
@@ -327,13 +330,9 @@ public class MainActivity extends AppCompatActivity
             Bundle extras = data.getExtras();
             DeviceFactory.createDevice((String) extras.get("name"), (Bitmap) extras.get("picture"));
             drawerAdapter.notifyItemInserted(DeviceFactory.getDevices().size() -1);
-//            ExpandableRelativeLayout expandableLayout = (ExpandableRelativeLayout)
-//                    findViewById(R.id.expandableLayoutDrawer);
-//            TextView row = (TextView) findViewById(R.id.drawer_list_row);
-//            Log.d(TAG, "onActivityResult: " + row.getHeight());
-//            expandableLayout.setMinimumHeight((row.getMaxHeight() * DeviceFactory.getDevices().size()));
-//            Log.d(TAG, "onActivityResult: " + DeviceFactory.getDevices().size());
-//            Log.d(TAG, "onActivityResult: " + expandableLayout.getHeight());
+
+            LinearLayout expandableLayout = (LinearLayout) findViewById(R.id.expandableLayoutDrawer);
+            Log.d(TAG, "onActivityResult: "+expandableLayout.getHeight());
         }
     }
 
