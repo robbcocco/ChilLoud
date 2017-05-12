@@ -24,7 +24,7 @@
         <LinearLayout
             android:id="@+id/expandableLayout"
             android:layout_width="match_parent"
-            android:layout_height="192dp"
+            android:layout_height="wrap_content"
             android:visibility="gone"
             android:background="@color/colorPrimaryDark"
             tools:layout_editor_absoluteY="8dp"

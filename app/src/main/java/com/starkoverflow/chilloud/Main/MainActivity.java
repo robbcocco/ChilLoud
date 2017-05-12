@@ -40,6 +40,7 @@ import com.starkoverflow.chilloud.Library.ToolbarListAdapter;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Device.DeviceFactory;
 import com.starkoverflow.chilloud.Library.LibraryFactory;
+import com.starkoverflow.chilloud.classes.OnViewGlobalLayoutListener;
 import com.starkoverflow.chilloud.classes.PlaybackManager;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
@@ -177,6 +178,9 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
         );
+//        LinearLayout expandableLayoutToolbar = (LinearLayout) findViewById(R.id.expandableLayout);
+        toolbarRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new
+                OnViewGlobalLayoutListener(this.findViewById(android.R.id.content).getRootView(), 192));
 
         // Navigation drawer
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
