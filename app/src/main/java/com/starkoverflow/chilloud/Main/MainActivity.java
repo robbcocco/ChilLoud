@@ -3,7 +3,9 @@ package com.starkoverflow.chilloud.Main;
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
+import com.starkoverflow.chilloud.Device.AddDeviceActivity;
 import com.starkoverflow.chilloud.Device.DrawerListAdapter;
 import com.starkoverflow.chilloud.Library.ToolbarListAdapter;
 import com.starkoverflow.chilloud.R;
@@ -40,8 +43,8 @@ import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    private static final String TAG = "Main";
+    static final int REQUEST_DEVICE_DATA = 1;
+    static final String TAG = "Main";
     private Menu menu;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -218,20 +221,13 @@ public class MainActivity extends AppCompatActivity
                     }
                 })
         );
-
-//        playPause = (ImageView) findViewById(R.id.play_pause);
-//        playToPause = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_play_to_pause);
-//        pauseToPlay = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_pause_to_play);
-//
-//        playPause.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                AnimatedVectorDrawable drawable = play ? playToPause : pauseToPlay;
-//                playPause.setImageDrawable(drawable);
-//                drawable.start();
-//                play = !play;
-//            }
-//        });
+        ImageView drawerSettings = (ImageView) findViewById(R.id.drawer_list_settings);
+        drawerSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MainActivity.this, AddDeviceActivity.class), REQUEST_DEVICE_DATA);
+            }
+        });
     }
 
     @Override
@@ -321,6 +317,15 @@ public class MainActivity extends AppCompatActivity
         Drawable drawable = icon.getDrawable();
         if (drawable instanceof Animatable) {
             ((Animatable) drawable).start();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_DEVICE_DATA && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            DeviceFactory.createDevice((String) extras.get("name"), (Bitmap) extras.get("picture"));
+            drawerAdapter.notifyItemInserted(DeviceFactory.getDevices().size() -1);
         }
     }
 
