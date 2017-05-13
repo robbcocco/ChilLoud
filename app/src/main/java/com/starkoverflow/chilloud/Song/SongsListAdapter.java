@@ -29,20 +29,20 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
+        public LinearLayout click;
         public TextView mTitle;
         public TextView artist;
         public ImageView cover;
         public TextView duration;
-        public LinearLayout click;
         public ImageButton options;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
+            click = v;
             mTitle = (TextView) v.findViewById(R.id.song_title);
             artist = (TextView) v.findViewById(R.id.song_artist);
             cover = (ImageView) v.findViewById(R.id.song_cover);
             duration = (TextView) v.findViewById(R.id.song_duration);
-            click = (LinearLayout) v.findViewById(R.id.song_row);
             options = (ImageButton) v.findViewById(R.id.song_options);
         }
     }

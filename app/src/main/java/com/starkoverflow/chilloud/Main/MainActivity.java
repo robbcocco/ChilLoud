@@ -32,29 +32,27 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.starkoverflow.chilloud.Device.AddDeviceActivity;
-import com.starkoverflow.chilloud.Device.DrawerListAdapter;
+import com.starkoverflow.chilloud.Device.DeviceListAdapter;
 import com.starkoverflow.chilloud.Library.ToolbarListAdapter;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Device.DeviceFactory;
 import com.starkoverflow.chilloud.Library.LibraryFactory;
-import com.starkoverflow.chilloud.classes.OnViewGlobalLayoutListener;
 import com.starkoverflow.chilloud.classes.PlaybackManager;
 import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     static final int REQUEST_DEVICE_DATA = 1;
+    static final int EDIT_DEVICE_DATA = 2;
     static final String TAG = "Main";
+
     private Menu menu;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
     SlidingTabLayout tabLayout;
     MenuItem expandIcon;
-//    String dbList[] = {"Local", "NAS1", "NAS2", "Desktop"};
-//    String deviceList[] = {"Local", "Desktop", "Chromecast"};
 
     private ImageView playPause;
     private AnimatedVectorDrawable playToPause;
@@ -179,8 +177,8 @@ public class MainActivity extends AppCompatActivity
                 })
         );
 //        LinearLayout expandableLayoutToolbar = (LinearLayout) findViewById(R.id.expandableLayout);
-        toolbarRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new
-                OnViewGlobalLayoutListener(this.findViewById(android.R.id.content).getRootView(), 192));
+//        toolbarRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new
+//                OnViewGlobalLayoutListener(this.findViewById(android.R.id.content).getRootView(), 192));
 
         // Navigation drawer
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -205,28 +203,9 @@ public class MainActivity extends AppCompatActivity
         drawerLayoutManager = new LinearLayoutManager(this);
         drawerRecyclerView.setLayoutManager(drawerLayoutManager);
         // specify an adapter (see also next example)
-        drawerAdapter = new DrawerListAdapter(DeviceFactory.getDevices());
+        drawerAdapter = new DeviceListAdapter(DeviceFactory.getDevices(), this);
         drawerRecyclerView.setAdapter(drawerAdapter);
-        drawerRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        getApplicationContext(), drawerRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        toggleDrawerMenu();
-                        TextView drawerText = (TextView) findViewById(R.id.drawer_text);
-                        ImageView drawerPicture = (ImageView) findViewById(R.id.drawer_picture);
 
-                        drawerText.setText(DeviceFactory.getDevices().get(position).getName());
-                        if (DeviceFactory.getDevices().get(position).getPicture() != null) {
-                            drawerPicture.setImageBitmap(DeviceFactory.getDevices().get(position).getPicture());
-                        } else {
-                            drawerPicture.setImageDrawable(getDrawable(R.drawable.ic_phone));
-                        }
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
         TextView drawerSettings = (TextView) findViewById(R.id.drawer_list_settings);
         drawerSettings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,6 +290,18 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void updateDrawerMenu(int position) {
+        toggleDrawerMenu();
+        TextView drawerText = (TextView) findViewById(R.id.drawer_text);
+        ImageView drawerPicture = (ImageView) findViewById(R.id.drawer_picture);
+
+        drawerText.setText(DeviceFactory.getDevices().get(position).getName());
+        if (DeviceFactory.getDevices().get(position).getPicture() != null) {
+            drawerPicture.setImageBitmap(DeviceFactory.getDevices().get(position).getPicture());
+        } else {
+            drawerPicture.setImageDrawable(getDrawable(R.drawable.ic_phone));
+        }
+    }
     public void toggleDrawerMenu() {
         LinearLayout expandableLayout = (LinearLayout) findViewById(R.id.expandableLayoutDrawer);
         ImageView icon = (ImageView) findViewById(R.id.drawer_icon);
@@ -334,9 +325,16 @@ public class MainActivity extends AppCompatActivity
             Bundle extras = data.getExtras();
             DeviceFactory.createDevice((String) extras.get("name"), (Bitmap) extras.get("picture"));
             drawerAdapter.notifyItemInserted(DeviceFactory.getDevices().size() -1);
-
-            LinearLayout expandableLayout = (LinearLayout) findViewById(R.id.expandableLayoutDrawer);
-            Log.d(TAG, "onActivityResult: "+expandableLayout.getHeight());
+        }
+        if (requestCode == EDIT_DEVICE_DATA && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if ((boolean) extras.get("delete")) {
+                DeviceFactory.deleteDevice((int) extras.get("position"));
+                drawerAdapter.notifyItemRemoved((int) extras.get("position"));
+            } else {
+                DeviceFactory.editDevice((String) extras.get("name"), (Bitmap) extras.get("picture"), (int) extras.get("position"));
+                drawerAdapter.notifyItemChanged((int) extras.get("position"));
+            }
         }
     }
 

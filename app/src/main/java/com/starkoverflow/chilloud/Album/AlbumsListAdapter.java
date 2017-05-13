@@ -133,10 +133,6 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                holder.collapsedCard.setVisibility(View.GONE);
-//                holder.expandedCard.setVisibility(View.VISIBLE);
-//                AlbumsFragment.adjustSpanSize(position);
-////                AlbumsFragment.adjustSpanSizeB();
             }
         });
         holder.collapsedCardOverlay.setOnLongClickListener(new View.OnLongClickListener() {
@@ -153,20 +149,10 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         holder.expandedCardHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                holder.collapsedCard.setVisibility(View.VISIBLE);
-//                holder.expandedCard.setVisibility(View.GONE);
-//                AlbumsFragment.adjustSpanSize(position);
-////                AlbumsFragment.adjustSpanSizeB();
-            }
-        });
-        holder.expandedCardHeader.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
                 holder.collapsedCard.setVisibility(View.VISIBLE);
                 holder.expandedCard.setVisibility(View.GONE);
                 AlbumsFragment.adjustSpanSize(position);
 //                AlbumsFragment.adjustSpanSizeB();
-                return false;
             }
         });
     }

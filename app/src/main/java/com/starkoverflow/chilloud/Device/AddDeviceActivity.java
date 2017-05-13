@@ -27,12 +27,23 @@ public class AddDeviceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_device);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add device");
-
         ImageView pictureOverlay = (ImageView) findViewById(R.id.device_settings_picture_overlay);
         picturePreview = (ImageView) findViewById(R.id.device_settings_picture);
         final TextInputEditText nameView = (TextInputEditText) findViewById(R.id.device_settings_name);
+        Button delete = (Button) findViewById(R.id.device_settings_delete);
         Button done = (Button) findViewById(R.id.device_settings_done);
+
+        final int position = getIntent().getIntExtra("position", -1);
+        DeviceFactory device = getIntent().getParcelableExtra("device");
+
+        if (position != -1) {
+            toolbar.setTitle("Edit device");
+            delete.setVisibility(View.VISIBLE);
+            picturePreview.setImageBitmap(device.getPicture());
+            nameView.setText(device.getName());
+        } else {
+            toolbar.setTitle("Add device");
+        }
 
         pictureOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +60,10 @@ public class AddDeviceActivity extends AppCompatActivity {
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("name", name);
                     resultIntent.putExtra("picture", picture);
+                    if (position != -1) {
+                        resultIntent.putExtra("delete", false);
+                        resultIntent.putExtra("position", position);
+                    }
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 } else {
@@ -56,7 +71,16 @@ public class AddDeviceActivity extends AppCompatActivity {
                 }
             }
         });
-
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("delete", true);
+                resultIntent.putExtra("position", position);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
 
 

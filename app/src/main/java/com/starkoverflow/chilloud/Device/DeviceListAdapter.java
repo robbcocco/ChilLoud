@@ -1,6 +1,7 @@
-package com.starkoverflow.chilloud.Album;
+package com.starkoverflow.chilloud.Device;
 
-import android.support.design.widget.Snackbar;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,14 +10,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.starkoverflow.chilloud.Main.MainActivity;
 import com.starkoverflow.chilloud.R;
-import com.starkoverflow.chilloud.Song.Song;
-import com.starkoverflow.chilloud.classes.PlaybackManager;
 
 import java.util.ArrayList;
 
-public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsListAdapter.ViewHolder> {
-    private ArrayList<Song> songs;
+public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.ViewHolder> {
+    private ArrayList<DeviceFactory> devices;
+    private Context context;
+
+    static final int EDIT_DEVICE_DATA = 2;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -24,33 +27,30 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public LinearLayout click;
-        public TextView title;
-        public TextView track;
-        public TextView duration;
+        public TextView name;
         public ImageButton options;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
             click = v;
-            title = (TextView) v.findViewById(R.id.album_song_title);
-            track = (TextView) v.findViewById(R.id.album_song_number);
-            duration = (TextView) v.findViewById(R.id.album_song_duration);
-            options = (ImageButton) v.findViewById(R.id.album_song_options);
+            name = (TextView) v.findViewById(R.id.drawer_list_row);
+            options = (ImageButton) v.findViewById(R.id.drawer_row_options);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AlbumsSongsListAdapter(ArrayList<Song> songs) {
-        this.songs=songs;
+    public DeviceListAdapter(ArrayList<DeviceFactory> devices, Context context) {
+        this.devices=devices;
+        this.context=context;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public AlbumsSongsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                                int viewType) {
+    public DeviceListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                           int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.album_song_list_row, parent, false);
+                .inflate(R.layout.drawer_list_row, parent, false);
         // set the view's size, margins, paddings and layout parametersR.layout.drawer_list_row
 
         ViewHolder vh = new ViewHolder((LinearLayout) v);
@@ -62,33 +62,28 @@ public class AlbumsSongsListAdapter extends RecyclerView.Adapter<AlbumsSongsList
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.title.setText(songs.get(position).getTitle());
-        holder.track.setText(Integer.toString(position+1));
-//        holder.track.setText(Integer.toString(songs.get(position).getTrack()));
-        holder.duration.setText(songs.get(position).getDuration());
+        holder.name.setText(devices.get(position).getName());
 
         holder.click.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                PlaybackManager.playSong(v, songs.get(position));
+            public void onClick(View view) {
+                ((MainActivity) context).updateDrawerMenu(position);
             }
         });
         holder.options.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Snackbar.make(v, "Options", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddDeviceActivity.class);
+                intent.putExtra("position", position);
+                intent.putExtra("device", devices.get(position));
+                ((MainActivity) context).startActivityForResult(intent, EDIT_DEVICE_DATA);
             }
         });
-    }
-
-    public Song getItem(int position) {
-        return songs.get(position);
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return songs.size();
+        return devices.size();
     }
 }
