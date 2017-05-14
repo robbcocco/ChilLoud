@@ -44,6 +44,9 @@ public class AddDeviceActivity extends AppCompatActivity {
         } else {
             toolbar.setTitle("Add device");
         }
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         pictureOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +85,6 @@ public class AddDeviceActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);

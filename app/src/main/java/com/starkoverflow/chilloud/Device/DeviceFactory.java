@@ -11,10 +11,12 @@ public class DeviceFactory implements Parcelable {
 
     private String name;
     private Bitmap picture;
+    private boolean editable;
 
-    public DeviceFactory(String name, Bitmap picture) {
+    private DeviceFactory(String name, Bitmap picture, boolean editable) {
         this.name=name;
         this.picture=picture;
+        this.editable=editable;
     }
 
     protected DeviceFactory(Parcel in) {
@@ -34,8 +36,11 @@ public class DeviceFactory implements Parcelable {
         }
     };
 
+    public static void initializeLocalDevice() {
+        devices.add(new DeviceFactory("Local", null, false));
+    }
     public static void createDevice(String name, Bitmap picture) {
-        devices.add(new DeviceFactory(name, picture));
+        devices.add(new DeviceFactory(name, picture, true));
     }
     public static void editDevice(String name, Bitmap picture, int position) {
         devices.get(position).name=name;
@@ -55,6 +60,10 @@ public class DeviceFactory implements Parcelable {
 
     public Bitmap getPicture() {
         return picture;
+    }
+
+    public boolean isEditable() {
+        return editable;
     }
 
     @Override

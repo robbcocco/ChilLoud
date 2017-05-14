@@ -33,10 +33,10 @@ public class SongsFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static SongsFragment newInstance(ArrayList<LibraryFactory> library) {
+    public static SongsFragment newInstance(LibraryFactory library) {
         SongsFragment fragment = new SongsFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_SONGS, library);
+        args.putParcelable(ARG_SONGS, library);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,8 +46,8 @@ public class SongsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_songs, container, false);
 
-        ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_SONGS);
-        ArrayList<Song> songs = library.get(0).getSongs();
+        LibraryFactory library = getArguments().getParcelable(ARG_SONGS);
+        ArrayList<Song> songs = library.getSongs();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.songs_list);
         // use a linear layout manager

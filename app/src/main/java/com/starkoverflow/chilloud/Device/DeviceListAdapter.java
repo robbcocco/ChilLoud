@@ -28,13 +28,13 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
         // each data item is just a string in this case
         public LinearLayout click;
         public TextView name;
-        public ImageButton options;
+        public ImageButton edit;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
             click = v;
             name = (TextView) v.findViewById(R.id.drawer_list_row);
-            options = (ImageButton) v.findViewById(R.id.drawer_row_options);
+            edit = (ImageButton) v.findViewById(R.id.drawer_row_options);
         }
     }
 
@@ -70,15 +70,19 @@ public class DeviceListAdapter extends RecyclerView.Adapter<DeviceListAdapter.Vi
                 ((MainActivity) context).updateDrawerMenu(position);
             }
         });
-        holder.options.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, AddDeviceActivity.class);
-                intent.putExtra("position", position);
-                intent.putExtra("device", devices.get(position));
-                ((MainActivity) context).startActivityForResult(intent, EDIT_DEVICE_DATA);
-            }
-        });
+
+        if (devices.get(position).isEditable()) {
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.edit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, AddDeviceActivity.class);
+                    intent.putExtra("position", position);
+                    intent.putExtra("device", devices.get(position));
+                    ((MainActivity) context).startActivityForResult(intent, EDIT_DEVICE_DATA);
+                }
+            });
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

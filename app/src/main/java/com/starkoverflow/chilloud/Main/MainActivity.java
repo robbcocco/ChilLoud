@@ -1,13 +1,13 @@
 package com.starkoverflow.chilloud.Main;
 
 import android.Manifest;
+import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,29 +35,29 @@ import android.widget.TextView;
 import com.google.samples.apps.iosched.ui.widget.SlidingTabLayout;
 import com.starkoverflow.chilloud.Device.AddDeviceActivity;
 import com.starkoverflow.chilloud.Device.DeviceListAdapter;
+import com.starkoverflow.chilloud.Library.AddLibraryActivity;
 import com.starkoverflow.chilloud.Library.ToolbarListAdapter;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Device.DeviceFactory;
 import com.starkoverflow.chilloud.Library.LibraryFactory;
 import com.starkoverflow.chilloud.classes.PlaybackManager;
-import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    static final String TAG = "Main";
+
     static final int REQUEST_DEVICE_DATA = 1;
     static final int EDIT_DEVICE_DATA = 2;
-    static final String TAG = "Main";
+    static final int REQUEST_LIBRARY_DATA = 3;
+    static final int EDIT_LIBRARY_DATA = 4;
+
+    static int activeLibrary = 0;
 
     private Menu menu;
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    SlidingTabLayout tabLayout;
-    MenuItem expandIcon;
-
-    private ImageView playPause;
-    private AnimatedVectorDrawable playToPause;
-    private AnimatedVectorDrawable pauseToPlay;
-    private boolean play = true;
+    private SlidingTabLayout tabLayout;
+    private MenuItem expandIcon;
 
     private RecyclerView toolbarRecyclerView;
     private RecyclerView.Adapter toolbarAdapter;
@@ -67,13 +67,6 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView.LayoutManager drawerLayoutManager;
 
 //    private static ArrayList<LibraryFactory> libraryFactoryList;
-
-//    private Sections
-    private View mHeaderView;
-    private View mToolbarView;
-    private int mBaseTranslationY;
-//    private ViewPager mPager;
-//    private NavigationAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +94,8 @@ public class MainActivity extends AppCompatActivity
 //            }
         }
 
-        LibraryFactory.makeMediaLibrary("Local", getContentResolver(), getApplicationContext());
-        DeviceFactory.createDevice("Local", null);
+        LibraryFactory.initializeLocalLibrary(getContentResolver(), getApplicationContext());
+        DeviceFactory.initializeLocalDevice();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Local");
@@ -112,45 +105,14 @@ public class MainActivity extends AppCompatActivity
 
         PlaybackManager.setFooter(findViewById(R.id.footer));
 
-        // Sliding Tab Layout
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        // Get reference to the tabLayout, setDistributedEvenly(true)
-        // will make all tabs have the same width
-        tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setDistributeEvenly(true);
-        // setCustomColorizer(), sets the color of the tab's indicator
-        tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.colorAccent);
-            }
-        });
-        // initialize the tablayout's viewPager
-        tabLayout.setViewPager(mViewPager);
-        // set default section to fragment 2
-        mViewPager.setCurrentItem(1);
+        setPagetAdapter();
 
         // Respond to toolbar clicks
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggleExpandedMenus();
-            }
-        });
-
-        // Settings in the expanded toolbar
-        Button ems = (Button) findViewById(R.id.expanded_menu_settings);
-        ems.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Open Settings", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                toggleToolbarMenu();
             }
         });
 
@@ -159,26 +121,16 @@ public class MainActivity extends AppCompatActivity
         toolbarLayoutManager = new LinearLayoutManager(this);
         toolbarRecyclerView.setLayoutManager(toolbarLayoutManager);
         // specify an adapter (see also next example)
-        toolbarAdapter = new ToolbarListAdapter(LibraryFactory.getLibrary());
+        toolbarAdapter = new ToolbarListAdapter(LibraryFactory.getLibrary(), this);
         toolbarRecyclerView.setAdapter(toolbarAdapter);
-        toolbarRecyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(
-                        getApplicationContext(), toolbarRecyclerView,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
-                        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-                        toolbar.setTitle(LibraryFactory.getLibrary().get(position).getName());
-                        toggleExpandedMenus();
-                        Snackbar.make(view, LibraryFactory.getLibrary().get(position).getName(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                    @Override public void onLongItemClick(View view, int position) {
-                        // do whatever
-                    }
-                })
-        );
-//        LinearLayout expandableLayoutToolbar = (LinearLayout) findViewById(R.id.expandableLayout);
-//        toolbarRecyclerView.getViewTreeObserver().addOnGlobalLayoutListener(new
-//                OnViewGlobalLayoutListener(this.findViewById(android.R.id.content).getRootView(), 192));
+
+        Button toolbarSettings = (Button) findViewById(R.id.expanded_menu_settings);
+        toolbarSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MainActivity.this, AddLibraryActivity.class), REQUEST_LIBRARY_DATA);
+            }
+        });
 
         // Navigation drawer
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -259,13 +211,22 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_expand) {
-            toggleExpandedMenus();
+            toggleToolbarMenu();
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void toggleExpandedMenus() {
+    public void updateToolbarMenu(int position) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(LibraryFactory.getLibrary().get(position).getName());
+        activeLibrary=position;
+
+        setPagetAdapter();
+
+        toggleToolbarMenu();
+    }
+    public void toggleToolbarMenu() {
         LinearLayout expandableLayout = (LinearLayout)
                 findViewById(R.id.expandableLayout);
         LinearLayout expandableLayoutB = (LinearLayout)
@@ -319,6 +280,31 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void setPagetAdapter() {
+        // Sliding Tab Layout
+        // Create the adapter that will return a fragment for each of the three
+        // primary sections of the activity.
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+        // Get reference to the tabLayout, setDistributedEvenly(true)
+        // will make all tabs have the same width
+        tabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setDistributeEvenly(true);
+        // setCustomColorizer(), sets the color of the tab's indicator
+        tabLayout.setCustomTabColorizer(new SlidingTabLayout.TabColorizer(){
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.colorAccent);
+            }
+        });
+        // initialize the tablayout's viewPager
+        tabLayout.setViewPager(mViewPager);
+        // set default section to second fragment
+        mViewPager.setCurrentItem(1);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_DEVICE_DATA && resultCode == RESULT_OK) {
@@ -334,6 +320,25 @@ public class MainActivity extends AppCompatActivity
             } else {
                 DeviceFactory.editDevice((String) extras.get("name"), (Bitmap) extras.get("picture"), (int) extras.get("position"));
                 drawerAdapter.notifyItemChanged((int) extras.get("position"));
+            }
+        }
+
+        if (requestCode == REQUEST_LIBRARY_DATA && resultCode == RESULT_OK) {
+            Log.d(TAG, "onActivityResult: add");
+            Bundle extras = data.getExtras();
+            LibraryFactory.createLibrary((String) extras.get("name"), (String) extras.get("description"));
+            toolbarAdapter.notifyItemInserted(LibraryFactory.getLibrary().size() -1);
+        }
+        if (requestCode == EDIT_LIBRARY_DATA && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            if ((boolean) extras.get("delete")) {
+                Log.d(TAG, "onActivityResult: delete");
+                LibraryFactory.deleteLibrary((int) extras.get("position"));
+                toolbarAdapter.notifyItemRemoved((int) extras.get("position"));
+            } else {
+                Log.d(TAG, "onActivityResult: edit");
+                LibraryFactory.editLibrary((String) extras.get("name"), (String) extras.get("description"), (int) extras.get("position"));
+                toolbarAdapter.notifyItemChanged((int) extras.get("position"));
             }
         }
     }

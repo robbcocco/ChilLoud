@@ -34,10 +34,10 @@ public class ArtistsFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static ArtistsFragment newInstance(ArrayList<LibraryFactory> library) {
+    public static ArtistsFragment newInstance(LibraryFactory library) {
         ArtistsFragment fragment = new ArtistsFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_ARTISTS, library);
+        args.putParcelable(ARG_ARTISTS, library);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,8 +49,8 @@ public class ArtistsFragment extends Fragment {
 
 //        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 //        textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
-        ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_ARTISTS);
-        ArrayList<Artist> artists = library.get(0).getArtists();
+        LibraryFactory library = getArguments().getParcelable(ARG_ARTISTS);
+        ArrayList<Artist> artists = library.getArtists();
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.artists_list);
         // use a linear layout manager

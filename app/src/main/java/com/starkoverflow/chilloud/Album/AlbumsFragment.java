@@ -38,10 +38,10 @@ public class AlbumsFragment extends Fragment {
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static AlbumsFragment newInstance(ArrayList<LibraryFactory> library) {
+    public static AlbumsFragment newInstance(LibraryFactory library) {
         AlbumsFragment fragment = new AlbumsFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_ALBUMS, library);
+        args.putParcelable(ARG_ALBUMS, library);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,8 +51,8 @@ public class AlbumsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_albums, container, false);
 
-        ArrayList<LibraryFactory> library = getArguments().getParcelableArrayList(ARG_ALBUMS);
-        ArrayList<Album> albums = library.get(0).getAlbums();
+        LibraryFactory library = getArguments().getParcelable(ARG_ALBUMS);
+        ArrayList<Album> albums = library.getAlbums();
 
         cardExpandedState = new boolean[albums.size()];
         for (int i = 0; i< albums.size(); i++) {

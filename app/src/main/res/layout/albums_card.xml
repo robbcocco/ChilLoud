@@ -34,6 +34,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="8dp"
+                android:textSize="16dp"
                 android:textColor="@android:color/white"
                 tools:text="Album" />
         </LinearLayout>
@@ -105,7 +106,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
-                        android:textSize="27dp"
+                        android:textSize="16dp"
                         tools:text="Album" />
                     <TextView
                         android:id="@+id/album_artist"
@@ -114,7 +115,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:text="Artist"
-                        android:textSize="16dp"
+                        android:textSize="12dp"
                         android:textColor="@color/colorPrimaryLight"/>
                 </LinearLayout>
                 <ImageButton

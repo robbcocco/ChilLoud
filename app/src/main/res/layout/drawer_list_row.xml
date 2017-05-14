@@ -25,6 +25,7 @@ xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer_row_options"
         android:layout_width="48dp"
         android:layout_height="match_parent"
+        android:visibility="gone"
         android:layout_gravity="right"
         android:src="@drawable/ic_edit"
         style="@style/Widget.AppCompat.Button.Borderless"/>
