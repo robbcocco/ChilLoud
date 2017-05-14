@@ -40,7 +40,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@android:color/white"
-            android:textSize="16dp"
+            android:textSize="14dp"
             tools:text="Song" />
         <LinearLayout
             android:layout_width="wrap_content"

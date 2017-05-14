@@ -137,7 +137,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
-                        android:textSize="20dp"
+                        android:textSize="14dp"
                         tools:text="Song" />
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -152,13 +152,13 @@
                             android:maxEms="6"
                             android:maxLines="1"
                             android:textColor="@color/colorPrimaryLight"
-                            android:textSize="14dp"
+                            android:textSize="10dp"
                             tools:text="Artist" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=" • "
-                            android:textSize="14dp"
+                            android:textSize="10dp"
                             android:textColor="@color/colorPrimaryLight"/>
                         <TextView
                             android:id="@+id/footer_album"
@@ -168,7 +168,7 @@
                             android:maxEms="6"
                             android:maxLines="1"
                             android:textColor="@color/colorPrimaryLight"
-                            android:textSize="14dp"
+                            android:textSize="10dp"
                             tools:text="Album" />
                     </LinearLayout>
                 </LinearLayout>

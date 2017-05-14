@@ -34,7 +34,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:padding="8dp"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textColor="@android:color/white"
                 tools:text="Album" />
         </LinearLayout>
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="5dp"
-                    app:cardElevation="4dp"
+                    app:cardElevation="0dp"
                     app:cardBackgroundColor="@color/colorPrimaryDark"
                     app:cardCornerRadius="2dp">
                     <ImageView
@@ -95,7 +95,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="5"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:gravity="center_vertical"
                     android:paddingLeft="16dp">
@@ -106,7 +106,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:textColor="@android:color/white"
-                        android:textSize="16dp"
+                        android:textSize="14dp"
                         tools:text="Album" />
                     <TextView
                         android:id="@+id/album_artist"
@@ -120,9 +120,8 @@
                 </LinearLayout>
                 <ImageButton
                     android:id="@+id/album_options"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
+                    android:layout_width="48dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:src="@drawable/ic_more_vert"
                     android:tint="@color/colorPrimaryLight"
