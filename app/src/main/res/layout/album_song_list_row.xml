@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryLight"
-            android:textSize="10dp"
+            android:textSize="12dp"
             tools:text="3:33" />
     </LinearLayout>
     <ImageButton

@@ -1,21 +1,13 @@
 package com.starkoverflow.chilloud.classes;
 
-import android.content.ContentUris;
 import android.graphics.drawable.AnimatedVectorDrawable;
-import android.media.AudioManager;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v7.graphics.Palette;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Song.Song;
-
-import java.io.IOException;
 
 public class PlaybackManager {
     private static BottomNavigationView footer;
@@ -61,13 +53,11 @@ public class PlaybackManager {
             footer.setVisibility(View.VISIBLE);
 
         TextView title = (TextView) footer.findViewById(R.id.footer_title);
-        TextView album = (TextView) footer.findViewById(R.id.footer_album);
-        TextView artist = (TextView) footer.findViewById(R.id.footer_artist);
+        TextView info = (TextView) footer.findViewById(R.id.footer_info);
         ImageView cover = (ImageView) footer.findViewById(R.id.footer_cover);
 
         title.setText(song.getTitle());
-        album.setText(song.getAlbum());
-        artist.setText(song.getArtist());
+        info.setText(song.getArtist() + " • " + song.getAlbum());
         if (song.getCover() != null) {
             cover.setImageBitmap(song.getCover());
         } else {

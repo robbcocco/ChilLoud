@@ -195,7 +195,7 @@ public class LibraryFactory implements Parcelable{
             if ((i%random) == 0) {
                 Log.d(TAG, "createLibrary: adding");
                 artistsList.add(library.get(0).getArtists().get(i));
-                Log.d(TAG, "artist");
+                Log.d(TAG, "info");
                 for (int j = 0; j < artistsList.get(i).getAlbum().size(); j++) {
                     albumsList.add(artistsList.get(i).getAlbum().get(j));
                     Log.d(TAG, "album");

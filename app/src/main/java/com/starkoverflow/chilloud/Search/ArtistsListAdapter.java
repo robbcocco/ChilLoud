@@ -1,4 +1,4 @@
-package com.starkoverflow.chilloud.Song;
+package com.starkoverflow.chilloud.Search;
 
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
@@ -11,11 +11,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.starkoverflow.chilloud.R;
+import com.starkoverflow.chilloud.Song.Song;
 import com.starkoverflow.chilloud.classes.PlaybackManager;
 
 import java.util.ArrayList;
 
-public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.ViewHolder> {
+public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
     private ArrayList<Song> songs;
 
     // Provide a reference to the views for each data item
@@ -40,14 +41,14 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public SongsListAdapter(ArrayList<Song> songs) {
+    public ArtistsListAdapter(ArrayList<Song> songs) {
         this.songs=songs;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public SongsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                          int viewType) {
+    public ArtistsListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                            int viewType) {
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.song_list_row, parent, false);
