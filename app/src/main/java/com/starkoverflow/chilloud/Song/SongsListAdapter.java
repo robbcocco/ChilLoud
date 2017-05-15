@@ -24,7 +24,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public LinearLayout click;
-        public TextView mTitle;
+        public TextView title;
         public TextView info;
         public ImageView cover;
         public ImageButton options;
@@ -32,7 +32,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
             super(v);
             //v.setOnClickListener(this);
             click = v;
-            mTitle = (TextView) v.findViewById(R.id.song_title);
+            title = (TextView) v.findViewById(R.id.song_title);
             info = (TextView) v.findViewById(R.id.song_info);
             cover = (ImageView) v.findViewById(R.id.song_cover);
             options = (ImageButton) v.findViewById(R.id.song_options);
@@ -62,7 +62,7 @@ public class SongsListAdapter extends RecyclerView.Adapter<SongsListAdapter.View
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.mTitle.setText(songs.get(position).getTitle());
+        holder.title.setText(songs.get(position).getTitle());
         holder.info.setText(songs.get(position).getArtist() + " • " + songs.get(position).getDuration());
 //        holder.album.setText(songs.get(position).getAlbum());
         if (songs.get(position).getCover() != null) {

@@ -16,7 +16,7 @@
         android:layout_height="48dp"
         app:cardElevation="0dp"
         app:cardBackgroundColor="@color/colorPrimaryDark"
-        app:cardCornerRadius="24dp">
+        app:cardCornerRadius="2dp">
         <ImageView
             android:id="@+id/search_artist_picture"
             android:layout_height="match_parent"

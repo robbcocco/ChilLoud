@@ -55,15 +55,12 @@
         <activity
             android:name=".Library.AddLibraryActivity"
             android:parentActivityName=".Main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Device.AddDeviceActivity"
             android:parentActivityName=".Main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Album.AlbumActivity"></activity>
     </application>
 
 </manifest>

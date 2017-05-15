@@ -33,7 +33,7 @@ public class Artist implements Parcelable {
         this.albums=new ArrayList<Album>();
         this.url=null;
         this.cover=null;
-//        this.cover=getBitmapFromURL(url);
+//        this.picture=getBitmapFromURL(url);
     }
 
     protected Artist(Parcel in) {
@@ -93,7 +93,7 @@ public class Artist implements Parcelable {
 
             while ((line = reader.readLine()) != null) {
                 buffer.append(line+"\n");
-                Log.d("Response: ", "> " + line);   //here u ll get whole response...... :-)
+                Log.d("Response: ", "> " + line);
             }
             String s = buffer.toString();
             JSONObject obj = new JSONObject(s);
