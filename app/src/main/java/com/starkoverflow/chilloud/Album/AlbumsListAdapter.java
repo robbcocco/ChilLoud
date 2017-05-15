@@ -1,5 +1,7 @@
 package com.starkoverflow.chilloud.Album;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +13,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.starkoverflow.chilloud.Main.MainActivity;
 import com.starkoverflow.chilloud.R;
+import com.starkoverflow.chilloud.Search.SearchResultActivity;
 import com.starkoverflow.chilloud.Song.Song;
 
 import java.util.ArrayList;
@@ -20,6 +24,7 @@ import java.util.Comparator;
 
 public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.ViewHolder> {
     private ArrayList<Album> albums;
+    private Context context;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -68,8 +73,9 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AlbumsListAdapter(ArrayList<Album> albums) {
+    public AlbumsListAdapter(ArrayList<Album> albums, Context context) {
         this.albums = albums;
+        this.context=context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -133,6 +139,9 @@ public class AlbumsListAdapter extends RecyclerView.Adapter<AlbumsListAdapter.Vi
         holder.collapsedCardOverlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(context, AlbumActivity.class);
+                intent.putExtra("album", albums.get(position));
+                context.startActivity(intent);
             }
         });
         holder.collapsedCardOverlay.setOnLongClickListener(new View.OnLongClickListener() {

@@ -74,7 +74,7 @@ public class AlbumsFragment extends Fragment {
         });
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(false);
-        mAdapter = new AlbumsListAdapter(albums);
+        mAdapter = new AlbumsListAdapter(albums, getContext());
         mRecyclerView.setAdapter(mAdapter);
 
         return rootView;

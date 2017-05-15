@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.View;
 
 import com.starkoverflow.chilloud.Album.Album;
+import com.starkoverflow.chilloud.Album.AlbumActivity;
 import com.starkoverflow.chilloud.Artist.Artist;
 import com.starkoverflow.chilloud.Library.LibraryFactory;
 import com.starkoverflow.chilloud.Main.MainActivity;
@@ -95,6 +96,19 @@ public class SearchResultActivity extends AppCompatActivity {
         albumsRecyclerView.setLayoutManager(albumsLayoutManager);
         albumsAdapter = new SearchAlbumsListAdapter(albums);
         albumsRecyclerView.setAdapter(albumsAdapter);
+        albumsRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, albumsRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(SearchResultActivity.this, AlbumActivity.class);
+                        intent.putExtra("album", albums.get(position));
+                        startActivity(intent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
 
         RecyclerView songsRecyclerView;
         RecyclerView.Adapter songsAdapter;

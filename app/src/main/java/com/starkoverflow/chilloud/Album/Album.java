@@ -36,6 +36,7 @@ public class Album implements Parcelable {
         id = in.readLong();
         album = in.readString();
         artist = in.readString();
+        artPath = in.readString();
         songs = in.createTypedArrayList(Song.CREATOR);
     }
 
@@ -44,6 +45,7 @@ public class Album implements Parcelable {
         dest.writeLong(id);
         dest.writeString(album);
         dest.writeString(artist);
+        dest.writeString(artPath);
         dest.writeTypedList(songs);
     }
 

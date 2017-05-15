@@ -29,7 +29,7 @@ public class SplashscreenActivity extends AppCompatActivity {
                 startActivity(new Intent(SplashscreenActivity.this, MainActivity.class));
                 finish();
             }
-        },1000);
+        },500);
 //        startActivity(new Intent(this, MainActivity.class));
 //        finish();
     }
