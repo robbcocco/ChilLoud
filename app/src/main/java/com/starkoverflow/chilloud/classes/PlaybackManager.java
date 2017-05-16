@@ -1,7 +1,10 @@
 package com.starkoverflow.chilloud.classes;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v7.graphics.Palette;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,8 +14,8 @@ import com.starkoverflow.chilloud.Song.Song;
 
 public class PlaybackManager {
     private static BottomNavigationView footer;
-    private static Song song;
-    private static boolean play=true;
+    public static Song song;
+    public static boolean play=true;
 
     private static ImageView playPause;
     private static AnimatedVectorDrawable playToPause;
@@ -33,7 +36,7 @@ public class PlaybackManager {
     }
 
     public static void playSong(View v, Song song) {
-//        PlaybackManager.song=song;
+        PlaybackManager.song=song;
 //        long id = song.getID();
 //        Uri contentUri = ContentUris.withAppendedId(
 //                android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, id);
@@ -58,8 +61,9 @@ public class PlaybackManager {
 
         title.setText(song.getTitle());
         info.setText(song.getArtist() + " • " + song.getAlbum());
-        if (song.getCover() != null) {
-            cover.setImageBitmap(song.getCover());
+        if (song.getArtPath() != null) {
+            Bitmap albumArt = BitmapFactory.decodeFile(song.getArtPath());
+            cover.setImageBitmap(albumArt);
         } else {
             cover.setImageResource(R.drawable.ic_album);
         }
@@ -77,5 +81,10 @@ public class PlaybackManager {
         playPause.setImageDrawable(drawable);
         drawable.start();
         play = !play;
+    }
+
+    public Palette createPaletteSync(Bitmap bitmap) {
+        Palette p = Palette.from(bitmap).generate();
+        return p;
     }
 }

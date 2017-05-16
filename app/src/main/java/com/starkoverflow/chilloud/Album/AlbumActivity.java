@@ -3,9 +3,11 @@ package com.starkoverflow.chilloud.Album;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.provider.ContactsContract;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,12 +26,18 @@ import com.starkoverflow.chilloud.Artist.Artist;
 import com.starkoverflow.chilloud.Artist.ArtistsListAdapter;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Song.Song;
+import com.starkoverflow.chilloud.classes.PlaybackManager;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class AlbumActivity extends AppCompatActivity {
+    BottomNavigationView footer;
+    ImageView playPause;
+    AnimatedVectorDrawable playToPause;
+    AnimatedVectorDrawable pauseToPlay;
+    boolean play = PlaybackManager.play;
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -47,6 +56,20 @@ public class AlbumActivity extends AppCompatActivity {
         collapsingToolbarLayout.setTitle(album.getAlbum());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        footer = (BottomNavigationView) findViewById(R.id.footer);
+        playPause = (ImageView) footer.findViewById(R.id.play_pause);
+        playToPause = (AnimatedVectorDrawable) footer.getContext().getDrawable(R.drawable.avd_play_to_pause);
+        pauseToPlay = (AnimatedVectorDrawable) footer.getContext().getDrawable(R.drawable.avd_pause_to_play);
+        playPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseResumeSong();
+            }
+        });
+        if (PlaybackManager.song != null) {
+            playSong(this.getCurrentFocus(), PlaybackManager.song);
+        }
 
         ImageView cover = (ImageView) findViewById(R.id.cover);
         ImageView coverbg = (ImageView) findViewById(R.id.cover_bg);
@@ -94,6 +117,38 @@ public class AlbumActivity extends AppCompatActivity {
         });
         mAdapter = new AlbumsSongsListAdapter(songs);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public void playSong(View v, Song song) {
+        PlaybackManager.song=song;
+
+        if (footer.getVisibility() == View.GONE)
+            footer.setVisibility(View.VISIBLE);
+
+        TextView title = (TextView) footer.findViewById(R.id.footer_title);
+        TextView info = (TextView) footer.findViewById(R.id.footer_info);
+        ImageView cover = (ImageView) footer.findViewById(R.id.footer_cover);
+
+        title.setText(song.getTitle());
+        info.setText(song.getArtist() + " • " + song.getAlbum());
+        if (song.getCover() != null) {
+            cover.setImageBitmap(song.getCover());
+        } else {
+            cover.setImageResource(R.drawable.ic_album);
+        }
+
+        AnimatedVectorDrawable drawable = playToPause;
+        if (play) {
+            playPause.setImageDrawable(drawable);
+            drawable.start();
+            play = !play;
+        }
+    }
+    public void pauseResumeSong() {
+        AnimatedVectorDrawable drawable = play ? playToPause : pauseToPlay;
+        playPause.setImageDrawable(drawable);
+        drawable.start();
+        play = !play;
     }
 
     public Palette createPaletteSync(Bitmap bitmap) {

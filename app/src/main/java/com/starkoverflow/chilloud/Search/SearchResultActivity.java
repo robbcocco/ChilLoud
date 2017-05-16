@@ -2,6 +2,8 @@ package com.starkoverflow.chilloud.Search;
 
 import android.app.SearchManager;
 import android.content.Intent;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +11,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.starkoverflow.chilloud.Album.Album;
 import com.starkoverflow.chilloud.Album.AlbumActivity;
@@ -24,6 +28,11 @@ import com.starkoverflow.chilloud.classes.RecyclerItemClickListener;
 import java.util.ArrayList;
 
 public class SearchResultActivity extends AppCompatActivity {
+    BottomNavigationView footer;
+    ImageView playPause;
+    AnimatedVectorDrawable playToPause;
+    AnimatedVectorDrawable pauseToPlay;
+    boolean play = PlaybackManager.play;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +44,54 @@ public class SearchResultActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        footer = (BottomNavigationView) findViewById(R.id.footer);
+        playPause = (ImageView) footer.findViewById(R.id.play_pause);
+        playToPause = (AnimatedVectorDrawable) footer.getContext().getDrawable(R.drawable.avd_play_to_pause);
+        pauseToPlay = (AnimatedVectorDrawable) footer.getContext().getDrawable(R.drawable.avd_pause_to_play);
+        playPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pauseResumeSong();
+            }
+        });
+        if (PlaybackManager.song != null) {
+            playSong(this.getCurrentFocus(), PlaybackManager.song);
+        }
+
         handleIntent(getIntent());
+    }
+
+    public void playSong(View v, Song song) {
+        PlaybackManager.song=song;
+
+        if (footer.getVisibility() == View.GONE)
+            footer.setVisibility(View.VISIBLE);
+
+        TextView title = (TextView) footer.findViewById(R.id.footer_title);
+        TextView info = (TextView) footer.findViewById(R.id.footer_info);
+        ImageView cover = (ImageView) footer.findViewById(R.id.footer_cover);
+
+        title.setText(song.getTitle());
+        info.setText(song.getArtist() + " • " + song.getAlbum());
+        if (song.getCover() != null) {
+            cover.setImageBitmap(song.getCover());
+        } else {
+            cover.setImageResource(R.drawable.ic_album);
+        }
+
+        AnimatedVectorDrawable drawable = playToPause;
+        if (play) {
+            playPause.setImageDrawable(drawable);
+            drawable.start();
+            play = !play;
+        }
+    }
+    public void pauseResumeSong() {
+        AnimatedVectorDrawable drawable = play ? playToPause : pauseToPlay;
+        playPause.setImageDrawable(drawable);
+        drawable.start();
+        play = !play;
     }
 
     @Override

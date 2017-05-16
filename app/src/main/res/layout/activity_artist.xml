@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.starkoverflow.chilloud.Artist.ArtistActivity">
@@ -93,5 +94,86 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/artist_songs_list"
+        app:layout_anchorGravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:padding="4dp"
+        android:background="@color/colorPrimary"
+        app:elevation="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/actionbar_height"
+            android:orientation="horizontal">
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="@color/colorPrimaryDark"
+                app:cardCornerRadius="2dp">
+                <ImageView
+                    android:id="@+id/footer_cover"
+                    android:layout_height="48dp"
+                    android:layout_width="48dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true">
+                </ImageView>
+            </android.support.v7.widget.CardView>
+            <!--<ImageView-->
+            <!--android:id="@+id/footer_cover"-->
+            <!--android:layout_width="48dp"-->
+            <!--android:layout_height="48dp"-->
+            <!--android:layout_margin="4dp"/>-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="8dp"
+                android:gravity="center_vertical">
+                <TextView
+                    android:id="@+id/footer_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@android:color/white"
+                    android:textSize="14dp"
+                    tools:text="Song" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/footer_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryLight"
+                        android:textSize="12dp"
+                        tools:text="Artist • Album" />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="@dimen/actionbar_height"
+                android:layout_height="@dimen/actionbar_height">
+                <ImageView
+                    android:id="@+id/play_pause"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_play"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.design.widget.BottomNavigationView>
 
 </android.support.design.widget.CoordinatorLayout>

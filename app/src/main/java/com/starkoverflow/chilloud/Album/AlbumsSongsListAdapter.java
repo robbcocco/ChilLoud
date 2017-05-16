@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.starkoverflow.chilloud.Artist.ArtistActivity;
 import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Song.Song;
 import com.starkoverflow.chilloud.classes.PlaybackManager;
