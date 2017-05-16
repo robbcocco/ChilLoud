@@ -16,6 +16,8 @@ import com.starkoverflow.chilloud.R;
 import com.starkoverflow.chilloud.Song.Song;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class ArtistActivity extends AppCompatActivity {
 
@@ -72,6 +74,11 @@ public class ArtistActivity extends AppCompatActivity {
                 songs.add(album.getSongs().get(j));
             }
         }
+        Collections.sort(songs, new Comparator<Song>(){
+            public int compare(Song a, Song b){
+                return a.getTitle().compareTo(b.getTitle());
+            }
+        });
         mAdapter = new ArtistSongsListAdapter(songs);
         mRecyclerView.setAdapter(mAdapter);
     }
