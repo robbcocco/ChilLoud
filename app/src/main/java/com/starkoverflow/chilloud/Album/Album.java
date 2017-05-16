@@ -14,15 +14,17 @@ public class Album implements Parcelable {
     private long id;
     private String album;
     private String artist;
+    private String year;
     private String artPath;
     private Bitmap cover;
     private Palette palette;
     private ArrayList<Song> songs;
 
-    public Album(long songID, String album, String artist, String artPath) {
+    public Album(long songID, String album, String artist, String year, String artPath) {
         id=songID;
         this.album=album;
         this.artist=artist;
+        this.year=year;
         this.artPath=artPath;
         this.cover=BitmapFactory.decodeFile(artPath);
         if (artPath != null)
@@ -36,6 +38,7 @@ public class Album implements Parcelable {
         id = in.readLong();
         album = in.readString();
         artist = in.readString();
+        year = in.readString();
         artPath = in.readString();
         songs = in.createTypedArrayList(Song.CREATOR);
     }
@@ -45,6 +48,7 @@ public class Album implements Parcelable {
         dest.writeLong(id);
         dest.writeString(album);
         dest.writeString(artist);
+        dest.writeString(year);
         dest.writeString(artPath);
         dest.writeTypedList(songs);
     }
@@ -87,6 +91,7 @@ public class Album implements Parcelable {
     public long getID(){return id;}
     public String getAlbum(){return album;}
     public String getArtist(){return artist;}
+    public String getYear(){return year;}
     public String getArtPath(){return artPath;}
     public Bitmap getCover(){return cover;}
     public Palette getPalette(){return palette;}

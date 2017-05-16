@@ -38,11 +38,13 @@
                 android:value=".Search.SearchResultActivity" />
         </activity>
         <activity
+            android:name=".Artist.ArtistActivity"
+            android:parentActivityName=".Main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
             android:name=".Album.AlbumActivity"
             android:parentActivityName=".Main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Search.SearchResultActivity"
             android:label="@string/app_name"
@@ -61,15 +63,11 @@
         <activity
             android:name=".Library.AddLibraryActivity"
             android:parentActivityName=".Main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Device.AddDeviceActivity"
             android:parentActivityName=".Main.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -16,6 +16,7 @@ public class Song implements Parcelable {
     private String artist;
     private int track;
     private String duration;
+    private String artPath;
     private Bitmap cover;
     private Palette palette;
 
@@ -29,6 +30,7 @@ public class Song implements Parcelable {
         long seconds=TimeUnit.MILLISECONDS.toSeconds(duration) -
                 TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration));
         this.duration=String.format(Locale.ENGLISH, "%d:%02d", minutes, seconds);
+        this.artPath=null;
         this.cover=null;
         this.palette=null;
     }
@@ -40,6 +42,7 @@ public class Song implements Parcelable {
         artist = in.readString();
         track = in.readInt();
         duration = in.readString();
+        artPath = in.readString();
     }
 
     @Override
@@ -50,6 +53,7 @@ public class Song implements Parcelable {
         dest.writeString(artist);
         dest.writeInt(track);
         dest.writeString(duration);
+        dest.writeString(artPath);
     }
 
     @Override
@@ -78,7 +82,8 @@ public class Song implements Parcelable {
         return false;
     }
 
-    public void addCover(Bitmap cover) {
+    public void addCover(String artPath, Bitmap cover) {
+        this.artPath=artPath;
         this.cover=cover;
         this.palette=createPaletteSync(cover);
     }
@@ -94,6 +99,7 @@ public class Song implements Parcelable {
     public String getArtist(){return artist;}
     public int getTrack(){return track;}
     public String getDuration(){return duration;}
+    public String getArtPath() {return artPath;}
     public Bitmap getCover(){return cover;}
     public Palette getPalette(){return palette;}
 }

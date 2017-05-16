@@ -13,6 +13,7 @@ import android.view.View;
 import com.starkoverflow.chilloud.Album.Album;
 import com.starkoverflow.chilloud.Album.AlbumActivity;
 import com.starkoverflow.chilloud.Artist.Artist;
+import com.starkoverflow.chilloud.Artist.ArtistActivity;
 import com.starkoverflow.chilloud.Library.LibraryFactory;
 import com.starkoverflow.chilloud.Main.MainActivity;
 import com.starkoverflow.chilloud.R;
@@ -66,7 +67,7 @@ public class SearchResultActivity extends AppCompatActivity {
         RecyclerView artistsRecyclerView;
         RecyclerView.Adapter artistsAdapter;
         RecyclerView.LayoutManager artistsLayoutManager;
-        ArrayList<Artist> artists = new ArrayList<Artist>();
+        final ArrayList<Artist> artists = new ArrayList<Artist>();
         for (int i = 0; i < libraries.size(); i++) {
             for (int j = 0; j < libraries.get(i).getArtists().size(); j++) {
                 if (libraries.get(i).getArtists().get(j).getArtist().toLowerCase().contains(query)) {
@@ -79,6 +80,19 @@ public class SearchResultActivity extends AppCompatActivity {
         artistsRecyclerView.setLayoutManager(artistsLayoutManager);
         artistsAdapter = new SearchArtistsListAdapter(artists);
         artistsRecyclerView.setAdapter(artistsAdapter);
+        artistsRecyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(this, artistsRecyclerView ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        Intent intent = new Intent(SearchResultActivity.this, ArtistActivity.class);
+                        intent.putExtra("artist", artists.get(position));
+                        startActivity(intent);
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                        // do whatever
+                    }
+                })
+        );
 
         RecyclerView albumsRecyclerView;
         RecyclerView.Adapter albumsAdapter;

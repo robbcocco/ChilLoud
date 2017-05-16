@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="services_array">
+        <item>Local</item>
+        <item>Internet</item>
+        <item>Spotify</item>
+        <item>Play Music</item>
+        <item>SoundCloud</item>
+    </string-array>
+</resources>

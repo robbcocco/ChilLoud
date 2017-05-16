@@ -57,7 +57,7 @@ public class ArtistsFragment extends Fragment {
         mLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mLayoutManager);
         // specify an adapter (see also next example)
-        mAdapter = new ArtistsListAdapter(artists);
+        mAdapter = new ArtistsListAdapter(artists, getContext());
         mRecyclerView.setAdapter(mAdapter);
 //        mRecyclerView.addOnItemTouchListener(
 //                new RecyclerItemClickListener(

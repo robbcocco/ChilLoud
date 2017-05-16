@@ -33,13 +33,13 @@ public class Artist implements Parcelable {
         this.albums=new ArrayList<Album>();
         this.url=null;
         this.cover=null;
-//        this.picture=getBitmapFromURL(url);
     }
 
     protected Artist(Parcel in) {
         id = in.readLong();
         artist = in.readString();
         albums = in.createTypedArrayList(Album.CREATOR);
+        url = in.readString();
     }
 
     @Override
@@ -47,6 +47,7 @@ public class Artist implements Parcelable {
         dest.writeLong(id);
         dest.writeString(artist);
         dest.writeTypedList(albums);
+        dest.writeString(url);
     }
 
     @Override

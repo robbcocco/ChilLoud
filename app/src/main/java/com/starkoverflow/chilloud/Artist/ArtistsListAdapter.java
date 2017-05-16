@@ -1,5 +1,7 @@
 package com.starkoverflow.chilloud.Artist;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.graphics.Palette;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.ViewHolder> {
     private static final String TAG = "Artists Adapter";
     private ArrayList<Artist> artists;
+    private Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,18 +32,21 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
         public CardView artistCard;
         public TextView artist;
         public ImageView artistPicture;
+        public LinearLayout artistOverlay;
         public ViewHolder(LinearLayout v) {
             super(v);
             //v.setOnClickListener(this);
             artistCard = (CardView) v.findViewById(R.id.artist_card);
             artist = (TextView) v.findViewById(R.id.artist_name);
             artistPicture = (ImageView) v.findViewById(R.id.artist_picture);
+            artistOverlay = (LinearLayout) v.findViewById(R.id.artist_card_overlay);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ArtistsListAdapter(ArrayList<Artist> artists) {
+    public ArtistsListAdapter(ArrayList<Artist> artists, Context context) {
         this.artists = artists;
+        this.context=context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -68,6 +74,15 @@ public class ArtistsListAdapter extends RecyclerView.Adapter<ArtistsListAdapter.
         fetcher.artistCard=holder.artistCard;
         fetcher.artistPicture=holder.artistPicture;
         fetcher.execute(artists.get(position));
+
+        holder.artistOverlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ArtistActivity.class);
+                intent.putExtra("artist", artists.get(position));
+                context.startActivity(intent);
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
